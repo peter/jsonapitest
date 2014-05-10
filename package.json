@@ -1,0 +1,16 @@
+{
+  "name": "ApiTest",
+  "version": "0.0.0",
+  "description": "JSON driven testing of HTTP APis",
+  "main": "index.js",
+  "bin": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peter Marklund",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "jayschema": "^0.2.7"
+  }
+}
