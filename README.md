@@ -9,3 +9,4 @@
         * files with invalid json
         * files with invalid top level elements
         * files with invalid nexted elements
+* Check response times?

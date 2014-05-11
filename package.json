@@ -1,11 +1,11 @@
 {
-  "name": "ApiTest",
+  "name": "apitest",
   "version": "0.0.0",
   "description": "JSON driven testing of HTTP APis",
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+		"test": "mocha --watch --reporter spec $(find test -iname \"*test.js\")"
   },
   "author": "Peter Marklund",
   "license": "ISC",

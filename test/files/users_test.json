@@ -1,0 +1,17 @@
+{
+  "suite": {
+    "name": "users",
+    "tests": [
+      {
+        "name": "list",
+        "requests": [
+          {
+            "request": {
+              "path": "/v1/users"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
