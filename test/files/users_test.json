@@ -4,7 +4,7 @@
     "tests": [
       {
         "name": "list",
-        "requests": [
+        "api_calls": [
           {
             "request": {
               "path": "/v1/users"

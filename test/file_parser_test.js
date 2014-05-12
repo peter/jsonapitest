@@ -66,8 +66,57 @@ describe("file_parser", function() {
       assert.equal(context.config.environments.test.base_url, 'http://localhost:3001');
       assert.equal(context.suites.length, 2);
       assert.equal(context.suites[0].name, 'users');
-      assert.equal(context.suites[0].tests[0].requests[0].request.path, '/v1/users');
+      assert.equal(context.suites[0].tests[0].api_calls[0].request.path, '/v1/users');
       assert.equal(context.suites[1].name, 'articles');
+    });
+  });
+
+  describe("handleProperty", function() {
+    it('suite - can add valid suite to context', function() {
+      var context = fileParser.emptyContext(),
+          suite = {
+            name: "users",
+            tests: [
+              {
+                name: "list",
+                api_calls: [
+                  {
+                    request: {
+                      path: "/v1/users"
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+      fileParser.handleProperty(context, 'suite', suite);
+      assert.equal(context.suites.length, 1);
+      assert.equal(context.suites[0].tests[0].api_calls[0].request.path, "/v1/users");
+    });
+
+    it('suite - raises exception when invalid', function() {
+      var context = fileParser.emptyContext(),
+          suite = {
+            name: "users",
+            tests: [
+              {
+                name: "list",
+                requests: [ // should be api_calls
+                  {
+                    request: {
+                      path: "/v1/users"
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+      assert.throws(
+        function() {
+          fileParser.handleProperty(context, 'suite', suite);
+        },
+        errorValidator('invalid_schema')
+      )
     });
   });
 });
