@@ -4,14 +4,14 @@ var assert = require('assert'),
 describe('util', function() {
   describe('deepMerge', function() {
     it('merges two objects recursively and non-destructively', function() {
-      var object1 = {a: 1, b: 2, c: {d: 3}, e: {f: 4, g: 5}},
+      var object1 = {a: 0, b: 2, c: {d: 3}, e: {f: 4, g: 5}},
           object2 = {b: 3, c: 4, e: {f: 5, h: 6}},
           result = util.deepMerge(object1, object2);
-      assert.deepEqual(result, {a: 1, b: 3, c: 4, e: {f: 5, g: 5, h: 6}})
+      assert.deepEqual(result, {a: 0, b: 3, c: 4, e: {f: 5, g: 5, h: 6}})
       result.e.f = 100;
-      assert.deepEqual({a: 1, b: 2, c: {d: 3}, e: {f: 4, g: 5}}, object1); // unchanged      
+      assert.deepEqual({a: 0, b: 2, c: {d: 3}, e: {f: 4, g: 5}}, object1); // unchanged      
 
-      assert.deepEqual(util.deepMerge({}, {a: 1}), {a: 1});
+      assert.deepEqual(util.deepMerge({}, {a: 0}), {a: 0});
       assert.deepEqual(util.deepMerge({a: 1}, {}), {a: 1});
       assert.deepEqual(util.deepMerge({a: 1}, {b: 1}), {a: 1, b: 1});
       assert.deepEqual(util.deepMerge({a: 1}, {a: 2, b: 1}), {a: 2, b: 1});

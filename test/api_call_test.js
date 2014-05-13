@@ -22,8 +22,11 @@ describe('api_call', function() {
       var data = {a: {b: {c: 1}}};
       assert.deepEqual(apiCall.interpolate("{{foo}}", data), null);
       assert.deepEqual(apiCall.interpolate("{{a}}", data), {b: {c: 1}});
+      assert.deepEqual(apiCall.interpolate("{{a }}", data), {b: {c: 1}});
+      assert.deepEqual(apiCall.interpolate("{{ a }}", data), {b: {c: 1}});
       assert.deepEqual(apiCall.interpolate("{{a.b}}", data), {c: 1});
       assert.deepEqual(apiCall.interpolate("{{a.b.c}}", data), 1);
+      assert.equal(apiCall.interpolate("{{a. b.c}}", data), "{{a. b.c}}", "invalid key should be left alone");
       assert.deepEqual(apiCall.interpolate("{{a.b.c.d}}", data), null);
     });
 
@@ -32,6 +35,13 @@ describe('api_call', function() {
       assert.deepEqual(apiCall.interpolate("{{foo}}{{foo}}", data), null);
       assert.deepEqual(apiCall.interpolate("a {{a.b.c}} b {{a.b.c}} c", data), "a 1 b 1 c");
       assert.deepEqual(apiCall.interpolate("{{a.b.c}} b {{a.b.c}}", data), "1 b 1");
+      assert.deepEqual(apiCall.interpolate("{{a. b.c}} b {{a.b.c}}", data), "{{a. b.c}} b 1");
+    });
+  });
+
+  describe('arrayMerge', function() {
+    it('works', function() {
+      assert.deepEqual(apiCall.arrayMerge([{bla: 0, foo: {nested: 1}}, {foo: {nested: 2}, bar: 3}, {foo: {nested: 3}, bar: 4, baz: 5}]), {bla: 0, foo: {nested: 3}, bar: 4, baz: 5});
     });
   });
 });
