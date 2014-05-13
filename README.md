@@ -2,7 +2,11 @@
 
 ## TODO
 
+* Need a configurable logger callback
+  * loggers/simple_text.js
+  * Asyncronous?
 * Check response times?
+* Rename package to json-api-test
 
 ## Example of nested JSON Schema object validation inside Array
 
