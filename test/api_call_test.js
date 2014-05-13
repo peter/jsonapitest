@@ -39,9 +39,44 @@ describe('api_call', function() {
     });
   });
 
+  describe('deepInterpolate', function() {
+    it('works', function() {
+      assert.deepEqual(
+        apiCall.deepInterpolate(
+          {request: {path: '/v1/users/{{users.member.id}}'}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
+          {users: {member: {id: 404, name: 'Peter M'}}}),
+        {request: {path: '/v1/users/404'}, response: {body: {equal: {name: "Peter M"}}}}
+      );
+    });
+  });
+
   describe('arrayMerge', function() {
     it('works', function() {
-      assert.deepEqual(apiCall.arrayMerge([{bla: 0, foo: {nested: 1}}, {foo: {nested: 2}, bar: 3}, {foo: {nested: 3}, bar: 4, baz: 5}]), {bla: 0, foo: {nested: 3}, bar: 4, baz: 5});
+      assert.deepEqual(
+        apiCall.arrayMerge([{bla: 0, foo: {nested: 1}}, {foo: {nested: 2}, bar: 3}, {foo: {nested: 3}, bar: 4, baz: 5}]),
+        {bla: 0, foo: {nested: 3}, bar: 4, baz: 5}
+      );
+    });
+  });
+
+  describe('deepArrayMerge', function() {
+    it('works', function() {
+      assert.deepEqual(
+        apiCall.deepArrayMerge(
+          {request: {path: '/v1/users/404', headers: [{"Content-Type": "application/json"}, {"Authentication": "opensesame"}]}, response: {status: [200, 201]}}),
+        {request: {path: '/v1/users/404', headers: {"Content-Type": "application/json", "Authentication": "opensesame"}}, response: {status: [200, 201]}}
+      );
+    });
+  });
+
+  describe('parse', function() {
+    it('works', function() {
+      assert.deepEqual(
+        apiCall.parse(
+          {request: {path: '/v1/users/{{users.member.id}}', headers: [{"User-Id": "{{users.member.id}}"}, {"User-Name": "{{users.member.name}}"}]}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
+          {users: {member: {id: 404, name: 'Peter M'}}}),
+        {request: {path: '/v1/users/404', headers: {"User-Id": 404, "User-Name": "Peter M"}}, response: {body: {equal: {name: "Peter M"}}}}
+      );      
     });
   });
 });
