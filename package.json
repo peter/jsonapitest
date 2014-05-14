@@ -1,5 +1,5 @@
 {
-  "name": "apitest",
+  "name": "jsonapitest",
   "version": "0.0.0",
   "description": "JSON driven testing of HTTP APis",
   "main": "index.js",
