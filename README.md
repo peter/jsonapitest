@@ -1,68 +1,16 @@
-# JSON Driven Api Test
+# JSON API Test
+
+JSON driven testing of JSON HTTP APIs (REST APIs). Uses JSON Schema for validation.
 
 ## TODO
 
-* Need a configurable logger callback
-  * loggers/simple_text.js
-  * Asyncronous?
+* request_clients/superagent
+* Response assertions
+* Save data from response.body
+* Runner/results with configurable loggers
+
+## Discussion
+
+* Should we really do double pass data interpolation of api calls, i.e. interpolate on the data itself? Maybe if we really need something like this would have something separate from the data (in config?) that is interpolated.
 * Check response times?
-* Rename package to json-api-test
-
-## Example of nested JSON Schema object validation inside Array
-
-```javascript
-validator.validate({foo: 1}, {
-  type: "object",
-  properties: {
-    api_calls: {
-      type: "array"
-    }
-  },
-  additionalProperties: false,
-  required: ["api_calls"]
-})
-// => 2 ERRORS
-
-validator.validate({tests: [{foo: 1}]}, {
-  type: "object",
-  properties: {
-    tests: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          api_calls: {
-            type: "array"
-          }
-        },
-        additionalProperties: false,
-        required: ["api_calls"]
-      }
-    }
-  }
-})
-// => 2 ERRORS
-
-validator.validate({tests: [{foo: 1}]}, {
-  type: "object",
-  definitions: {
-    test: {
-      type: "object",
-      properties: {
-        api_calls: {
-          type: "array"
-        }
-      },
-      additionalProperties: false,
-      required: ["api_calls"]
-    }
-  },
-  properties: {
-    tests: {
-      type: "array",
-      items: {"$ref": "#/definitions/test"}
-    }
-  }
-})
-// => 2 ERRORS
-```
+* Ability to provide a custom request_client or logger that gets required and used (the plugin needs to be installed globally via npm?)

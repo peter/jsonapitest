@@ -15,6 +15,7 @@ try {
   testRunner.run(context);
 } catch(err) {
   console.log("ERROR: " + err.message);
+  console.log(err.stack);
   console.log("USAGE: " + programName() + " <path-to-input-file1.json> <path-to-input-file2.json> ...")
   process.exit(1);
 }
