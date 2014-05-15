@@ -63,7 +63,7 @@ describe("file_parser", function() {
 
     it("returns context for valid config file and multiple files with test suites", function() {
       var context = fileParser.read(['./test/files/config.json', './test/files/users_test.json', './test/files/articles_test.json']);
-      assert.equal(context.config.defaults.request.base_url, 'http://localhost:3001');
+      assert.equal(context.config.defaults.api_call.request.base_url, 'http://localhost:3001');
       assert.equal(context.suites.length, 2);
       assert.equal(context.suites[0].name, 'users');
       assert.equal(context.suites[0].tests[0].api_calls[0].request.path, '/v1/users');

@@ -5,12 +5,13 @@
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-		"test": "mocha --watch --reporter spec $(find test -iname \"*test.js\")"
+    "test": "mocha --watch --reporter spec $(find test -iname \"*test.js\")"
   },
   "author": "Peter Marklund",
   "license": "ISC",
   "dependencies": {
     "lodash": "^2.4.1",
-    "jayschema": "^0.2.7"
+    "jayschema": "^0.2.7",
+    "superagent": "^0.18.0"
   }
 }

@@ -70,13 +70,69 @@ describe('api_call', function() {
   });
 
   describe('parse', function() {
-    it('works', function() {
+    it('uses interpolation and array merge', function() {
       assert.deepEqual(
         apiCall.parse(
           {request: {path: '/v1/users/{{users.member.id}}', headers: [{"User-Id": "{{users.member.id}}"}, {"User-Name": "{{users.member.name}}"}]}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
-          {users: {member: {id: 404, name: 'Peter M'}}}),
+          {data: {users: {member: {id: 404, name: 'Peter M'}}}}),
         {request: {path: '/v1/users/404', headers: {"User-Id": 404, "User-Name": "Peter M"}}, response: {body: {equal: {name: "Peter M"}}}}
       );      
+    });
+
+    it('can interpolate arrays with integers', function() {
+      assert.deepEqual(
+        apiCall.parse(
+          {response: {status: "{{status.invalid}}"}},
+          {data: {status: {invalid: [422, 400]}}}
+        ),
+        {response: {status: [422, 400]}}
+      );
+    });
+
+    it('works with defaults', function() {
+      var apiCallRaw = {
+        "request": {
+          "method":"PUT",
+          "path":"/v1/profile",
+          "headers":["{{headers.member_auth}}",{"Content-Type":"multipart/form-data"}],
+          "params":{"name":"Some new cool name","email":"invalid-email"},
+          "files":{"portrait_image":"portrait_image.jpg"}
+          },
+          "response":{"status":"{{status.invalid}}"}
+        }, 
+        context = {
+          data: {headers: {member_auth: {"X-Auth-Token": '{{users.member.authentication_token}}'}}, status: {invalid: [422, 400]}, users: {member: {authentication_token: 'auth-secret'}}},
+          config: {
+            defaults: {
+              "api_call": {
+                "request": {
+                  "base_url": "http://localhost:3002",
+                  "headers": {
+                    "X-Token": "api-secret",
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                  }
+                },
+                "response": {
+                  "status": [200, 201]
+                }        
+              }
+            }
+          }
+        },
+        parsedApiCall = apiCall.parse(apiCallRaw, context),
+        expectedApiCall = {
+          "request": {
+            "method":"PUT",
+            "base_url": "http://localhost:3002",
+            "path":"/v1/profile",
+            "headers":{"X-Token": "api-secret", "X-Auth-Token": 'auth-secret', "Content-Type":"multipart/form-data", "Accept": "application/json"},
+            "params":{"name":"Some new cool name","email":"invalid-email"},
+            "files":{"portrait_image":"portrait_image.jpg"}
+          },
+          "response":{"status":[422, 400]}
+        };
+      assert.deepEqual(parsedApiCall, expectedApiCall);
     });
   });
 });

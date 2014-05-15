@@ -2,6 +2,10 @@
 
 JSON driven testing of JSON HTTP APIs (REST APIs). Uses JSON Schema for validation.
 
+## Status
+
+NOTE: Work in Progress. Not yet functional.
+
 ## TODO
 
 * request_clients/superagent
