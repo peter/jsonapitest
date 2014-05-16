@@ -27,16 +27,44 @@ describe('util', function() {
     });
   });
 
-  describe('nestedValue', function() {
+  describe('nestedValue.get', function() {
     it('works', function() {
-      assert.equal(util.nestedValue({foo: {bar: 1}}, 'foo.bar'), 1);
-      assert.equal(util.nestedValue({foo: {bar: "1"}}, 'foo.bar'), "1");
-      assert.deepEqual(util.nestedValue({foo: {bar: {baz: 2}}}, 'foo.bar'), {baz: 2});
+      assert.equal(util.nestedValue.get({foo: {bar: 1}}, 'foo.bar'), 1);
+      assert.equal(util.nestedValue.get({foo: {bar: "1"}}, 'foo.bar'), "1");
+      assert.deepEqual(util.nestedValue.get({foo: {bar: {baz: 2}}}, 'foo.bar'), {baz: 2});
     });
 
     it('returns null if key doesnt exist', function() {
-      assert.equal(util.nestedValue({foo: 1}, 'foo.bar'), null);
-      assert.equal(util.nestedValue({}, 'foo.bar'), null);
+      assert.equal(util.nestedValue.get({foo: 1}, 'foo.bar'), null);
+      assert.equal(util.nestedValue.get({}, 'foo.bar'), null);
+    });
+  });
+  describe('nestedValue.set', function() {
+    it('works', function() {
+      // Already has value
+      var hash = {foo: 1};
+      util.nestedValue.set(hash, 'foo', 2)
+      assert.deepEqual(hash, {foo: 2});
+
+      // Missing
+      hash = {};
+      util.nestedValue.set(hash, 'foo', 1);
+      assert.deepEqual(hash, {foo: 1});
+
+      // Null
+      hash = {foo: null};
+      util.nestedValue.set(hash, 'foo', 1);
+      assert.deepEqual(hash, {foo: 1});      
+
+      // Nested hash
+      hash = {foo: {bar: {baz: 2}}};
+      util.nestedValue.set(hash, 'foo.bar', 1);
+      assert.deepEqual(hash, {foo: {bar: 1}});      
+
+      // Nested missing
+      hash = {foo: {bar: {baz: 2}}};
+      util.nestedValue.set(hash, 'bla.bla', 1);
+      assert.deepEqual(hash, {foo: {bar: {baz: 2}}, bla: {bla: 1}});      
     });
   });
 });

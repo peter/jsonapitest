@@ -1,0 +1,66 @@
+{
+  "data": {
+    "status": {
+      "unprocessable": 422,
+      "created": 201
+    }
+  },
+  "config": {
+    "defaults": {
+      "api_call": {
+        "request": {
+          "base_url": "http://localhost:3000"
+        },
+        "response": {
+          "status": 200
+        }
+      }
+    }
+  },
+  "suite": {
+    "name": "Rails CRUD Example",
+    "tests": [
+      {
+        "name": "Create post invalid",
+        "description": "When the post parameter is missing the server returns unprocessable",
+        "api_calls": [
+          {
+            "request": {
+              "method": "POST",
+              "path": "/posts"
+            },
+            "response": {
+              "status": "{{status.unprocessable}}"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Create post success",
+        "api_calls": [
+          {
+            "request": {
+              "method": "POST",
+              "path": "/posts",
+              "params": {
+                "post": {
+                  "name": "I love JSON!"
+                }
+              }
+            }
+          },
+          {
+            "request": {
+              "path": "/posts.json"
+            },
+            "response": {
+              "body": {
+                
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

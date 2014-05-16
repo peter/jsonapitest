@@ -124,14 +124,20 @@ describe('api_call', function() {
         expectedApiCall = {
           "request": {
             "method":"PUT",
-            "base_url": "http://localhost:3002",
-            "path":"/v1/profile",
+            "url": "http://localhost:3002/v1/profile",
             "headers":{"X-Token": "api-secret", "X-Auth-Token": 'auth-secret', "Content-Type":"multipart/form-data", "Accept": "application/json"},
             "params":{"name":"Some new cool name","email":"invalid-email"},
             "files":{"portrait_image":"portrait_image.jpg"}
           },
           "response":{"status":[422, 400]}
         };
+      // assert.deepEqual(Object.keys(parsedApiCall.request).sort(), Object.keys(expectedApiCall.request).sort());
+      // assert.deepEqual(parsedApiCall.request.url, expectedApiCall.request.url);
+      // assert.deepEqual(parsedApiCall.request.headers, expectedApiCall.request.headers);
+      // assert.deepEqual(parsedApiCall.request.params, expectedApiCall.request.params);
+      // assert.deepEqual(parsedApiCall.request.files, expectedApiCall.request.files);
+      // assert.deepEqual(parsedApiCall.request, expectedApiCall.request);
+      // assert.deepEqual(parsedApiCall.response, expectedApiCall.response);
       assert.deepEqual(parsedApiCall, expectedApiCall);
     });
   });

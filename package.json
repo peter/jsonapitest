@@ -12,6 +12,7 @@
   "dependencies": {
     "lodash": "^2.4.1",
     "jayschema": "^0.2.7",
-    "superagent": "^0.18.0"
+    "superagent": "^0.18.0",
+    "async": "^0.8.0"
   }
 }
