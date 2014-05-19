@@ -8,9 +8,8 @@ NOTE: Work in Progress. Not yet functional.
 
 ## TODO
 
-* request_clients/superagent
-* Example using Parse REST API
 * Response assertions
+* Example using Parse REST API
 * Execution order of suites
 * Execution order of tests within suites
 * Timeouts?
