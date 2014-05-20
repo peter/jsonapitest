@@ -9,6 +9,9 @@ NOTE: Work in Progress. Not yet functional.
 ## TODO
 
 * Response assertions
+* Handle case where the server cannot be reached (response is undefined)
+* Need verbose mode for debugging - log curl statements of requests?
+* Ability to compare objects with util.equalValues?
 * Example using Parse REST API
 * Execution order of suites
 * Execution order of tests within suites

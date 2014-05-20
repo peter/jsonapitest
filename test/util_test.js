@@ -39,6 +39,7 @@ describe('util', function() {
       assert.equal(util.nestedValue.get({}, 'foo.bar'), null);
     });
   });
+
   describe('nestedValue.set', function() {
     it('works', function() {
       // Already has value
@@ -65,6 +66,38 @@ describe('util', function() {
       hash = {foo: {bar: {baz: 2}}};
       util.nestedValue.set(hash, 'bla.bla', 1);
       assert.deepEqual(hash, {foo: {bar: {baz: 2}}, bla: {bla: 1}});      
+    });
+  });
+
+  describe('equalValues', function() {
+    it('can handle null/undefined', function() {
+      assert.equal(util.equalValues(null, null), true);
+      assert.equal(util.equalValues(undefined, undefined), true);
+      assert.equal(util.equalValues(null, undefined), true);
+      assert.equal(util.equalValues(undefined, null), true);
+
+      assert.equal(util.equalValues(null, ''), false);
+      assert.equal(util.equalValues(undefined, ''), false);
+      assert.equal(util.equalValues(null, {}), false);
+      assert.equal(util.equalValues(1, null), false);
+    });
+
+    it('can handle primitive values', function() {
+      assert.equal(util.equalValues(1, 1), true);
+      assert.equal(util.equalValues(1, 1.0), true);
+      assert.equal(util.equalValues("1", 1), true);
+      assert.equal(util.equalValues(true, true), true);
+      assert.equal(util.equalValues(true, false), false);
+      assert.equal(util.equalValues('foobar', 'foobar'), true);
+    });
+
+    it('can handle objects', function() {
+      assert.equal(util.equalValues({}, {}), true);
+      assert.equal(util.equalValues({a: 1, b: 2}, {b: 2, a: 1}), true);
+      assert.equal(util.equalValues({a: 1, b: 2}, {b: 2}), false);
+      assert.equal(util.equalValues({a: 2, b: 1}, {b: 2, a: 1}), false);
+      assert.equal(util.equalValues([2, 1], [2, 1]), true);
+      assert.equal(util.equalValues([2, 1], [1, 2]), false);
     });
   });
 });
