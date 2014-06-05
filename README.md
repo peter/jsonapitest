@@ -8,7 +8,7 @@ NOTE: Work in Progress. Not yet functional.
 
 ## TODO
 
-* Response assertions
+* Test runner needs to report overall result
 * Handle case where the server cannot be reached (response is undefined)
 * Need verbose mode for debugging - log curl statements of requests?
 * Ability to compare objects with util.equalValues?
