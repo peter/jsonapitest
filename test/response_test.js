@@ -71,18 +71,28 @@ describe('response', function() {
   });
 
   describe('assert', function() {
-    it('can check equality for multiple keys on a selector', function() {
+    it('can check equality on a selector', function() {
       // One or more primitive values
-      assert.deepEqual(response.assert({select: 'body.user', equal: {id: 2, name: 'Joe'}}, res), []);
-      assert.deepEqual(response.assert({select: 'body.user', equal: {id: 1, name: 'Joe'}}, res),
-        [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}]);
-      assert.deepEqual(response.assert({select: 'body.user', equal: {id: 1, name: 'Peter'}}, res),
-        [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}, {type: 'equal', select: 'body.user', key: 'name', expected: 'Peter', actual: 'Joe'}]);            
+      assert.deepEqual(response.assert({select: 'body.user.id', equal: 2}, res), []);
+      assert.deepEqual(response.assert({select: 'body.user.id', equal: 1}, res),
+        [{type: 'equal', select: 'body.user.id', expected: 1, actual: 2}]);
+      assert.deepEqual(response.assert({select: 'body.user.name', equal: 'Peter'}, res),
+        [{type: 'equal', select: 'body.user.name', expected: 'Peter', actual: 'Joe'}]);
 
       // object value
       assert.deepEqual(response.assert({select: 'body', equal: {user: {id: 2, name: 'Joe'}}}, res), []);
       assert.deepEqual(response.assert({select: 'body', equal: {user: {id: 1, name: 'Joe'}}}, res),
-        [{type: 'equal', select: 'body', key: 'user', expected: {id: 1, name: 'Joe'}, actual: {id: 2, name: 'Joe'}}]);
+        [{type: 'equal', select: 'body', expected: {user: {id: 1, name: 'Joe'}}, actual: {user: {id: 2, name: 'Joe'}}}]);
+    });
+
+    it('can check equality for a subset of keys on a selected object', function() {
+      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 2}}, res), []);
+      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {name: 'Joe'}}, res), []);
+      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 2, name: 'Joe'}}, res), []);
+      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 1}}, res),
+        [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}]);
+      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 1, name: 'Peter'}}, res),
+        [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}, {type: 'equal', select: 'body.user', key: 'name', expected: 'Peter', actual: 'Joe'}]);
     });
 
     it('can validate against a schema', function() {
@@ -125,7 +135,7 @@ describe('response', function() {
 
       // no errors
       assert.deepEqual(response.assert({select: 'body.user', schema: schema1}, res1), []);
-      assert.deepEqual(response.assert({select: 'body.user', schema: schema1, equal: {id: 2}}, res1), []);
+      assert.deepEqual(response.assert({select: 'body.user', schema: schema1, equal: {id: 2, name: 'Joe'}}, res1), []);
       assert.deepEqual(response.assert({select: 'status', schema: {type: "integer"}}, res1), []);
 
       // schema doesn't match
@@ -140,11 +150,11 @@ describe('response', function() {
       assert.equal(result[0].type, 'equal');
 
       // schema and equals both don't match
-      result = response.assert({select: 'body.user', schema: schema1, equal: {name: 'Peter'}}, res2);
+      result = response.assert({select: 'body.user', schema: schema1, equal: {foo: 2, name: 'Peter'}}, res2);
       assert.equal(result.length, 2);
       assert.equal(result[0].type, 'schema');
       assert(result[0].errors);
-      assert.deepEqual(result[1], {type: 'equal', select: 'body.user', key: 'name', expected: 'Peter', actual: 'Joe'});
+      assert.deepEqual(result[1], {type: 'equal', select: 'body.user', expected: {foo: 2, name: 'Peter'}, actual: {foo: 2, name: 'Joe'}});
     });
   });
 
