@@ -27,7 +27,8 @@ var resWithVisits = {
       id: 2,
       name: "Joe",
       visited_site_ids: [100, 101],
-      eventor_club_ids: []
+      wished_for_site_ids: [],
+      eventor_clubs: [{id: 5, name: 'Östermalms IP'}]
     }
   }
 };
@@ -128,8 +129,13 @@ describe('response', function() {
         [{type: 'contains', select: 'body.user.visited_site_ids', expected: 102, actual: [100, 101]}]);
       assert.deepEqual(response.assert({select: 'body.user.visited_site_ids', not_contains: 102}, resWithVisits), []);
 
-      assert.deepEqual(response.assert({select: 'body.user.eventor_club_ids', contains: 100}, resWithVisits),
-        [{type: 'contains', select: 'body.user.eventor_club_ids', expected: 100, actual: []}]);      
+      assert.deepEqual(response.assert({select: 'body.user.wished_for_site_ids', contains: 100}, resWithVisits),
+        [{type: 'contains', select: 'body.user.wished_for_site_ids', expected: 100, actual: []}]);      
+
+      assert.deepEqual(response.assert({select: 'body.user.eventor_clubs', contains: {id: 5, name: 'Östermalms IP'}}, resWithVisits), []);      
+      assert.deepEqual(response.assert({select: 'body.user.eventor_clubs', contains: {id: 5, name: 'Foo'}}, resWithVisits),
+        [{type: 'contains', select: 'body.user.eventor_clubs', expected: {id: 5, name: 'Foo'}, actual: [{id: 5, name: 'Östermalms IP'}]}]);      
+      assert.deepEqual(response.assert({select: 'body.user.eventor_clubs', not_contains: {id: 5, name: 'Foo'}}, resWithVisits), []);      
     });
 
     it('can validate against a schema', function() {
