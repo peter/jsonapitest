@@ -100,4 +100,17 @@ describe('util', function() {
       assert.equal(util.equalValues([2, 1], [1, 2]), false);
     });
   });
+
+  describe('digest', function() {
+    it('generates a random digest by default', function() {
+      assert.notEqual(util.digest(), util.digest());
+      assert.notEqual(util.digest(), util.digest());
+    });
+
+    it('can generate a deterministic digest with the seed option', function() {
+      var seed = 'foobar';
+      assert.equal(util.digest({seed: seed}), util.digest({seed: seed}));
+      assert.equal(util.digest({seed: seed}), util.digest({seed: seed}));
+    });    
+  });
 });
