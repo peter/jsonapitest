@@ -25,6 +25,12 @@ describe('util', function() {
       result.b.c = 3;
       assert.deepEqual(object2, {b: {c: 2}}, "merged object should be unchanged");
     });
+
+    it('allows values to be overridden with null but not with undefined', function() {
+      assert.deepEqual(util.deepMerge({foo: 1}, {foo: 2}), {foo: 2});
+      assert.deepEqual(util.deepMerge({foo: 1}, {foo: null}), {foo: null});
+      assert.deepEqual(util.deepMerge({foo: 1}, {foo: undefined}), {foo: 1});
+    });
   });
 
   describe('nestedValue.get', function() {
