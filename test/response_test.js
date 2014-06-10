@@ -16,6 +16,22 @@ var res = {
   }
 };
 
+var resWithVisits = {
+  status: 201,
+  headers: {
+    "Content-Type": "application/json",
+    "Location": "http://example.com/users/2"
+  },
+  body: {
+    user: {
+      id: 2,
+      name: "Joe",
+      visited_site_ids: [100, 101],
+      eventor_club_ids: []
+    }
+  }
+};
+
 describe('response', function() {
   describe('select', function() {
     it('returns a value from the response given a key', function() {
@@ -93,6 +109,27 @@ describe('response', function() {
         [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}]);
       assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 1, name: 'Peter'}}, res),
         [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}, {type: 'equal', select: 'body.user', key: 'name', expected: 'Peter', actual: 'Joe'}]);
+    });
+
+    it('can check not_equal on a selector', function() {
+      assert.deepEqual(response.assert({select: 'body.user.id', not_equal: 1}, res), []);
+      assert.deepEqual(response.assert({select: 'body.user.id', not_equal: 2}, res),
+        [{type: 'not_equal', select: 'body.user.id', expected: 2, actual: 2}]);
+    });    
+
+    it('can check contains/not_contains against array value of selector', function() {
+      assert.deepEqual(response.assert({select: 'body.user.visited_site_ids', contains: 100}, resWithVisits), []);
+      assert.deepEqual(response.assert({select: 'body.user.visited_site_ids', not_contains: 100}, resWithVisits),
+        [{type: 'not_contains', select: 'body.user.visited_site_ids', expected: 100, actual: [100, 101]}]);
+
+      assert.deepEqual(response.assert({select: 'body.user.visited_site_ids', contains: 101}, resWithVisits), []);
+
+      assert.deepEqual(response.assert({select: 'body.user.visited_site_ids', contains: 102}, resWithVisits),
+        [{type: 'contains', select: 'body.user.visited_site_ids', expected: 102, actual: [100, 101]}]);
+      assert.deepEqual(response.assert({select: 'body.user.visited_site_ids', not_contains: 102}, resWithVisits), []);
+
+      assert.deepEqual(response.assert({select: 'body.user.eventor_club_ids', contains: 100}, resWithVisits),
+        [{type: 'contains', select: 'body.user.eventor_club_ids', expected: 100, actual: []}]);      
     });
 
     it('can validate against a schema', function() {
