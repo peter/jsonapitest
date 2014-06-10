@@ -30,6 +30,12 @@ describe('api_call', function() {
       assert.deepEqual(apiCall.interpolate("{{a.b.c.d}}", data), null);
     });
 
+    it('can interpolate global/magic variables starting with a dollar sign', function() {
+      var data = {a: 1, $a: 2};
+      assert.deepEqual(apiCall.interpolate("{{a}}", data), 1);
+      assert.deepEqual(apiCall.interpolate("{{$a}}", data), 2);
+    });
+
     it('can interpolate string with many embedded variables', function() {
       var data = {a: {b: {c: 1}}};
       assert.deepEqual(apiCall.interpolate("{{foo}}{{foo}}", data), null);
