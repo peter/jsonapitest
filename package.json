@@ -1,7 +1,7 @@
 {
   "name": "jsonapitest",
   "version": "0.0.2",
-  "description": "JSON driven testing of HTTP APis",
+  "description": "JSON driven testing of HTTP APIs",
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
