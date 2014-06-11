@@ -14,6 +14,9 @@ NOTE: Work in Progress. Not yet functional.
     * $run_id
     $ $api_call_id
   * Variable interpolation {{my_var}}
+  * Assertion types
+    * status assertions
+    * schema, equal, not_equal, contains, not_contains, length
 * Handle case where the server cannot be reached (response is undefined)
 * Need verbose mode for debugging - log curl statements of requests?
 * Ability to compare objects with util.equalValues?
