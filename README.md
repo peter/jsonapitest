@@ -8,7 +8,12 @@ NOTE: Work in Progress. Not yet functional.
 
 ## TODO
 
-* Test runner needs to report overall result
+* Documentation
+  * Magic variables/operators
+    * $merge
+    * $run_id
+    $ $api_call_id
+  * Variable interpolation {{my_var}}
 * Handle case where the server cannot be reached (response is undefined)
 * Need verbose mode for debugging - log curl statements of requests?
 * Ability to compare objects with util.equalValues?

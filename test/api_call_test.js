@@ -69,7 +69,7 @@ describe('api_call', function() {
     it('works', function() {
       assert.deepEqual(
         apiCall.deepArrayMerge(
-          {request: {path: '/v1/users/404', headers: [{"Content-Type": "application/json"}, {"Authentication": "opensesame"}]}, response: {status: [200, 201]}}),
+          {request: {path: '/v1/users/404', headers: {$merge: [{"Content-Type": "application/json"}, {"Authentication": "opensesame"}]}}, response: {status: [200, 201]}}),
         {request: {path: '/v1/users/404', headers: {"Content-Type": "application/json", "Authentication": "opensesame"}}, response: {status: [200, 201]}}
       );
     });
@@ -79,7 +79,7 @@ describe('api_call', function() {
     it('uses interpolation and array merge', function() {
       assert.deepEqual(
         apiCall.parse(
-          {request: {path: '/v1/users/{{users.member.id}}', headers: [{"User-Id": "{{users.member.id}}"}, {"User-Name": "{{users.member.name}}"}]}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
+          {request: {path: '/v1/users/{{users.member.id}}', headers: {$merge: [{"User-Id": "{{users.member.id}}"}, {"User-Name": "{{users.member.name}}"}]}}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
           {data: {users: {member: {id: 404, name: 'Peter M'}}}}),
         {request: {path: '/v1/users/404', headers: {"User-Id": 404, "User-Name": "Peter M"}}, response: {body: {equal: {name: "Peter M"}}}}
       );      
@@ -100,7 +100,7 @@ describe('api_call', function() {
         "request": {
           "method":"PUT",
           "path":"/v1/profile",
-          "headers":["{{headers.member_auth}}",{"Content-Type":"multipart/form-data"}],
+          "headers":{$merge: ["{{headers.member_auth}}",{"Content-Type":"multipart/form-data"}]},
           "params":{"name":"Some new cool name","email":"invalid-email"},
           "files":{"portrait_image":"portrait_image.jpg"}
           },
