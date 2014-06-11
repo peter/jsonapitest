@@ -9,16 +9,16 @@ NOTE: Work in Progress. Not yet functional.
 ## TODO
 
 * Documentation
-  * Magic variables/operators
-    * $merge
-    * $run_id
-    $ $api_call_id
-  * Variable interpolation {{my_var}}
-  * Assertion types
-    * status assertions
-    * schema, equal, not_equal, contains, not_contains, length
-  * Logging and debugging
-  * Example using Parse REST API
+	* Magic variables/operators
+		* $merge
+		* $run_id
+		$ $api_call_id
+	* Variable interpolation {{my_var}}
+	* Assertion types
+		* status assertions
+		* schema, equal, not_equal, contains, not_contains, length
+	* Logging and debugging
+	* Example using Parse REST API
 
 ## Discussion
 
@@ -29,3 +29,7 @@ NOTE: Work in Progress. Not yet functional.
 * Ability to provide a custom request_client or logger that gets required and used (the plugin needs to be installed globally via npm?)
 * Useful to log curl statements?
 * Timeouts?
+
+## Resources
+
+* [Understanding JSON Schema Book](http://spacetelescope.github.io/understanding-json-schema/UnderstandingJSONSchema.pdf)
