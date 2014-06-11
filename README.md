@@ -21,6 +21,7 @@ NOTE: Work in Progress. Not yet functional.
 
 ## Discussion
 
+* An extends property for api calls or a name property with the ability to reuse api calls?
 * Can we get a stack trace on ECONNREFUSED and other errors?
 * Should we really do double pass data interpolation of api calls, i.e. interpolate on the data itself? Maybe if we really need something like this would have something separate from the data (in config?) that is interpolated.
 * Check response times?
