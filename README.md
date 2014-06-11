@@ -17,15 +17,8 @@ NOTE: Work in Progress. Not yet functional.
   * Assertion types
     * status assertions
     * schema, equal, not_equal, contains, not_contains, length
-* Handle case where the server cannot be reached (response is undefined)
-* Need verbose mode for debugging - log curl statements of requests?
-* Ability to compare objects with util.equalValues?
-* Example using Parse REST API
-* Execution order of suites
-* Execution order of tests within suites
-* Timeouts?
-* Save data from response.body
-* Runner/results with configurable loggers
+  * Logging and debugging
+  * Example using Parse REST API
 
 ## Discussion
 
@@ -34,3 +27,5 @@ NOTE: Work in Progress. Not yet functional.
 * Should we really do double pass data interpolation of api calls, i.e. interpolate on the data itself? Maybe if we really need something like this would have something separate from the data (in config?) that is interpolated.
 * Check response times?
 * Ability to provide a custom request_client or logger that gets required and used (the plugin needs to be installed globally via npm?)
+* Useful to log curl statements?
+* Timeouts?
