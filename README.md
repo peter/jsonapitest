@@ -36,7 +36,7 @@ way to do API testing. Here are a few selling (and discussion) points:
 
 Specify your test in a JSON file:
 
-```
+```json
 {
   "config": {
     "log_path": "log/jsonapitest-results.json",
