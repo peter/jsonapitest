@@ -10,12 +10,6 @@ Any data (database records, user credentials etc.) that the tests need are speci
 easily be interpolated in the API calls. The test runner only needs to be configured with a log file, a base_url for
 your API (i.e. a local development/test server or a remote staging server) and any default headers that your API calls need.
 
-## Installation
-
-```
-npm install jsonapitest -g
-```
-
 ## Motivation
 
 I had a REST API implemented in Node.js that I needed to test and I started out using Mocca and Supertest. Although this approach did the job
@@ -31,6 +25,12 @@ way to do API testing. Here are a few selling (and discussion) points:
 * Since test specifications are pure data they lend themselves well to building a testing UI or any API related documentation.
 * Debugging is helped by the verbose logging of HTTP requests and responses that the test runner provides
 * It's easy to point the test runner at different environments (i.e. test, development or staging servers)
+
+## Installation
+
+```
+npm install jsonapitest -g
+```
 
 ## Example
 
