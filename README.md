@@ -29,6 +29,7 @@ NOTE: Work in Progress. Not yet functional.
 * Ability to provide a custom request_client or logger that gets required and used (the plugin needs to be installed globally via npm?)
 * Useful to log curl statements?
 * Timeouts?
+* Use yuidoc?
 
 ## Resources
 

@@ -52,6 +52,32 @@ describe('response', function() {
       assert.equal(response.select(res, {select: 'headers.Location', pattern: "foobar"}), null);
       assert.equal(response.select(res, {select: 'foobar', pattern: "foobar"}), null);
     });
+
+    it('can select from arrays - either by index or by property (produces a map)', function() {
+      // Select by index
+      assert.deepEqual(response.select({a: ['foo', 'bar']}, {select: 'a.0'}), 'foo')
+      assert.deepEqual(response.select({a: ['foo', 'bar']}, {select: 'a.1'}), 'bar')
+      assert.deepEqual(response.select({a: {b: {c: ['foo', 'bar']}}}, {select: 'a.b.c.1'}), 'bar')
+
+      // Select by index empty case
+      assert.deepEqual(response.select({}, {select: 'a.0'}), undefined)
+      assert.deepEqual(response.select({a: null}, {select: 'a.0'}), undefined)
+      assert.deepEqual(response.select({a: []}, {select: 'a.0'}), undefined)
+      assert.deepEqual(response.select({a: {}}, {select: 'a.0'}), undefined)
+      assert.deepEqual(response.select({a: ['foo']}, {select: 'a.1'}), undefined)
+
+      // Select by property
+      assert.deepEqual(response.select({a: {foo: 'foo'}}, {select: 'a.foo'}), 'foo');
+      assert.deepEqual(response.select({a: [{foo: 'foo'}]}, {select: 'a.foo'}), ['foo']);
+      assert.deepEqual(response.select({a: [{foo: 'foo', bla: 'bla'}, {foo: 'bar', blubba: 'blubba'}]}, {select: 'a.foo'}), ['foo', 'bar']);
+
+      // Select by property empty case
+      assert.deepEqual(response.select({}, {select: 'a.foo'}), undefined)
+      assert.deepEqual(response.select({a: null}, {select: 'a.foo'}), undefined)
+      assert.deepEqual(response.select({a: []}, {select: 'a.foo'}), [])
+      assert.deepEqual(response.select({a: {}}, {select: 'a.foo'}), undefined)
+      assert.deepEqual(response.select({a: {bar: 'bar'}}, {select: 'a.foo'}), undefined)
+    });
   });
 
   describe('save', function() {

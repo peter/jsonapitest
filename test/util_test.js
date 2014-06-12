@@ -119,4 +119,31 @@ describe('util', function() {
       assert.equal(util.digest({seed: seed}), util.digest({seed: seed}));
     });    
   });
+
+  describe('isArrayIndex', function() {
+    it('returns true for positive integers and integer strings', function() {
+      assert(!util.isArrayIndex(undefined));
+      assert(!util.isArrayIndex(null));
+      assert(!util.isArrayIndex(3.6));  
+      assert(!util.isArrayIndex(['1']));  
+      assert(!util.isArrayIndex({5: 3}));  
+      assert(!util.isArrayIndex(-1));  
+      assert(!util.isArrayIndex("-1"));  
+      assert(!util.isArrayIndex("1.5"));  
+      assert(!util.isArrayIndex("0.1"));  
+      assert(!util.isArrayIndex(" 0"));  
+      assert(!util.isArrayIndex("0 "));  
+      assert(!util.isArrayIndex("1 "));  
+      assert(!util.isArrayIndex(" 1"));  
+      assert(!util.isArrayIndex("foobar"));  
+      assert(!util.isArrayIndex(true));  
+
+      assert(util.isArrayIndex(5));  
+      assert(util.isArrayIndex(0));  
+      assert(util.isArrayIndex(123));  
+      assert(util.isArrayIndex("0"));  
+      assert(util.isArrayIndex("1"));  
+      assert(util.isArrayIndex("1000"));  
+    });
+  });
 });
