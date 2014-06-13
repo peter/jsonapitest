@@ -6,9 +6,9 @@ This is a test framework targeted at JSON HTTP REST APIs. It comes in the form o
 that is available on the command line to run your tests. Tests are specified in JSON files and have the structure of
 test suites containing a set of tests. Each test contains a list of API calls (HTTP requests) with assertions about the
 response. All HTTP traffic is logged exhaustively by the test runner to help debug test failures.
-Any data (database records, user credentials etc.) that the tests need are specified in JSON format and this is
-easily be interpolated in the API calls. The test runner only needs to be configured with a log file, a base_url for
-your API (i.e. a local development/test server or a remote staging server) and any default headers that your API calls need.
+Any data (database records, user credentials etc.) that the tests need are specified in JSON format and this data is
+easily interpolated into the API calls. The test runner is configured with a base URL for
+your API, i.e. the URL to a local development/test server or a remote staging server.
 
 ## Motivation
 
