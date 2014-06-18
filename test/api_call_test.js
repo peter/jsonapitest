@@ -107,13 +107,14 @@ describe('api_call', function() {
           "response":{"status":"{{status.invalid}}"}
         }, 
         context = {
-          data: {headers: {member_auth: {"X-Auth-Token": '{{users.member.authentication_token}}'}}, status: {invalid: [422, 400]}, users: {member: {authentication_token: 'auth-secret'}}},
+          data: {$api_call_id: "ash8h1230fhlkahsdf", headers: {member_auth: {"X-Auth-Token": '{{users.member.authentication_token}}'}}, status: {invalid: [422, 400]}, users: {member: {authentication_token: 'auth-secret'}}},
           config: {
             defaults: {
               "api_call": {
                 "request": {
                   "base_url": "http://localhost:3002",
                   "headers": {
+                    "X-API-CALL-ID": "{{$api_call_id}}",
                     "X-Token": "api-secret",
                     "Accept": "application/json",
                     "Content-Type": "application/json"
@@ -131,19 +132,19 @@ describe('api_call', function() {
           "request": {
             "method":"PUT",
             "url": "http://localhost:3002/v1/profile",
-            "headers":{"X-Token": "api-secret", "X-Auth-Token": 'auth-secret', "Content-Type":"multipart/form-data", "Accept": "application/json"},
+            "headers":{"X-API-CALL-ID": "ash8h1230fhlkahsdf", "X-Token": "api-secret", "X-Auth-Token": 'auth-secret', "Content-Type":"multipart/form-data", "Accept": "application/json"},
             "params":{"name":"Some new cool name","email":"invalid-email"},
             "files":{"portrait_image":"portrait_image.jpg"}
           },
           "response":{"status":[422, 400]}
         };
-      // assert.deepEqual(Object.keys(parsedApiCall.request).sort(), Object.keys(expectedApiCall.request).sort());
-      // assert.deepEqual(parsedApiCall.request.url, expectedApiCall.request.url);
-      // assert.deepEqual(parsedApiCall.request.headers, expectedApiCall.request.headers);
-      // assert.deepEqual(parsedApiCall.request.params, expectedApiCall.request.params);
-      // assert.deepEqual(parsedApiCall.request.files, expectedApiCall.request.files);
-      // assert.deepEqual(parsedApiCall.request, expectedApiCall.request);
-      // assert.deepEqual(parsedApiCall.response, expectedApiCall.response);
+      assert.deepEqual(Object.keys(parsedApiCall.request).sort(), Object.keys(expectedApiCall.request).sort());
+      assert.deepEqual(parsedApiCall.request.url, expectedApiCall.request.url);
+      assert.deepEqual(parsedApiCall.request.headers, expectedApiCall.request.headers);
+      assert.deepEqual(parsedApiCall.request.params, expectedApiCall.request.params);
+      assert.deepEqual(parsedApiCall.request.files, expectedApiCall.request.files);
+      assert.deepEqual(parsedApiCall.request, expectedApiCall.request);
+      assert.deepEqual(parsedApiCall.response, expectedApiCall.response);
       assert.deepEqual(parsedApiCall, expectedApiCall);
     });
   });
