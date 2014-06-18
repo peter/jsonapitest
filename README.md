@@ -131,7 +131,7 @@ This is a pre-alpha release and a proof of concept. It needs more real world usa
 	* Magic variables/operators
 		* $merge
 		* $run_id
-		$ $api_call_id
+		$ $api_call_id - can be used for example in an X-API-CALL-ID default header for debugging/tracking
 	* Variable interpolation {{my_var}}
 	* Assertion types
 		* status assertions
