@@ -1,0 +1,17 @@
+{
+  "config": {
+    "log_path": "doc/examples/parse/log/results.json",
+    "defaults": {
+      "api_call": {
+        "request": {
+          "base_url": "https://api.parse.com/1",
+          "headers": {
+            "X-Parse-Application-Id": "J7PyWtrIOUDTIvDXzpZD3WmJEn7zR6pXZmIIMlHW",
+            "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
+          }          
+        },
+        "status": 200
+      }
+    }
+  }
+}

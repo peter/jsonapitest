@@ -121,6 +121,8 @@ Run it:
 jsonapitest path-to-your-test-file.json
 ```
 
+Check out the [Parse CRUD example](doc/examples/parse/README.md) for more sample code.
+
 ## Stability
 
 This is a pre-alpha release and a proof of concept. It needs more real world usage to mature.

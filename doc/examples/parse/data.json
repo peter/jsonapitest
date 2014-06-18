@@ -1,0 +1,25 @@
+{
+  "data": {
+    "users": {
+      "joe": {
+        "score": 1337,
+        "playerName": "Joe Johnson",
+        "cheatMode": false
+      }
+    },
+    "schema": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "cheatMode": {"type": "boolean"},
+          "objectId": {"type": "string", "pattern": "^[a-zA-Z0-9]{10}$"},
+          "playerName": {"type": "string"},
+          "score": {"type": "integer"},
+          "createdAt": {"type": "string", "format": "date-time"},
+          "updatedAt": {"type": "string", "format": "date-time"}
+        },
+        "required": ["objectId", "playerName", "score"]
+      }        
+    }
+  }
+}
