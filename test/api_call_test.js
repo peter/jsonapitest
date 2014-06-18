@@ -77,6 +77,24 @@ describe('api_call', function() {
 
   describe('parse', function() {
     it('uses interpolation and array merge', function() {
+      // Empty case - no interpolation, no array merge, no defaults
+      assert.deepEqual(
+        apiCall.parse({foo: 'bar'}, {}),
+        {foo: 'bar'}
+      );
+
+      // Only interpolation
+      assert.deepEqual(
+        apiCall.parse({foo: '{{bar}}'}, {data: {bar: 5}}),
+        {foo: 5}
+      );
+
+      // Only array merge
+      assert.deepEqual(
+        apiCall.parse({foo: {$merge: [{bar: 'bar', blu: 'blu'}, {bar: 'bla'}]}} , {}),
+        {foo: {bar: 'bla', blu: 'blu'}}
+      );  
+
       assert.deepEqual(
         apiCall.parse(
           {request: {path: '/v1/users/{{users.member.id}}', headers: {$merge: [{"User-Id": "{{users.member.id}}"}, {"User-Name": "{{users.member.name}}"}]}}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
