@@ -90,6 +90,7 @@ describe('api_call', function() {
   describe('parseRequestString', function() {
     it('can parse a request string', function() {
       assert.deepEqual(apiCall.parseRequestString({request: '/foo/bar?bla=1'}), {request: {path: '/foo/bar?bla=1'}});
+      assert.deepEqual(apiCall.parseRequestString({request: 'http://foo/bar?bla=1'}), {request: {url: 'http://foo/bar?bla=1'}});
       assert.deepEqual(apiCall.parseRequestString({request: 'DELETE /foo/bar?bla=1'}), {request: {method: 'DELETE', path: '/foo/bar?bla=1'}});
     });
 

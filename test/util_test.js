@@ -146,4 +146,22 @@ describe('util', function() {
       assert(util.isArrayIndex("1000"));  
     });
   });
+
+  describe('isUrl', function() {
+    it('returns true for http/https URLs and false for paths', function() {
+      assert(!util.isUrl('foobar'));
+      assert(!util.isUrl('/foobar'));
+      assert(!util.isUrl('/foo/bar'));
+      assert(!util.isUrl('/foo/bar?bla=1'));
+      assert(!util.isUrl('http:/foobar'));
+      assert(!util.isUrl('https:/foobar'));
+      assert(!util.isUrl('fhttps://foobar'));
+
+      assert(util.isUrl('http://foobar'));
+      assert(util.isUrl('https://foobar'));
+      assert(util.isUrl('http://foobar'));
+      assert(util.isUrl('http://foo/bar'));
+      assert(util.isUrl('https://foo/bar?bla=1'));
+    });
+  });
 });
