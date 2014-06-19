@@ -29,13 +29,13 @@ Parse CRUD
 -----------------------------------------------------------------------
 
 Parse CRUD/create_get_list_update_delete - You can create a Parse object, get and list it, update its name, and then delete it
-POST https://api.parse.com/1/classes/GameScore (807ms) - OK!
-GET https://api.parse.com/1/classes/GameScore/g4HJyCKD8F (620ms) - OK!
-GET https://api.parse.com/1/classes/GameScore (711ms) - OK!
-PUT https://api.parse.com/1/classes/GameScore/g4HJyCKD8F (623ms) - OK!
-GET https://api.parse.com/1/classes/GameScore/g4HJyCKD8F (608ms) - OK!
-DELETE https://api.parse.com/1/classes/GameScore/g4HJyCKD8F (657ms) - OK!
-GET https://api.parse.com/1/classes/GameScore/g4HJyCKD8F (582ms) - OK!
+POST https://api.parse.com/1/classes/GameScore (5618ms) - OK!
+GET https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (1012ms) - OK!
+GET https://api.parse.com/1/classes/GameScore (963ms) - OK!
+PUT https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (1225ms) - OK!
+GET https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (961ms) - OK!
+DELETE https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (4489ms) - OK!
+GET https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (1383ms) - OK!
 
 logging all results to doc/examples/parse/log/results.json
 

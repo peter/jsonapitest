@@ -123,10 +123,6 @@ jsonapitest path-to-your-test-file.json
 
 Check out the [Parse CRUD example](doc/examples/parse/README.md) for more sample code.
 
-## Stability
-
-This is a pre-alpha release and a proof of concept. It needs more real world usage to mature.
-
 ## TODO
 
 * Documentation
@@ -135,11 +131,16 @@ This is a pre-alpha release and a proof of concept. It needs more real world usa
 		* $run_id
 		$ $api_call_id - can be used for example in an X-API-CALL-ID default header for debugging/tracking
 	* Variable interpolation {{my_var}}
+  * Short form request
 	* Assertion types
 		* status assertions
 		* schema, equal, not_equal, contains, not_contains, length
 	* Logging and debugging
 	* Example using Parse REST API
+* modules
+* use strict
+* jshint
+* Blog post
 
 ## Discussion
 
