@@ -43,7 +43,6 @@ Specify your test in a JSON file:
     "defaults": {
       "api_call": {
         "request": {
-	        "method": "GET",
           "base_url": "https://api.some-hostname.com"
         }
       }
@@ -83,9 +82,7 @@ Specify your test in a JSON file:
 	        "description": "Fetch info about a user",
 	        "api_calls": [
 	          {
-	            "request": {
-	              "path": "/v1/users/{{users.member.id}}"
-	            },
+	            "request": "/v1/users/{{users.member.id}}",
 	            "assert": [{
 	              "select": "body",
 	              "schema": "{{schema.user}}",
@@ -102,9 +99,7 @@ Specify your test in a JSON file:
 	        "description": "Trying to fetch info about a user that doesn't exist",
 	        "api_calls": [
 	          {
-	            "request": {
-	              "path": "/v1/users/99999999"
-	            },
+	            "request": "/v1/users/99999999",
 	            "status": 404
 	          }
 	        ]
