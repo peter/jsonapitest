@@ -104,7 +104,7 @@ Check out the [Parse CRUD example](doc/examples/parse/README.md) for a more real
 ## Test File Structure
 
 Tests are written in one or more JSON files and you may choose any file structure you like.
-With a small test case you may end up putting all test code in a single file. However, a more typical
+With a small test case you may want to put all test code in a single file. A more typical
 structure is to divide your test code into three sets of files: configuration, data, and test suites.
 Here is an example:
 
@@ -115,7 +115,7 @@ test/integration/users_test.json
 test/integration/articles_test.json
 ```
 
-In this example config.json will contain the configuration, data.json the data, users_test.json the
+Here config.json will contain the configuration, data.json the data, users_test.json the
 test suite for users, and articles_test.json the test suite for articles. To run the tests:
 
 ```
@@ -128,11 +128,11 @@ Or more conveniently:
 jsonapitest test/integration/*.json
 ```
 
-The order in which test files are given to the test runner determines the order in which tests execute. Since test suites
-are supposed to be independent of eachother the order shouldn't typically affect the outcome. The order comes into play
-if you have files with overlapping config or data properties. In this case later files will take precedence over earlier ones through a deep merge of the config and data properties. An example of how this may be used is
-if you sometimes would like to run your tests with different configuration or data. Suppose you usually run your tests against a local
-test or development server but sometimes would like to run them against a remote staging server instead. You could then have
+The order in which test files are given to the test runner determines the execution order of tests. Since test suites
+are supposed to be independent of eachother this typically won't affect the outcome. The order comes into play
+if you have files with overlapping config or data properties. In this case later files will take precedence over earlier ones through a deep merge of the config and data properties. An example of how this may be used is when you would like to override the
+default configuration or data. Suppose you usually run your tests against a local
+test or development server but at times would like to run them against a remote staging server. You could then have
 a configuration file at test/integration/env/staging.json:
 
 ```json
@@ -168,7 +168,7 @@ suites
 
 ### Configuration
 
-The config property is an optional property that is typically used to point out the path to a log file where HTTP requests are logged,
+The config property is an optional property where you can point out the path to a log file where HTTP requests are logged,
 the base_url of your server, and any default headers and response status of your API calls:
 
 ```json
@@ -200,15 +200,15 @@ to find test request in your server logs.
 The data property is a free form custom container for any kind of data that you need for your tests, i.e. database data, user
 credentials etc. Data is interpolated in api calls with the double curly syntax (i.e. {{my_data}}, see [Data Interpolation](#data-interpolation)).
 
-You probably need to populate the database of your system with known data before running your tests. If so you may need to write a script
-for this purpose that presumably uses the JSON data defined by the data property (i.e. database records or documents). In general its a good idea
-to write your API tests so that they make as few assumptions as possible about the database data (to make them less fragile). However,
-in some test scenarios you really need to know exactly what that data is in order to be able to make assertions and reach high test coverage.
-One approach that may work in some projects is to run tests against a copy of the production data with a sprinkle of known test data added to it. In either event, data population is currently outside the scope of this framework.
+You will most likely need to populate your database with test data before running your tests. If so any script that you write for this
+should probably use the JSON data defined by the `data` property (i.e. database records or documents). In general its a good idea
+to write your API tests so that they make as few assumptions about the state of the system as possible. However,
+in some test scenarios you really need to know exactly what the state of the system is in order to be able to make assertions and achieve high test coverage.
+One approach that works in some projects is to run tests against a copy of the production data with a small amount of known test data added to it. Data population is currently outside the scope of this framework.
 
 ### Test Suite
 
-Use the suite property to define a single test suite like so:
+Use the suite property to define a single test suite:
 
 ```json
 {
@@ -248,15 +248,47 @@ point to an array of suite objects.
 
 The API call lies at the heart of your API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
 
-TODO
+### The Request
+
+The `request` property of each API call is an object with the following properties:
+
+* `method` - the HTTP verb (i.e. GET, PUT, POST, DELETE etc.). Defaults to "GET".
+* `path` - the path to make the request to. If a `base_url` has been configured then the `url` property will be set to the base_url joined with the path
+* `url` - specify the full URL here instead of the path if you need a URL different from the base_url
+* `headers` - any custom HTTP headers to use for the request
+* `params` - any query or post parameters to pass with the request
+* `files` - an array with paths to files to be uploaded
+
+You can also let the `request` property be a string for simple requests:
+
+```json
+{
+  "request": "DELETE /v1/users/{{users.member.id}"
+}
+```
+
+Notice that you can also append query parameters to the path instead of using the `params` property:
+
+```json
+{
+  "request": "/v1/users?limit=10&offset=10"
+}
+```
 
 ### Assertions
 
-Assertions are made up of a select property and one ore more assertion properties. The select property determines which part of the response the assertions should be applied to (typically the body or some subset of the body). The following properties are available in the HTTP response object: `status`, `headers`, `body`, `response_time`.
+Assertions are made up of a select property and one ore more assertion properties. The select property determines which part of the response the assertions should be applied to (typically the body or some subset of the body). The following properties are available in the HTTP response object:
+
+```
+status
+headers
+body
+response_time
+```
 
 #### Status assertions
 
-Since assertions against the response status code are so common some syntactic sugar is available for them:
+Since making an assertion about the response status code is so common some syntactic sugar is available:
 
 ```json
 "api_calls": [
@@ -269,7 +301,7 @@ Since assertions against the response status code are so common some syntactic s
 ]
 ```
 
-What this translates to when the API call is parsed at runtime is:
+This is translated to:
 
 ```json
 "api_calls": [
@@ -310,6 +342,10 @@ TODO
 ## Data Interpolation
 
 Happens at API call time.
+
+## Merging Objects
+
+TODO
 
 ## Recommended Reading
 
