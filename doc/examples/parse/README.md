@@ -1,6 +1,6 @@
 # Parse JsonApiTest CRUD Example
 
-This is an example that illustrates testing a CRUD Parse REST API.
+This is an example that illustrates testing a CRUD Parse REST API using `jsonapitest`.
 
 ## Configuration
 
@@ -42,4 +42,6 @@ logging all results to doc/examples/parse/log/results.json
 SUCCESS!
 ```
 
-All the HTTP requests are logged in [log/results.json](log/results.json).
+## Logging
+
+All HTTP requests and responses are logged in [log/results.json](log/results.json).
