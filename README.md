@@ -99,7 +99,7 @@ Run it:
 jsonapitest path-to-your-test-file.json
 ```
 
-Check out the [Parse CRUD example](doc/examples/parse/README.md) for a more realistic example.
+Check out the [Parse CRUD example](doc/examples/parse/README.md) for more sample code.
 
 ## Test File Structure
 
@@ -255,9 +255,9 @@ The `request` property of each API call is an object with the following properti
 * `method` - the HTTP verb (i.e. GET, PUT, POST, DELETE etc.). Defaults to "GET".
 * `path` - the path to make the request to. If a `base_url` has been configured then the `url` property will be set to the base_url joined with the path
 * `url` - specify the full URL here instead of the path if you need a URL different from the base_url
-* `headers` - any custom HTTP headers to use for the request
-* `params` - any query or post parameters to pass with the request
-* `files` - an array with paths to files to be uploaded
+* `headers` - custom HTTP headers
+* `params` - query or post parameters
+* `files` - an array with paths to files that will be uploaded. Requires that the Content-Type header be set to "multipart/form-data".
 
 You can also let the `request` property be a string for simple requests:
 
@@ -275,46 +275,137 @@ Notice that you can also append query parameters to the path instead of using th
 }
 ```
 
+### The Response
+
+The following properties are available in the HTTP response object:
+
+* `status` - the response status code (an integer)
+* `headers` - a hash with HTTP headers
+* `body` - the parsed JSON body
+* `response_time` - elapsed number of milliseconds from request to response (integer)
+
 ### Assertions
 
-Assertions are made up of a select property and one ore more assertion properties. The select property determines which part of the response the assertions should be applied to (typically the body or some subset of the body). The following properties are available in the HTTP response object:
+Assertions are made up of a selection on the the response object and one ore more assertions against that selection.
+If no selection is specified then the assertion will be made against the response body. The following assertion types are available
 
-```
-status
-headers
-body
-response_time
-```
+* [schema](#assert-schema)
+* [equal/not_equal](#assert-equal)
+* [equal_keys](#assert-equal_keys)
+* [contains/not_contains](#assert-contains)
+* [length](#assert-length)
 
-#### Status assertions
+### Selecting Response Data
 
-Since making an assertion about the response status code is so common some syntactic sugar is available:
+Selections on the response data are used to make assertions and to [save data](#saving-data). Selections can be made
+on any property of [the response](#the-response). A selection is made up of a nested `key` and an optional regexp
+`pattern`. Selectors without regexp patterns can be provided as a string:
 
 ```json
 "api_calls": [
   {
-    "request": {
-      "path": "/v1/users"
-    },
+    "request": "/v1/users/1",
+    "assert": {
+      "select": "body.user.name",
+      "equal": "Joe User"
+    }
+  }
+]
+```
+
+The above expands to:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users/1",
+    "assert": {
+      "select": {"key": "body.user.name"},
+      "equal": "Joe User"
+    }
+  }
+]
+```
+
+Here is the example with a regexp `pattern` added to it:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users/1",
+    "assert": {
+      "select": {"key": "body.user.name", "pattern": "\w+$"},
+      "equal": "User"
+    }
+  }
+]
+```
+
+If the regexp contains a capturing group then that group will be the selected value:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users/1",
+    "assert": {
+      "select": {"key": "body.user.name", "pattern": "^\w+ (\w+)$"},
+      "equal": "User"
+    }
+  }
+]
+```
+
+A nested key also works on arrays:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users",
+    "assert": {
+      "select": "body.users.name",
+      "equal": ["First User", "Second User"]
+    }
+  }
+]
+```
+
+You can also use an array index to select an item from an array:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users",
+    "assert": {
+      "select": "body.users.name.1",
+      "equal": "Second User"
+    }
+  }
+]
+```
+
+#### Status assertions
+
+Since making assertions about the response status code is so common some syntactic sugar is provided:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users",
     "status": 200
   }
 ]
 ```
 
-This is translated to:
+The above expands to:
 
 ```json
 "api_calls": [
   {
-    "request": {
-      "path": "/v1/users"
-    },
-    "assert": [
-      {
-        select: "status",
-        equal: 200
-      }
-    ]
+    "request": "/v1/users",
+    "assert": {
+      select: "status",
+      equal: 200
+    }
   }
 ]
 ```
@@ -323,11 +414,15 @@ This is translated to:
 
 TODO
 
-#### Assert: equal/not_equal
+#### Assert: equal
 
 TODO
 
-#### Assert: contains/not_contains
+### Assert: equal_keys
+
+TODO
+
+#### Assert: contains
 
 TODO
 
@@ -341,12 +436,49 @@ TODO
 
 ## Data Interpolation
 
-Happens at API call time.
+Data interpolation is done by embedding nested data keys in double curly braces in strings. The interpolation happens right before an API call is executed. Example:
+
+```json
+{
+  "request": "/v1/news?organization_id={{organizations.test.id}}"
+}
+```
+
+If the embedded variable encompasses the entire string then the string will be replaced by a value with same type as the data (any of the JSON datatypes, i.e. object, array, number, string, boolean, or null). Here is an example where a string with an interpolation is replaced with an object:
+
+```json
+{
+  "request": "/v1/news?organization_id={{organizations.test.id}}",
+  "assert": {
+    "equal": "{{organizations.test}}"
+  }
+}
+```
 
 ## Merging Objects
 
-TODO
+You can use the "$merge" special object property to merge (extend) data objects. Here is an example where the a predefined header is extended to change
+the content type:
+
+```json
+"request": {
+  "method": "PUT",
+  "path": "/v1/profile",
+  "headers": {"$merge": ["{{headers.member_auth}}", {"Content-Type": "multipart/form-data"}]},
+  "params": {
+    "name": "Some new cool name"
+  },
+  "files": {
+    "portrait_image": "./test/integration/files/portrait_image.jpg"
+  }
+}
+```
 
 ## Recommended Reading
 
 * [Understanding JSON Schema Book](http://spacetelescope.github.io/understanding-json-schema/UnderstandingJSONSchema.pdf)
+
+## TODO
+
+* The pattern selector should work well with arrays
+* Default selector for assert is the body

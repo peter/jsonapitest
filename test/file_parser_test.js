@@ -119,4 +119,93 @@ describe("file_parser", function() {
       )
     });
   });
+
+  describe('parseFile', function() {
+    it('can parse a test suite', function() {
+      var context = fileParser.emptyContext(),
+          data = {
+            suite: {
+              name: "My Test Suite",
+              description: "Should parse just fine",
+              tests: [
+                {
+                  name: "My Test",
+                  description: "Has a couple of assertions",
+                  api_calls: [
+                    {
+                      request: "/v1/users/1",
+                      assert: {
+                        select: "body",
+                        schema: "{{schema.user}}"
+                      },
+                      save: {
+                        "saved.user": "body"
+                      }
+                    },
+                    {
+                      request: "/v1/users",
+                      assert: {
+                        select: {key: "body.users.name", pattern: "\\w+$"},
+                        equal: ["User 1", "User 2"]
+                      },
+                      save: {
+                        "saved.user_names": {key: "body.users.name", pattern: "\\w+$"}
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          file = {data: data, path: "some-file.json"};      
+      fileParser.parseFile(context, file);
+      assert.equal(context.suites.length, 1);
+      assert.deepEqual(context.suites[0], data.suite);
+    });
+
+    it('does not accept test suite with an invalid select', function() {
+      var context = fileParser.emptyContext(),
+          data = {
+            suite: {
+              name: "My Test Suite",
+              description: "Should parse just fine",
+              tests: [
+                {
+                  name: "My Test",
+                  description: "Has a couple of assertions",
+                  api_calls: [
+                    {
+                      request: "/v1/users/1",
+                      assert: {
+                        select: "body",
+                        schema: "{{schema.user}}"
+                      },
+                      save: {
+                        "saved.user": "body"
+                      }
+                    },
+                    {
+                      request: "/v1/users",
+                      assert: {
+                        select: {key: "body.users.name", patterns: "\\w+$"},
+                        equal: ["User 1", "User 2"]
+                      },
+                      save: {
+                        "saved.user_names": {property: "body.users.name", pattern: "\\w+$"}
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          file = {data: data, path: "some-file.json"};      
+      assert.throws(
+        function() {
+          fileParser.parseFile(context, file);
+        },
+        errorValidator('invalid_schema')
+      )
+    });
+  });
 });
