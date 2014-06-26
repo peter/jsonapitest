@@ -140,6 +140,10 @@ describe('response', function() {
         [{type: 'equal', select: 'body', expected: {user: {id: 1, name: 'Joe'}}, actual: {user: {id: 2, name: 'Joe'}}}]);
     });
 
+    it('defaults select to body', function() {
+      assert.deepEqual(response.assert({equal: {user: {id: 2, name: 'Joe'}}}, res), []);
+    });
+
     it('can check equality for a subset of keys on a selected object', function() {
       assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 2}}, res), []);
       assert.deepEqual(response.assert({select: 'body.user', equal_keys: {name: 'Joe'}}, res), []);

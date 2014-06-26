@@ -159,12 +159,9 @@ jsonapitest test/integration/*.json test/integration/env/staging.json
 
 The JSON in test files may contain one or more of the following top level properties:
 
-```
-config
-data
-suite
-suites
-```
+* [config](#configuration)
+* [data](#data)
+* [suite/suites](#test-suite)
 
 ### Configuration
 
@@ -246,9 +243,9 @@ point to an array of suite objects.
 
 ### API Call
 
-The API call lies at the heart of your API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
+The API call lies at the heart of API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
 
-### The Request
+### Request
 
 The `request` property of each API call is an object with the following properties:
 
@@ -275,7 +272,7 @@ Notice that you can also append query parameters to the path instead of using th
 }
 ```
 
-### The Response
+### Response
 
 The following properties are available in the HTTP response object:
 
@@ -286,7 +283,7 @@ The following properties are available in the HTTP response object:
 
 ### Assertions
 
-Assertions are made up of a selection on the the response object and one ore more assertions against that selection.
+An `assert` object is made up of a selection on the the response object and one ore more assertions against that selection.
 If no selection is specified then the assertion will be made against the response body. The following assertion types are available
 
 * [schema](#assert-schema)
@@ -298,7 +295,7 @@ If no selection is specified then the assertion will be made against the respons
 ### Selecting Response Data
 
 Selections on the response data are used to make assertions and to [save data](#saving-data). Selections can be made
-on any property of [the response](#the-response). A selection is made up of a nested `key` and an optional regexp
+on any property of [the response](#response). A selection is made up of a nested `key` and an optional regexp
 `pattern`. Selectors without regexp patterns can be provided as a string:
 
 ```json
@@ -412,13 +409,33 @@ The above expands to:
 
 #### Assert: schema
 
-TODO
+Use the `schema` property of an assert object to validate the response against a JSON schema:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users/1",
+    "assert": {
+      schema: {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "email": {"type": "string"}
+        },
+        "required": ["id", "name", "email"],
+        "additionalProperties": false
+      }
+    }
+  }
+]
+```
 
 #### Assert: equal
 
 TODO
 
-### Assert: equal_keys
+#### Assert: equal_keys
 
 TODO
 
@@ -457,8 +474,7 @@ If the embedded variable encompasses the entire string then the string will be r
 
 ## Merging Objects
 
-You can use the "$merge" special object property to merge (extend) data objects. Here is an example where the a predefined header is extended to change
-the content type:
+You can use the `$merge` special object property to merge (extend) data objects. Here is an example where the a predefined header is extended with a content type:
 
 ```json
 "request": {
@@ -480,5 +496,4 @@ the content type:
 
 ## TODO
 
-* The pattern selector should work well with arrays
-* Default selector for assert is the body
+* The contains assertion type should work on strings
