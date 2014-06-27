@@ -223,12 +223,14 @@ There are two pre-defined variables that you can [interpolate](#data-interpolati
 Here is an example request that creates a new user with a unique email address:
 
 ```json
-"request": {
-  "method": "POST",
-  "path": "/v1/users",
-  "params": {
-    "name": "Mr New User",
-    "email": "new-user-{{$run_id}}@example.com"
+{
+  "request": {
+    "method": "POST",
+    "path": "/v1/users",
+    "params": {
+      "name": "Mr New User",
+      "email": "new-user-{{$run_id}}@example.com"
+    }
   }
 }
 ```
@@ -317,10 +319,12 @@ An `assert` object is made up of a selection on the the response object and one 
 If no selection is specified then the assertion will be made against the response body. The following assertion types are available
 
 * [schema](#assert-schema)
-* [equal/not_equal](#assert-equal)
+* [equal](#assert-equal)
 * [equal_keys](#assert-equal_keys)
-* [contains/not_contains](#assert-contains)
+* [contains](#assert-contains)
 * [length](#assert-length)
+
+Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
 
 ### Selecting Response Data
 
@@ -463,23 +467,63 @@ Use the `schema` property of an assert object to validate the response against a
 
 #### Assert: equal
 
-TODO
+The `equal` assertion does deep value equality check on arrays and objects. The values `null` and `undefined` are treated as equal. For other primitive values, i.e. numbers, strings and booleans, the types are not required to match and two values are regarded as equal if their string representation is equal.
 
 #### Assert: equal_keys
 
-TODO
+If you would like to make assertions against only a subset of keys in the response object you can use `equal_keys` instead of `equal`. Suppose your user
+record has a large number of columns but you would only like to make assertions about the id and the email:
+
+```json
+{
+  "request": "/v1/users/{{users.member.id}}",
+  "assert": {
+    "equal_keys": {
+      "id": "{{users.member.id}}",
+      "email": "{{users.member.email}}"
+    }
+  }
+}
+```
 
 #### Assert: contains
 
-TODO
+The `contains` assertion checks if a value is included in an array or a string.
 
 #### Assert: length
 
-TODO
+The `length` assertion checks the length of an array or a string:
+
+```json
+{
+  "request": "/v1/users?limit=2",
+  "assert": {
+    "select": "body.users",
+    "length": 2
+  }
+}
+```
 
 ### Saving Data
 
-TODO
+Sometimes its useful to save data from a response for user in later API calls. In this case you can use the `save` property which takes
+an object where the keys indicate where you would like to save the data and the values are [selectors](#selecting-response-data)
+(works the same as in assertions).
+
+```json
+{
+  "request": {
+    "method": "PUT",
+    "path": "/v1/profile",
+    "params": {
+      "name": "Some new cool name {{$api_call_id}}"
+    }
+  },
+  "save": {
+    "saved.update_user.name": "body.name"
+  }
+}
+```
 
 ## Data Interpolation
 

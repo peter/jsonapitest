@@ -227,7 +227,7 @@ describe('response', function() {
       result = response.assert({select: 'body.user', schema: schema1}, res2);
       assert.equal(result.length, 1);
       assert.equal(result[0].type, 'schema');
-      assert(result[0].errors);
+      assert(result[0].error_messages);
 
       // equals check doesn't match
       result = response.assert({select: 'body.user', schema: schema1, equal: {id: 9}}, res1);
@@ -238,7 +238,7 @@ describe('response', function() {
       result = response.assert({select: 'body.user', schema: schema1, equal: {foo: 2, name: 'Peter'}}, res2);
       assert.equal(result.length, 2);
       assert.equal(result[0].type, 'schema');
-      assert(result[0].errors);
+      assert(result[0].error_messages);
       assert.deepEqual(result[1], {type: 'equal', select: 'body.user', expected: {foo: 2, name: 'Peter'}, actual: {foo: 2, name: 'Joe'}});
     });
   });
