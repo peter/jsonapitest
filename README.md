@@ -172,7 +172,7 @@ The JSON in test files may contain one or more of the following top level proper
 * [data](#data)
 * [suite/suites](#test-suite)
 
-### Configuration
+## Configuration
 
 The config property is an optional property where you can point out the path to a log file where HTTP requests are logged,
 the base_url of your server, and any default headers and response status of your API calls:
@@ -201,7 +201,7 @@ For the `X-API-CALL-ID` header above we are interpolating a built in variable ca
 digest for each API call (see more under [Data Interpolation](#data-interpolation)). This is a technique you can use to make it easier
 to find test request in your server logs.
 
-### Data
+## Data
 
 The data property is a free form custom container for any kind of data that you need for your tests, i.e. database data, user
 credentials etc. Data is interpolated in api calls with the double curly syntax (i.e. {{my_data}}, see [Data Interpolation](#data-interpolation)).
@@ -213,7 +213,7 @@ in some test scenarios you really need to know exactly what the state of the sys
 One approach that works in some projects is to run tests against a copy of the production data with a small amount of known test data added to it. Data population is currently outside the scope of this framework.
 
 
-#### Generating Unique/Random Test Data
+### Generating Unique/Random Test Data
 
 There are two pre-defined variables that you can [interpolate](#data-interpolation) into your API calls to generate unique data:
 
@@ -235,7 +235,7 @@ Here is an example request that creates a new user with a unique email address:
 }
 ```
 
-### Test Suite
+## Test Suite
 
 Use the suite property to define a single test suite:
 
@@ -273,11 +273,11 @@ A test suite is made up of a name, an optional description, and an array of test
 description and an array of api calls. To define many test suites in a single file, use the suites (plural) property and have it
 point to an array of suite objects.
 
-### API Call
+## API Call
 
 The API call lies at the heart of API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
 
-### Request
+## Request
 
 The `request` property of each API call is an object with the following properties:
 
@@ -304,7 +304,7 @@ Notice that you can also append query parameters to the path instead of using th
 }
 ```
 
-### Response
+## Response
 
 The following properties are available in the HTTP response object:
 
@@ -313,7 +313,7 @@ The following properties are available in the HTTP response object:
 * `body` - the parsed JSON body
 * `response_time` - elapsed number of milliseconds from request to response (integer)
 
-### Assertions
+## Assertions
 
 An `assert` object is made up of a selection on the the response object and one ore more assertions against that selection.
 If no selection is specified then the assertion will be made against the response body. The following assertion types are available
@@ -326,7 +326,7 @@ If no selection is specified then the assertion will be made against the respons
 
 Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
 
-### Selecting Response Data
+## Selecting Response Data
 
 Selections on the response data are used to make assertions and to [save data](#saving-data). Selections can be made
 on any property of [the response](#response). A selection is made up of a nested `key` and an optional regexp
@@ -414,7 +414,7 @@ You can also use an array index to select an item from an array:
 ]
 ```
 
-#### Status assertions
+## Status assertions
 
 Since making assertions about the response status code is so common some syntactic sugar is provided:
 
@@ -441,7 +441,7 @@ The above expands to:
 ]
 ```
 
-#### Assert: schema
+## Assert: schema
 
 Use the `schema` property of an assert object to validate the response against a JSON schema:
 
@@ -465,11 +465,11 @@ Use the `schema` property of an assert object to validate the response against a
 ]
 ```
 
-#### Assert: equal
+## Assert: equal
 
 The `equal` assertion does deep value equality check on arrays and objects. The values `null` and `undefined` are treated as equal. For other primitive values, i.e. numbers, strings and booleans, the types are not required to match and two values are regarded as equal if their string representation is equal.
 
-#### Assert: equal_keys
+## Assert: equal_keys
 
 If you would like to make assertions against only a subset of keys in the response object you can use `equal_keys` instead of `equal`. Suppose your user
 record has a large number of columns but you would only like to make assertions about the id and the email:
@@ -486,11 +486,11 @@ record has a large number of columns but you would only like to make assertions 
 }
 ```
 
-#### Assert: contains
+## Assert: contains
 
 The `contains` assertion checks if a value is included in an array or a string.
 
-#### Assert: length
+## Assert: length
 
 The `length` assertion checks the length of an array or a string:
 
@@ -504,7 +504,7 @@ The `length` assertion checks the length of an array or a string:
 }
 ```
 
-### Saving Data
+## Saving Data
 
 Sometimes its useful to save data from a response for user in later API calls. In this case you can use the `save` property which takes
 an object where the keys indicate where you would like to save the data and the values are [selectors](#selecting-response-data)
