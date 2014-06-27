@@ -212,6 +212,27 @@ to write your API tests so that they make as few assumptions about the state of 
 in some test scenarios you really need to know exactly what the state of the system is in order to be able to make assertions and achieve high test coverage.
 One approach that works in some projects is to run tests against a copy of the production data with a small amount of known test data added to it. Data population is currently outside the scope of this framework.
 
+
+#### Generating Unique/Random Test Data
+
+There are two pre-defined variables that you can [interpolate](#data-interpolation) into your API calls to generate unique data:
+
+* `$run_id` - a 32 character long hex digest unique to the test run
+* `$api_call_id` - a 32 character long hex digest that is unique to each API call
+
+Here is an example request that creates a new user with a unique email address:
+
+```json
+"request": {
+  "method": "POST",
+  "path": "/v1/users",
+  "params": {
+    "name": "Mr New User",
+    "email": "new-user-{{$run_id}}@example.com"
+  }
+}
+```
+
 ### Test Suite
 
 Use the suite property to define a single test suite:
