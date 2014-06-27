@@ -149,9 +149,9 @@ describe('response', function() {
       assert.deepEqual(response.assert({select: 'body.user', equal_keys: {name: 'Joe'}}, res), []);
       assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 2, name: 'Joe'}}, res), []);
       assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 1}}, res),
-        [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}]);
-      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 1, name: 'Peter'}}, res),
-        [{type: 'equal', select: 'body.user', key: 'id', expected: 1, actual: 2}, {type: 'equal', select: 'body.user', key: 'name', expected: 'Peter', actual: 'Joe'}]);
+        [{type: 'equal_keys', select: 'body.user', expected: {id: 1}, actual: {id: 2, name: "Joe"}}]);
+      assert.deepEqual(response.assert({select: 'body.user', equal_keys: {id: 2, name: 'Peter'}}, res),
+        [{type: 'equal_keys', select: 'body.user', expected: {id: 2, name: 'Peter'}, actual: {id: 2, name: "Joe"}}]);
     });
 
     it('can check not_equal on a selector', function() {

@@ -37,6 +37,15 @@ Specify your test in a JSON file:
 
 ```json
 {
+  "config": {
+    "defaults": {
+      "api_call": {
+        "request": {
+          "base_url": "https://api.some-hostname.com"
+        }
+      }
+    }
+  },
   "data": {
     "schema": {
       "user": {
@@ -64,7 +73,7 @@ Specify your test in a JSON file:
 	        "description": "Fetch info about a user",
 	        "api_calls": [
 	          {
-	            "request": "https://api.some-hostname.com/v1/users/{{users.member.id}}",
+	            "request": "/v1/users/{{users.member.id}}",
               "status": 200,
 	            "assert": {
 	              "select": "body",
@@ -82,7 +91,7 @@ Specify your test in a JSON file:
 	        "description": "Trying to fetch info about a user that doesn't exist",
 	        "api_calls": [
 	          {
-	            "request": "https://api.some-hostname.com/v1/users/99999999",
+	            "request": "/v1/users/99999999",
 	            "status": 404
 	          }
 	        ]
@@ -496,4 +505,4 @@ You can use the `$merge` special object property to merge (extend) data objects.
 
 ## TODO
 
-* The contains assertion type should work on strings
+* There should probably be select.limit and select.sort (key, order, type) properties
