@@ -31,7 +31,7 @@ way to do API testing. Here are a few selling points for `jsonapitest`:
 npm install jsonapitest -g
 ```
 
-## Example
+## Usage
 
 Specify your test in a JSON file:
 
@@ -172,7 +172,7 @@ The JSON in test files may contain one or more of the following top level proper
 * [data](#data)
 * [suite/suites](#test-suite)
 
-## Configuration
+## Config
 
 The config property is an optional property where you can point out the path to a log file where HTTP requests are logged,
 the base_url of your server, and any default headers and response status of your API calls:
@@ -235,7 +235,7 @@ Here is an example request that creates a new user with a unique email address:
 }
 ```
 
-## Test Suite
+## Suite
 
 Use the suite property to define a single test suite:
 
@@ -313,20 +313,7 @@ The following properties are available in the HTTP response object:
 * `body` - the parsed JSON body
 * `response_time` - elapsed number of milliseconds from request to response (integer)
 
-## Assertions
-
-An `assert` object is made up of a selection on the the response object and one ore more assertions against that selection.
-If no selection is specified then the assertion will be made against the response body. The following assertion types are available
-
-* [schema](#assert-schema)
-* [equal](#assert-equal)
-* [equal_keys](#assert-equal_keys)
-* [contains](#assert-contains)
-* [length](#assert-length)
-
-Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
-
-## Selecting Response Data
+## Select
 
 Selections on the response data are used to make assertions and to [save data](#saving-data). Selections can be made
 on any property of [the response](#response). A selection is made up of a nested `key` and an optional regexp
@@ -414,7 +401,20 @@ You can also use an array index to select an item from an array:
 ]
 ```
 
-## Status assertions
+## Assert
+
+An `assert` object is made up of a selection on the the response object and one ore more assertions against that selection.
+If no selection is specified then the assertion will be made against the response body. The following assertion types are available
+
+* [schema](#assert-schema)
+* [equal](#assert-equal)
+* [equal_keys](#assert-equal_keys)
+* [contains](#assert-contains)
+* [length](#assert-length)
+
+Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
+
+## Status Assertions
 
 Since making assertions about the response status code is so common some syntactic sugar is provided:
 
