@@ -9,6 +9,31 @@ response. The framework supports using JSON Schema to validate the structure of 
 by the test runner to help debug test failures. Any data (database records, user credentials etc.) that the tests
 need are specified in JSON format and this data can be interpolated into the API calls.
 
+## Table of Contents
+
+* [Motivation](#motivation)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Test File Structure](#test-file-structure)
+* [The Anatomy of Test Files](#the-anatomy-of-test-files)
+* [Config](#config)
+* [Data](#data)
+* [Suite](#suite)
+* [API Call](#api-call)
+* [Request](#request)
+* [Response](#response)
+* [Select](#select)
+* [Assert](#assert)
+* [Status Assertions](#status-assertions)
+* [Assert: schema](#assert-schema)
+* [Assert: equal](#assert-equal)
+* [Assert: equal_keys](#assert-equal_keys)
+* [Assert: contains](#assert-contains)
+* [Assert: length](#assert-length)
+* [Saving Data](#saving-data)
+* [Data Interpolation](#data-interpolation)
+* [Merging Objects](#merging-objects)
+
 ## Motivation
 
 I had a REST API implemented in Node.js and I started out writing my API tests with Mocha and Supertest. Although this approach worked
@@ -392,7 +417,7 @@ A nested key also works on arrays:
 ]
 ```
 
-You can also use an array index to select an item from an array:
+You can also use an array index to select a single item from an array:
 
 ```json
 "api_calls": [
@@ -568,11 +593,3 @@ You can use the `$merge` special object property to merge (extend) data objects.
   }
 }
 ```
-
-## Recommended Reading
-
-* [Understanding JSON Schema Book](http://spacetelescope.github.io/understanding-json-schema/UnderstandingJSONSchema.pdf)
-
-## TODO
-
-* There should probably be select.limit and select.sort (key, order, type) properties
