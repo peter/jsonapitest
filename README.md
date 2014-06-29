@@ -578,7 +578,7 @@ If the embedded variable encompasses the entire string then the string will be r
 
 ## Merging Objects
 
-You can use the `$merge` special object property to merge (extend) data objects. Here is an example where the a predefined header is extended with a content type:
+You can use the `$merge` special object property to merge (extend) data objects. Here is an example where an authentication header is extended with a content type:
 
 ```json
 "request": {
