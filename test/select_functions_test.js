@@ -25,4 +25,20 @@ describe('select_functions', function() {
       assert.deepEqual(s.pattern('^\\w+ (\\w+)$', ['Joe User', 'Foo User']), ['User', 'User']);
     });
   });
+
+  describe('limit', function() {
+    it('can apply a limit to an array', function() {
+      assert.deepEqual(s.limit(2, ['a', 'b', 'c']), ['a', 'b']);
+      assert.deepEqual(s.limit(5, ['a', 'b', 'c']), ['a', 'b', 'c']);
+      assert.deepEqual(s.limit(1, ['a', 'b', 'c']), ['a']);
+      assert.throws(
+        function() {
+          s.limit(2, {foo: 'bar'});
+        },
+        function(err) {
+          return err.code === 'select_limit_non_array';
+        }
+      );
+    });
+  });
 });

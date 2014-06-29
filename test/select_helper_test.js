@@ -15,6 +15,14 @@ describe('select_helper', function() {
       assert.deepEqual(s.select(res, {key: 'body.users.name.0'}), 'Joe User');
       assert.deepEqual(s.select(res, {key: 'body.users.name.0', pattern: '^\\w+'}), 'Joe');
       assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+'}), ['Joe', 'Foo']);
+      assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+', limit: 1}), ['Joe']);
+      assert.deepEqual(s.select(res, {key: 'body.users.name', limit: 1}), ['Joe User']);
+      assert.deepEqual(s.select(res, {key: 'body.users.foobar', limit: 1}), [null]);
+
+      // Empty case
+      assert.deepEqual(s.select(res, {key: 'foobar'}), null);
+      assert.deepEqual(s.select(res, {key: 'foobar', pattern: '\\w+'}), null);
+      assert.deepEqual(s.select(res, {key: 'body.users.foobar', pattern: '^\\w+'}), [null, null]);
     });
   });
 });

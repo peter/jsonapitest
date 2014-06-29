@@ -316,8 +316,13 @@ The following properties are available in the HTTP response object:
 ## Select
 
 Selections on the response data are used to make assertions and to [save data](#saving-data). Selections can be made
-on any property of [the response](#response). A selection is made up of a nested `key` and an optional regexp
-`pattern`. Selectors without regexp patterns can be provided as a string:
+on any property of [the response](#response). A selection is made up of a nested `key` and the following optional
+properties:
+
+* `pattern` - a regular expression
+* `limit` - limit a selected array to a number of items
+
+Selectors with just a key can be provided as just a string:
 
 ```json
 "api_calls": [
