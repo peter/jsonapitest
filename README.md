@@ -195,7 +195,7 @@ The JSON in test files may contain one or more of the following top level proper
 
 * [config](#configuration)
 * [data](#data)
-* [suite/suites](#test-suite)
+* [suite/suites](#suite)
 
 ## Config
 
