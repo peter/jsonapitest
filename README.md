@@ -346,6 +346,7 @@ properties:
 
 * `pattern` - a regular expression
 * `limit` - limit a selected array to a number of items
+* `sort` - sort a selected array either ascending (`asc`) or descending (`desc`)
 
 Selectors with just a key can be provided as just a string:
 
@@ -417,7 +418,7 @@ A nested key also works on arrays:
 ]
 ```
 
-You can also use an array index to select a single item from an array:
+You can use an array index to select a single item from an array:
 
 ```json
 "api_calls": [
@@ -430,6 +431,36 @@ You can also use an array index to select a single item from an array:
   }
 ]
 ```
+
+You can apply sorting to an array: 
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users",
+    "assert": {
+      "select": {key: "body.users.name", sort: "desc"},
+      "equal": ["Second User", "First User"]
+    }
+  }
+]
+```
+
+You can sort an array of objects by a property:
+
+```json
+"api_calls": [
+  {
+    "request": "/v1/users",
+    "assert": {
+      "select": {key: "body.users", sort: {order: "desc", by: "name"}},
+      "equal": [{name: "Second User"}, {name: "First User"}]
+    }
+  }
+]
+```
+
+The sort object also supports a `type` property that you can set to "string" to sort by a datetime property.
 
 ## Assert
 

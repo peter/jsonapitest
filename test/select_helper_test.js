@@ -19,6 +19,12 @@ describe('select_helper', function() {
       assert.deepEqual(s.select(res, {key: 'body.users.name', limit: 1}), ['Joe User']);
       assert.deepEqual(s.select(res, {key: 'body.users.foobar', limit: 1}), [null]);
 
+      // With sort
+      assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+', sort: 'asc'}), ['Foo', 'Joe']);
+      assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+', sort: 'desc'}), ['Joe', 'Foo']);
+      assert.deepEqual(s.select(res, {key: 'body.users', sort: {by: 'name'}}), [{name: 'Foo User'}, {name: 'Joe User'}]);
+
+
       // Empty case
       assert.deepEqual(s.select(res, {key: 'foobar'}), null);
       assert.deepEqual(s.select(res, {key: 'foobar', pattern: '\\w+'}), null);

@@ -41,4 +41,23 @@ describe('select_functions', function() {
       );
     });
   });
+
+  describe('sort', function() {
+    it('can sort arrays of numbers and strings', function() {
+      assert.deepEqual(s.sort('asc', ['c', 'a', 'b']), ['a', 'b', 'c']);
+      assert.deepEqual(s.sort('desc', ['c', 'a', 'b']), ['c', 'b', 'a']);
+      assert.deepEqual(s.sort('asc', [3, 1, 2]), [1, 2, 3]);
+      assert.deepEqual(s.sort('desc', [3, 1, 2]), [3, 2, 1]);
+    });
+    it('can sort arrays of objects by a property', function() {
+      assert.deepEqual(s.sort({by: 'foo'}, [{foo: 'c'}, {foo: 'a'}, {foo: 'b'}]), [{foo: 'a'}, {foo: 'b'}, {foo: 'c'}]);
+      assert.deepEqual(s.sort({order: 'desc', by: 'foo'}, [{foo: 'c'}, {foo: 'a'}, {foo: 'b'}]), [{foo: 'c'}, {foo: 'b'}, {foo: 'a'}]);
+    });
+    it('can sort by time type', function() {    
+      assert.deepEqual(s.sort({order: 'desc', by: 'foo', type: 'time'}, [{foo: '2014-05-01 12:00:00'}, {foo: '2014-05-01 12:00:01'}, {foo: '2014-05-02 11:00:00'}]),
+        [{foo: '2014-05-02 11:00:00'}, {foo: '2014-05-01 12:00:01'}, {foo: '2014-05-01 12:00:00'}]);
+      assert.deepEqual(s.sort({by: 'foo', type: 'time'}, [{foo: '2014-05-01 12:00:00'}, {foo: '2014-05-01 12:00:01'}, {foo: '2014-05-02 11:00:00'}]),
+        [{foo: '2014-05-01 12:00:00'}, {foo: '2014-05-01 12:00:01'}, {foo: '2014-05-02 11:00:00'}]);
+    });
+  });
 });
