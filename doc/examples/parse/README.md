@@ -29,15 +29,17 @@ Parse CRUD
 -----------------------------------------------------------------------
 
 Parse CRUD/create_get_list_update_delete - You can create a Parse object, get and list it, update its name, and then delete it
-POST https://api.parse.com/1/classes/GameScore (5618ms) - OK!
-GET https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (1012ms) - OK!
-GET https://api.parse.com/1/classes/GameScore (963ms) - OK!
-PUT https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (1225ms) - OK!
-GET https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (961ms) - OK!
-DELETE https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (4489ms) - OK!
-GET https://api.parse.com/1/classes/GameScore/U3tRLb5Pai (1383ms) - OK!
+POST https://api.parse.com/1/classes/GameScore - 201 (719ms) - OK!
+GET https://api.parse.com/1/classes/GameScore/njj23l9Kii - 200 (606ms) - OK!
+GET https://api.parse.com/1/classes/GameScore - 200 (632ms) - OK!
+PUT https://api.parse.com/1/classes/GameScore/njj23l9Kii - 200 (649ms) - OK!
+GET https://api.parse.com/1/classes/GameScore/njj23l9Kii - 200 (579ms) - OK!
+DELETE https://api.parse.com/1/classes/GameScore/njj23l9Kii - 200 (657ms) - OK!
+GET https://api.parse.com/1/classes/GameScore/njj23l9Kii - 404 (557ms) - OK!
 
 logging all results to doc/examples/parse/log/results.json
+
+0/1 tests failed in 1 suites. 7 API calls with average response time 628ms
 
 SUCCESS!
 ```

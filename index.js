@@ -19,3 +19,9 @@ try {
   console.log("USAGE: " + programName() + " <path-to-input-file1.json> <path-to-input-file2.json> ...")
   process.exit(1);
 }
+
+process.on('uncaughtException', function(err) {
+  console.log('\n\nERROR: ' + JSON.stringify(err));
+  console.log(err.stack);
+  process.exit(1); 
+});
