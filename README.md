@@ -6,10 +6,11 @@ JSON driven testing of REST APIs.
 
 This is a test framework targeted at JSON REST APIs. It comes in the form of a Node.js package called `jsonapitest`
 that is available on the command line to run your tests. Tests are specified in JSON files and grouped into
-test suites. Each test contains a list of API calls with assertions about the
-response. The framework supports using JSON Schema to validate the structure of responses. All HTTP traffic is logged extensively
+test suites. Each test contains a list of API calls with assertions. The framework supports using JSON Schema
+to validate the structure of responses. All HTTP traffic is logged extensively
 by the test runner to help debug test failures. Any data (database records, user credentials etc.) that the tests
-need are specified in JSON format and this data can be interpolated into the API calls.
+need are specified in JSON format and is easily interpolated into API calls. You can extend and customize
+the framework with your own assertion functions, HTTP client, or logger.
 
 ## Table of Contents
 
@@ -37,6 +38,7 @@ need are specified in JSON format and this data can be interpolated into the API
 * [Saving Data](#saving-data)
 * [Data Interpolation](#data-interpolation)
 * [Merging Objects](#merging-objects)
+* [Custom Logger](#custom-logger)
 
 ## Motivation
 
@@ -313,7 +315,7 @@ The framework ships with adapters for two popular HTTP clients - [superagent](ht
 ```json
 "config": {
   "modules": {
-    "http_client": "request"
+    "http_client": "./http_clients/request"
   }
 }
 ```
@@ -663,3 +665,17 @@ You can use the `$merge` special object property to merge (extend) data objects.
   }
 }
 ```
+
+## Custom Logger
+
+If you don't like the default logger you can plug in your own. Take a look at the [default logger](https://github.com/peter/jsonapitest/blob/master/lib/loggers/console.js) to see what the interface looks like:
+
+```json
+"config": {
+  "modules": {
+    "logger": "/absolute/path/to/your/logger/file"
+  }
+}
+```
+
+Note that the logger interface is currently synchronous but I would be happy to make it asynchronous if there is a need for that.
