@@ -20,6 +20,7 @@ need are specified in JSON format and this data can be interpolated into the API
 * [Data](#data)
 * [Suite](#suite)
 * [API Call](#api-call)
+* [HTTP Clients](#http-clients)
 * [Request](#request)
 * [Response](#response)
 * [Select](#select)
@@ -301,6 +302,24 @@ point to an array of suite objects.
 ## API Call
 
 The API call lies at the heart of API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
+
+## HTTP Clients
+
+The framework ships with adapters for two popular HTTP clients - [superagent](https://github.com/visionmedia/superagent) (default) and [request](https://github.com/mikeal/request). Here is how to configure the `request` HTTP client:
+
+```json
+"config": {
+  "modules": {
+    "http_client": "request"
+  }
+}
+```
+
+In order to support a different HTTP client, all you have to do is write a simple adapter for it, see the
+[superagent](https://github.com/peter/jsonapitest/blob/master/lib/http_clients/superagent.js) and
+[request](https://github.com/peter/jsonapitest/blob/master/lib/http_clients/request.js) adapters
+for examples of how to do this. You can either install your adapter globally as an npm package or just put it in a file and set the
+`config.modules.http_client` property to the file path to your file.
 
 ## Request
 
