@@ -25,6 +25,7 @@ need are specified in JSON format and this data can be interpolated into the API
 * [Response](#response)
 * [Select](#select)
 * [Assert](#assert)
+* [Custom Assert Functions](#custom-assert-functions)
 * [Status Assertions](#status-assertions)
 * [Assert: schema](#assert-schema)
 * [Assert: equal](#assert-equal)
@@ -484,7 +485,7 @@ The sort object also supports a `type` property that you can set to "string" to 
 ## Assert
 
 An `assert` object is made up of a selection on the the response object and one ore more assertions against that selection.
-If no selection is specified then the assertion will be made against the response body. The following assertion types are available
+If no selection is specified then the assertion will be made against the response body. The following assert functions are available:
 
 * [schema](#assert-schema)
 * [equal](#assert-equal)
@@ -493,6 +494,23 @@ If no selection is specified then the assertion will be made against the respons
 * [length](#assert-length)
 
 Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
+
+## Custom Assert Functions
+
+You can provide your own assert functions to fit the needs of your application. Take a look at the built in 
+[assert functions](https://github.com/peter/jsonapitest/blob/master/lib/assert_functions.js) to see what the code
+should look like. Each assert function takes two arguments - the selected response value and the value
+given to the assert function property. The assert function should return `true`, `false`, or an object with an
+`error_messages` property. Custom assert functions will take precedence over built in ones so that they can be overridden.
+Put your assert functions in a globally installed npm package or provide an absolute file path in the config:
+
+```json
+"config": {
+  "modules": {
+    "assert_functions": "/absolute/path/to/your/assert/functions/file"
+  }
+}
+```
 
 ## Status Assertions
 

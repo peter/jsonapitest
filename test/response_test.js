@@ -242,16 +242,4 @@ describe('response', function() {
       assert.deepEqual(result[1], {type: 'equal', select: 'body.user', expected: {foo: 2, name: 'Peter'}, actual: {foo: 2, name: 'Joe'}});
     });
   });
-
-  describe('assertAll', function() {
-    it('collects results from multiple assertions plus the status assertion', function() {
-      // TODO
-    });
-  });
-
-  describe('process', function() {
-    it('invokes save and assertAll', function() {
-      // TODO
-    });    
-  });
 });
