@@ -41,7 +41,7 @@ need are specified in JSON format and this data can be interpolated into the API
 I had a REST API implemented in Node.js and I started out writing my API tests with Mocha and Supertest. Although this approach worked
 I ended up with test code that was time consuming and complex. Also, I didn't like the fact that my
 tests were coupled to the implementation of the API. I tried doing some semi automated testing with curl and although I appreciate the simplicity
-of curl the approach wasn't sufficiently structured and automated for my needs. What I was looking for was a declarative and black-box
+of curl the approach wasn't sufficiently structured and automated. What I was looking for was a declarative and black-box
 way to do API testing. Here are a few selling points for `jsonapitest`:
 
 * Black box testing of APIs means the tests are not tied to the implementation behind the API (i.e. programming language, database etc.)

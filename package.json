@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "mocha --watch --reporter spec $(find test -iname \"*test.js\")"
+    "test": "mocha --reporter spec test"
   },
   "author": "Peter Marklund",
   "license": "ISC",

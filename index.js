@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+"use strict";
 
 var fileParser = require('./lib/file_parser'),
     testRunner = require('./lib/test_runner'),
