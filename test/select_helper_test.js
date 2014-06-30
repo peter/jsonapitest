@@ -17,7 +17,7 @@ describe('select_helper', function() {
       assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+'}), ['Joe', 'Foo']);
       assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+', limit: 1}), ['Joe']);
       assert.deepEqual(s.select(res, {key: 'body.users.name', limit: 1}), ['Joe User']);
-      assert.deepEqual(s.select(res, {key: 'body.users.foobar', limit: 1}), [null]);
+      assert.deepEqual(s.select(res, {key: 'body.users.foobar', limit: 1}), [undefined]);
 
       // With sort
       assert.deepEqual(s.select(res, {key: 'body.users.name', pattern: '^\\w+', sort: 'asc'}), ['Foo', 'Joe']);
@@ -26,9 +26,9 @@ describe('select_helper', function() {
 
 
       // Empty case
-      assert.deepEqual(s.select(res, {key: 'foobar'}), null);
-      assert.deepEqual(s.select(res, {key: 'foobar', pattern: '\\w+'}), null);
-      assert.deepEqual(s.select(res, {key: 'body.users.foobar', pattern: '^\\w+'}), [null, null]);
+      assert.strictEqual(s.select(res, {key: 'foobar'}), undefined);
+      assert.strictEqual(s.select(res, {key: 'foobar', pattern: '\\w+'}), undefined);
+      assert.deepEqual(s.select(res, {key: 'body.users.foobar', pattern: '^\\w+'}), [undefined, undefined]);
     });
   });
 });

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/peter/jsonapitest.svg?branch=master)](https://travis-ci.org/peter/jsonapitest)
+
 # JSON API Test
 
 JSON driven testing of REST APIs.

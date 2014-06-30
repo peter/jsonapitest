@@ -20,14 +20,14 @@ describe('api_call', function() {
 
     it('can interpolate string that consist only of a single variable interpolation so that it is replaced by a different type (number, object etc.)', function() {
       var data = {a: {b: {c: 1}}};
-      assert.deepEqual(apiCall.interpolate("{{foo}}", data), null);
+      assert.strictEqual(apiCall.interpolate("{{foo}}", data), undefined);
       assert.deepEqual(apiCall.interpolate("{{a}}", data), {b: {c: 1}});
       assert.deepEqual(apiCall.interpolate("{{a }}", data), {b: {c: 1}});
       assert.deepEqual(apiCall.interpolate("{{ a }}", data), {b: {c: 1}});
       assert.deepEqual(apiCall.interpolate("{{a.b}}", data), {c: 1});
       assert.deepEqual(apiCall.interpolate("{{a.b.c}}", data), 1);
       assert.equal(apiCall.interpolate("{{a. b.c}}", data), "{{a. b.c}}", "invalid key should be left alone");
-      assert.deepEqual(apiCall.interpolate("{{a.b.c.d}}", data), null);
+      assert.strictEqual(apiCall.interpolate("{{a.b.c.d}}", data), undefined);
     });
 
     it('can interpolate global/magic variables starting with a dollar sign', function() {

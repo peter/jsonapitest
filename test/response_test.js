@@ -72,8 +72,9 @@ describe('response', function() {
       assert.deepEqual(response.select({a: {b: {c: ['foo', 'bar']}}}, {key: 'a.b.c.1'}), 'bar')
 
       // Select by index empty case
-      assert.deepEqual(response.select({}, {key: 'a.0'}), undefined)
-      assert.deepEqual(response.select({a: null}, {key: 'a.0'}), undefined)
+      assert.strictEqual(response.select({}, {key: 'a.0'}), undefined)
+      assert.strictEqual(response.select({a: null}, {key: 'a'}), null)
+      assert.strictEqual(response.select({a: null}, {key: 'a.0'}), undefined)
       assert.deepEqual(response.select({a: []}, {key: 'a.0'}), undefined)
       assert.deepEqual(response.select({a: {}}, {key: 'a.0'}), undefined)
       assert.deepEqual(response.select({a: ['foo']}, {key: 'a.1'}), undefined)
@@ -111,7 +112,7 @@ describe('response', function() {
       var data = {},
           options = {"user.new": {key: "foobar"}};
       response.save(options, res, data);
-      assert.deepEqual(data, {"user": {"new": null}})
+      assert.deepEqual(data, {"user": {"new": undefined}})
     });
 
     it('can save multiple values', function() {
