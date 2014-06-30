@@ -480,12 +480,12 @@ You can sort an array of objects by a property:
 ]
 ```
 
-The sort object also supports a `type` property that you can set to "string" to sort by a datetime property.
+The sort object also supports a `type` property that you can set to "time" to sort by a datetime property.
 
 ## Assert
 
 An `assert` object is made up of a selection on the the response object and one ore more assertions against that selection.
-If no selection is specified then the assertion will be made against the response body. The following assert functions are available:
+If no selection is specified then the assertion will be made against the response body. The following assert functions are built in:
 
 * [schema](#assert-schema)
 * [equal](#assert-equal)
@@ -501,7 +501,7 @@ You can provide your own assert functions to fit the needs of your application. 
 [assert functions](https://github.com/peter/jsonapitest/blob/master/lib/assert_functions.js) to see what the code
 should look like. Each assert function takes two arguments - the selected response value and the value
 given to the assert function property. The assert function should return `true`, `false`, or an object with an
-`error_messages` property. Custom assert functions will take precedence over built in ones so that they can be overridden.
+`error_messages` property. Custom assert functions will take precedence over built in ones so that you can override them.
 Put your assert functions in a globally installed npm package or provide an absolute file path in the config:
 
 ```json
