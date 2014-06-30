@@ -318,8 +318,8 @@ The framework ships with adapters for two popular HTTP clients - [superagent](ht
 In order to support a different HTTP client, all you have to do is write a simple adapter for it, see the
 [superagent](https://github.com/peter/jsonapitest/blob/master/lib/http_clients/superagent.js) and
 [request](https://github.com/peter/jsonapitest/blob/master/lib/http_clients/request.js) adapters
-for examples of how to do this. You can either install your adapter globally as an npm package or just put it in a file and set the
-`config.modules.http_client` property to the file path to your file.
+for examples of how to do this. You can either install your adapter globally as an npm package or set `config.modules.http_client`
+to the absolute file path of your adapter.
 
 ## Request
 
@@ -330,7 +330,7 @@ The `request` property of each API call is an object with the following properti
 * `url` - specify the full URL here instead of the path if you need a URL different from the base_url
 * `headers` - custom HTTP headers
 * `params` - query or post parameters
-* `files` - an array with paths to files that will be uploaded. Requires that the Content-Type header be set to "multipart/form-data".
+* `files` - an array with paths to files that will be uploaded with content type "multipart/form-data".
 
 You can also let the `request` property be a string for simple requests:
 
