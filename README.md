@@ -38,7 +38,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Saving Data](#saving-data)
 * [Data Interpolation](#data-interpolation)
 * [Merging Objects](#merging-objects)
-* [Custom Logger](#custom-logger)
+* [Logging](#logging)
 
 ## Motivation
 
@@ -666,14 +666,28 @@ You can use the `$merge` special object property to merge (extend) data objects.
 }
 ```
 
-## Custom Logger
+## Logging
 
-If you don't like the default logger you can plug in your own. Take a look at the [default logger](https://github.com/peter/jsonapitest/blob/master/lib/loggers/console.js) to see what the interface looks like:
+The default logger prints basic request info and test results to standard output. Details about all API calls are
+logged in JSON format to a file configured by the `config.log_path` property.
+
+If you don't like the default logger you can plug in your own. Take a look at the [loggers/console.js](https://github.com/peter/jsonapitest/blob/master/lib/loggers/console.js) to see what the interface looks like:
 
 ```json
 "config": {
   "modules": {
     "logger": "/absolute/path/to/your/logger/file"
+  }
+}
+```
+
+There is an experimental logger that prints curl command line equivalents of all requests. You can enable it along side
+the default logger like so:
+
+```json
+"config": {
+  "modules": {
+    "logger": ['./loggers/console', './loggers/curl']
   }
 }
 ```

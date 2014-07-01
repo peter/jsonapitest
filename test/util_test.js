@@ -40,9 +40,11 @@ describe('util', function() {
       assert.deepEqual(util.nestedValue.get({foo: {bar: {baz: 2}}}, 'foo.bar'), {baz: 2});
     });
 
-    it('returns null if key doesnt exist', function() {
-      assert.equal(util.nestedValue.get({foo: 1}, 'foo.bar'), null);
-      assert.equal(util.nestedValue.get({}, 'foo.bar'), null);
+    it('returns undefined or default value if key doesnt exist', function() {
+      assert.strictEqual(util.nestedValue.get({foo: 1}, 'foo.bar'), undefined);
+      assert.strictEqual(util.nestedValue.get({foo: 1}, 'foo.bar', 'default value'), 'default value');
+      assert.strictEqual(util.nestedValue.get({}, 'foo.bar'), undefined);
+      assert.strictEqual(util.nestedValue.get({}, 'foo.bar', 5), 5);
     });
   });
 
