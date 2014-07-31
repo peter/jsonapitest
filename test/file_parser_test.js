@@ -1,4 +1,5 @@
 var assert = require('assert'),
+    contextParser = require('../lib/context_parser'),
     fileParser = require('../lib/file_parser');
 
 var errorValidator = function(code) {
@@ -71,58 +72,9 @@ describe("file_parser", function() {
     });
   });
 
-  describe("handleProperty", function() {
-    it('suite - can add valid suite to context', function() {
-      var context = fileParser.emptyContext(),
-          suite = {
-            name: "users",
-            tests: [
-              {
-                name: "list",
-                api_calls: [
-                  {
-                    request: {
-                      path: "/v1/users"
-                    }
-                  }
-                ]
-              }
-            ]
-          };
-      fileParser.handleProperty(context, 'suite', suite);
-      assert.equal(context.suites.length, 1);
-      assert.equal(context.suites[0].tests[0].api_calls[0].request.path, "/v1/users");
-    });
-
-    it('suite - raises exception when invalid', function() {
-      var context = fileParser.emptyContext(),
-          suite = {
-            name: "users",
-            tests: [
-              {
-                name: "list",
-                requests: [ // should be api_calls
-                  {
-                    request: {
-                      path: "/v1/users"
-                    }
-                  }
-                ]
-              }
-            ]
-          };
-      assert.throws(
-        function() {
-          fileParser.handleProperty(context, 'suite', suite);
-        },
-        errorValidator('invalid_schema')
-      )
-    });
-  });
-
   describe('parseFile', function() {
     it('can parse a test suite', function() {
-      var context = fileParser.emptyContext(),
+      var context = contextParser.emptyContext(),
           data = {
             suite: {
               name: "My Test Suite",
@@ -164,7 +116,7 @@ describe("file_parser", function() {
     });
 
     it('does not accept test suite with an invalid select', function() {
-      var context = fileParser.emptyContext(),
+      var context = contextParser.emptyContext(),
           data = {
             suite: {
               name: "My Test Suite",

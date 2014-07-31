@@ -4,10 +4,16 @@ var assert = require('assert'),
 
 describe('module_loader', function() {
   describe('load', function() {    
-    it('can load configured modules', function() {
+    it('can load configured modules from paths', function() {
       var config = {modules: {logger: './loggers/curl'}};
       assert.deepEqual(m.load({config: config}, 'logger').api_call.start, require('../lib/loggers/curl')(config).api_call.start);
     });
+
+    it('can use configured pre-loaded modules', function() {
+      var myModule = {foo: 'bar'},
+          config = {modules: {logger: myModule}};
+      assert.deepEqual(m.load({config: config}, 'logger'), myModule);
+    })
 
     it('can load default modules', function() {
       assert.deepEqual(m.load({}, 'logger')[0].suite.start.toString(), require('../lib/loggers/console')(null).suite.start.toString());

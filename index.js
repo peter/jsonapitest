@@ -13,7 +13,13 @@ var programName = function() {
 try {
   var files = process.argv.slice(2);
   var context = fileParser.read(files);
-  testRunner.run(context);
+  testRunner.run(context, function(success, results) {
+    if (success) {
+      process.exit(0);
+    } else {
+      process.exit(1);
+    }    
+  });
 } catch(err) {
   console.log("ERROR: " + err.message);
   console.log(err.stack);
