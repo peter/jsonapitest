@@ -37,8 +37,9 @@ describe('api_call', function() {
     });
 
     it('can interpolate string with many embedded variables', function() {
-      var data = {a: {b: {c: 1}}};
+      var data = {a: {b: {c: 1}}, d: 2};
       assert.deepEqual(apiCall.interpolate("{{foo}}{{foo}}", data), null);
+      assert.deepEqual(apiCall.interpolate("{{a.b.c}} {{d}}", data), "1 2");
       assert.deepEqual(apiCall.interpolate("a {{a.b.c}} b {{a.b.c}} c", data), "a 1 b 1 c");
       assert.deepEqual(apiCall.interpolate("{{a.b.c}} b {{a.b.c}}", data), "1 b 1");
       assert.deepEqual(apiCall.interpolate("{{a. b.c}} b {{a.b.c}}", data), "{{a. b.c}} b 1");
