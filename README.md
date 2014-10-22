@@ -34,6 +34,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Assert: equal](#assert-equal)
 * [Assert: equal_keys](#assert-equal_keys)
 * [Assert: contains](#assert-contains)
+* [Assert: contains_keys](#assert-contains_keys)
 * [Assert: length](#assert-length)
 * [Saving Data](#saving-data)
 * [Data Interpolation](#data-interpolation)
@@ -495,6 +496,7 @@ If no selection is specified then the assertion will be made against the respons
 * [equal](#assert-equal)
 * [equal_keys](#assert-equal_keys)
 * [contains](#assert-contains)
+* [contains_keys](#assert-contains_keys)
 * [length](#assert-length)
 
 Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
@@ -591,6 +593,22 @@ record has a large number of columns but you would only like to make assertions 
 ## Assert: contains
 
 The `contains` assertion checks if a value is included in an array or a string.
+
+## Assert: contains_keys
+
+The `contains_keys` assertion checks if an array includes an object that matches the specified key-value pairs. It is thus the logical combination of `contains` and `equal_keys`.
+
+```json
+{
+  "request": "/v1/users",
+  "assert": {
+    "select": "body.users",
+    "contains_keys": {
+      "name": "Peter"
+    }
+  }
+}
+```
 
 ## Assert: length
 

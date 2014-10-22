@@ -107,6 +107,15 @@ describe('assert_functions', function() {
     });    
   });
 
+  describe('contains_keys', function() {
+    it('applies an equal_keys to arrays', function() {
+      var select = [{foo: 'a', bar: 1}, {foo: 'b', bar: 2}, {foo: 'c', bar: 3}];
+      assert.equal(a.contains_keys(select, {foo: 'a'}), true);
+      assert.equal(a.contains_keys(select, {foo: 'a', bar: 1}), true);
+      assert.equal(a.contains_keys(select, {foo: 'a', bar: 2}), false);
+      assert.equal(a.contains_keys(select, {foobar: 'a'}), false);
+    });
+  });
   describe('length', function() {
     it('returns true for strings/arrays with certain length', function() {
       // arrays
