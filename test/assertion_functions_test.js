@@ -57,22 +57,22 @@ describe('assert_functions', function() {
 
   describe('equal_keys', function() {
     it('returns true for objects where values match for all keys', function() {
-      assert.equal(a.equal_keys({foo: 1, bar: 2}, {foo: 1}), true);
-      assert.equal(a.equal_keys({foo: 1, bar: 2}, {foo: 2}), false);
-      assert.equal(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 2}), true);
-      assert.equal(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 3}), false);
-      assert.equal(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 2, baz: 3}), false);
-      assert.equal(a.equal_keys({}, {foo: 1}), false);
-      assert.equal(a.equal_keys({bar: 1}, {foo: 1}), false);
+      assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1}), {error_messages: []});
+      assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 2}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 2}), {error_messages: []});
+      assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 3}), {error_messages: ["Invalid keys: bar"]});
+      assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 2, baz: 3}), {error_messages: ["Invalid keys: baz"]});
+      assert.deepEqual(a.equal_keys({}, {foo: 1}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys({bar: 1}, {foo: 1}), {error_messages: ["Invalid keys: foo"]});
     });
 
     it('returns false for non-objects', function() {
-      assert.equal(a.equal_keys(null, {foo: 1}), false);
-      assert.equal(a.equal_keys(undefined, {foo: 1}), false);
-      assert.equal(a.equal_keys(['foo'], {foo: 1}), false);
-      assert.equal(a.equal_keys('foo', {foo: 1}), false);
-      assert.equal(a.equal_keys(5, {foo: 1}), false);
-      assert.equal(a.equal_keys(true, {foo: 1}), false);
+      assert.deepEqual(a.equal_keys(null, {foo: 1}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys(undefined, {foo: 1}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys(['foo'], {foo: 1}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys('foo', {foo: 1}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys(5, {foo: 1}), {error_messages: ["Invalid keys: foo"]});
+      assert.deepEqual(a.equal_keys(true, {foo: 1}), {error_messages: ["Invalid keys: foo"]});
     });
   });
 
