@@ -12,7 +12,7 @@ describe('api_call', function() {
     it('throws exception on non-strings', function() {
       assert.throws(
         function() {
-          apiCall.interpolate({foo: 1}, {foo: 'bar'});          
+          apiCall.interpolate({foo: 1}, {foo: 'bar'});
         },
         errorValidator('interpolate_non_string')
       );
@@ -36,6 +36,12 @@ describe('api_call', function() {
       assert.deepEqual(apiCall.interpolate("{{$a}}", data), 2);
     });
 
+    it('can interpolate variables starting with underscore', function() {
+      var data = {post: {_id: 1}};
+      assert.deepEqual(apiCall.interpolate("{{post}}", data), {_id: 1});
+      assert.equal(apiCall.interpolate("{{post._id}}", data), 1);
+    });
+
     it('can interpolate string with many embedded variables', function() {
       var data = {a: {b: {c: 1}}, d: 2};
       assert.deepEqual(apiCall.interpolate("{{foo}}{{foo}}", data), null);
@@ -47,12 +53,35 @@ describe('api_call', function() {
   });
 
   describe('deepInterpolate', function() {
-    it('works', function() {
+    it('works with a typical api call', function() {
       assert.deepEqual(
         apiCall.deepInterpolate(
           {request: {path: '/v1/users/{{users.member.id}}'}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
           {users: {member: {id: 404, name: 'Peter M'}}}),
         {request: {path: '/v1/users/404'}, response: {body: {equal: {name: "Peter M"}}}}
+      );
+    });
+
+    it('works with assert hashes with a length property (would break lodash.each)', function() {
+      assert.deepEqual(
+        apiCall.deepInterpolate(
+          {
+            select: "body.section.widget_versions",
+            length: 1,
+            contains_keys: {
+              _id: "{{widget_version.first_puff._id}}",
+              title: "{{widget_version.first_puff.title}}"
+            }
+          },
+          {widget_version: {first_puff: {_id: 123, title: 'Main'}}}),
+          {
+            select: "body.section.widget_versions",
+            length: 1,
+            contains_keys: {
+              _id: 123,
+              title: "Main"
+            }
+          }
       );
     });
   });
@@ -112,14 +141,14 @@ describe('api_call', function() {
       assert.deepEqual(
         apiCall.parse({request: {$merge: [{url: '/bar', method: 'DELETE'}, {url: '/bla'}]}} , {}),
         {request: {url: '/bla', method: 'DELETE'}}
-      );  
+      );
 
       assert.deepEqual(
         apiCall.parse(
           {request: {method: 'GET', url: '/v1/users/{{users.member.id}}', headers: {$merge: [{"User-Id": "{{users.member.id}}"}, {"User-Name": "{{users.member.name}}"}]}}, response: {body: {equal: {name: "{{users.member.name}}"}}}},
           {data: {users: {member: {id: 404, name: 'Peter M'}}}}),
         {request: {method: 'GET', url: '/v1/users/404', headers: {"User-Id": 404, "User-Name": "Peter M"}}, response: {body: {equal: {name: "Peter M"}}}}
-      );      
+      );
     });
 
     it('can interpolate arrays with integers', function() {
@@ -157,7 +186,7 @@ describe('api_call', function() {
       assert.deepEqual(
         apiCall.parse({request: '{{post_request}}'}, {data: {post_request: {method: 'POST', path: '/foobar/5'}}, config: config}),
         {request: {method: 'POST', url: 'http://example.com/foobar/5'}}
-      );      
+      );
     });
 
     it('works with defaults', function() {
@@ -170,7 +199,7 @@ describe('api_call', function() {
           "files":{"portrait_image":"portrait_image.jpg"}
           },
           "response":{"status":"{{status.invalid}}"}
-        }, 
+        },
         context = {
           data: {$api_call_id: "ash8h1230fhlkahsdf", headers: {member_auth: {"X-Auth-Token": '{{users.member.authentication_token}}'}}, status: {invalid: [422, 400]}, users: {member: {authentication_token: 'auth-secret'}}},
           config: {
@@ -187,7 +216,7 @@ describe('api_call', function() {
                 },
                 "response": {
                   "status": [200, 201]
-                }        
+                }
               }
             }
           }

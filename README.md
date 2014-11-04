@@ -35,7 +35,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Assert: equal_keys](#assert-equal_keys)
 * [Assert: contains](#assert-contains)
 * [Assert: contains_keys](#assert-contains_keys)
-* [Assert: length](#assert-length)
+* [Assert: size](#assert-size)
 * [Saving Data](#saving-data)
 * [Data Interpolation](#data-interpolation)
 * [Merging Objects](#merging-objects)
@@ -457,7 +457,7 @@ You can use an array index to select a single item from an array:
 ]
 ```
 
-You can apply sorting to an array: 
+You can apply sorting to an array:
 
 ```json
 "api_calls": [
@@ -497,13 +497,13 @@ If no selection is specified then the assertion will be made against the respons
 * [equal_keys](#assert-equal_keys)
 * [contains](#assert-contains)
 * [contains_keys](#assert-contains_keys)
-* [length](#assert-length)
+* [size](#assert-size)
 
 Each assertion type has a logically inverted counterpart with a `not_` prefix, i.e. `not_equal`, `not_contains` etc.
 
 ## Custom Assert Functions
 
-You can provide your own assert functions to fit the needs of your application. Take a look at the built in 
+You can provide your own assert functions to fit the needs of your application. Take a look at the built in
 [assert functions](https://github.com/peter/jsonapitest/blob/master/lib/assert_functions.js) to see what the code
 should look like. Each assert function takes two arguments - the selected response value and the value
 given to the assert function property. The assert function should return `true`, `false`, or an object with an
@@ -610,16 +610,16 @@ The `contains_keys` assertion checks if an array includes an object that matches
 }
 ```
 
-## Assert: length
+## Assert: size
 
-The `length` assertion checks the length of an array or a string:
+The `size` assertion checks the length of an array or a string:
 
 ```json
 {
   "request": "/v1/users?limit=2",
   "assert": {
     "select": "body.users",
-    "length": 2
+    "size": 2
   }
 }
 ```

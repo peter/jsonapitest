@@ -18,7 +18,7 @@ describe('assert_functions', function() {
       messages = null;
       assert.deepEqual(a.schema({id: 1, name: 'Joe', email: 'joe@example.com'}, {type: 'object'}), {error_messages: []})
       assert.deepEqual(a.schema({id: 1, name: 'Joe', email: 'joe@example.com'}, schema), {error_messages: []})
-      assert.equal(a.schema({name: 'Joe', email: 'joe@example.com'}, schema).error_messages.length, 1);      
+      assert.equal(a.schema({name: 'Joe', email: 'joe@example.com'}, schema).error_messages.length, 1);
     });
   });
 
@@ -104,7 +104,7 @@ describe('assert_functions', function() {
       assert.equal(a.contains({foo: 'bar'}, 'foos'), false);
       assert.equal(a.contains(5, '5'), true);
       assert.equal(a.contains(5, '6'), false);
-    });    
+    });
   });
 
   describe('contains_keys', function() {
@@ -116,28 +116,28 @@ describe('assert_functions', function() {
       assert.equal(a.contains_keys(select, {foobar: 'a'}), false);
     });
   });
-  describe('length', function() {
+  describe('size', function() {
     it('returns true for strings/arrays with certain length', function() {
       // arrays
-      assert.equal(a.length(['a', 'b'], 2), true);
-      assert.equal(a.length(['a', 'b'], 1), false);
-      assert.equal(a.length(['a'], 1), true);
-      assert.equal(a.length([], 0), true);
-      assert.equal(a.length([], 1), false);
+      assert.equal(a.size(['a', 'b'], 2), true);
+      assert.equal(a.size(['a', 'b'], 1), false);
+      assert.equal(a.size(['a'], 1), true);
+      assert.equal(a.size([], 0), true);
+      assert.equal(a.size([], 1), false);
 
       // strings
-      assert.equal(a.length('foobar', 6), true);
-      assert.equal(a.length('foobar', 5), false);
-      assert.equal(a.length('', 0), true);
-      assert.equal(a.length('', 1), false);
+      assert.equal(a.size('foobar', 6), true);
+      assert.equal(a.size('foobar', 5), false);
+      assert.equal(a.size('', 0), true);
+      assert.equal(a.size('', 1), false);
     });
 
     it('returns false for null and values without length property', function() {
-      assert.equal(a.length(null, 1), false);
-      assert.equal(a.length(null, 0), false);
-      assert.equal(a.length(undefined, 0), false);
-      assert.equal(a.length(5, 1), false);
-      assert.equal(a.length({foo: 1}, 1), false);
+      assert.equal(a.size(null, 1), false);
+      assert.equal(a.size(null, 0), false);
+      assert.equal(a.size(undefined, 0), false);
+      assert.equal(a.size(5, 1), false);
+      assert.equal(a.size({foo: 1}, 1), false);
     });
   });
 });
