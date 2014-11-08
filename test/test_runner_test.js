@@ -1,8 +1,11 @@
 var assert = require('assert'),
     testRunner = require('../lib/test_runner'),
+    syncCallback = require('./modules/sync_callback'),
+    asyncCallback = require('./modules/async_callback'),
     util = require('../lib/util');
 
-var context = function(httpClient) {
+var context = function(httpClient, options) {
+  options = options || {};
   return {
     data: {},
     suites: [
@@ -65,6 +68,7 @@ var context = function(httpClient) {
         }
       },
       modules: {
+        callbacks: (options['callbacks'] || null),
         http_client: httpClient
       }
     }
@@ -120,6 +124,32 @@ describe('test_runner', function() {
         assert.equal(results[3].test, 'Get users');
 
         console.log(results);
+      });
+    });
+
+    it('runs all tests with custom callbacks', function(done) {
+      var httpClient = {
+        request: function(options, callback) {
+          callback(null, {status: 200});
+        }
+      },
+      callbacks = [syncCallback, asyncCallback],
+      _context = context(httpClient, {callbacks: callbacks});
+
+      testRunner.run(_context, function(success, results) {
+        assert.equal(success, true);
+        assert.equal(results.length, 5);
+
+        var keys = util.flatten(util.map([
+          'all.start',
+          'suite.start', 'test.start', 'api_call.start', 'api_call.end', 'api_call.start', 'api_call.end', 'test.end', 'suite.end',
+          'suite.start', 'test.start', 'api_call.start', 'api_call.end', 'api_call.start', 'api_call.end', 'test.end', 'test.start', 'api_call.start', 'api_call.end', 'test.end', 'suite.end',
+          'all.end'
+          ], function(key) {
+          return [('sync.' + key), ('async.' + key)];
+        }));
+        assert.deepEqual(util.pluck(_context.log, '0'), keys);
+        done();
       });
     });
   });

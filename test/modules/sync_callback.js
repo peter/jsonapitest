@@ -1,38 +1,38 @@
-var fs = require('fs');
+var fs = require('fs'),
+    util = require('../../lib/util');
 
-module.exports = function(config) {
-  return {
-    suite: {
-      start: function(suite) {
-        console.log("\nsync callback suite.start " + suite.name)
-      },
-      end: function(suite) {
-        console.log("\nsync callback suite.end " + suite.name)
-      }
+module.exports = {
+  suite: {
+    start: function(suite) {
+      this.log.push(['sync.suite.start', util.args(arguments)]);
     },
-    test: {
-      start: function(suite, test) {
-        console.log("\nsync callback test.start " + test.name)
-      },
-      end: function(suite, test) {
-        console.log("\nsync callback test.end " + test.name)
-      }
+    end: function(suite) {
+      this.log.push(['sync.suite.end', util.args(arguments)]);
+    }
+  },
+  test: {
+    start: function(suite, test) {
+      this.log.push(['sync.test.start', util.args(arguments)]);
     },
-    api_call: {
-      start: function(suite, test, apiCall) {
-        console.log("\nsync callback api_call.start " + apiCall.request.url)
-      },
-      end: function(suite, test, apiCall, err, result) {
-        console.log("\nsync callback api_call.end errors ", result.errors)
-      }
+    end: function(suite, test) {
+      this.log.push(['sync.test.end', util.args(arguments)]);
+    }
+  },
+  api_call: {
+    start: function(suite, test, apiCall) {
+      this.log.push(['sync.api_call.start', util.args(arguments)]);
     },
-    all: {
-      start: function() {
-        console.log("\nsync callback all.start")
-      },
-      end: function(success, results) {
-        console.log("\nsync callback all.end success ", success)
-      }
-    }  
-  };
+    end: function(suite, test, apiCall, err, result) {
+      this.log.push(['sync.api_call.end', util.args(arguments)]);
+    }
+  },
+  all: {
+    start: function() {
+      this.log = this.log || [];
+      this.log.push(['sync.all.start', util.args(arguments)]);
+    },
+    end: function(success, results) {
+      this.log.push(['sync.all.end', util.args(arguments)]);
+    }
+  }  
 };
