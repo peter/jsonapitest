@@ -57,7 +57,7 @@
               },
               {
                 "select": "body.results",
-                "length": 3
+                "size": 3
               },
               {
                 "select": "body.results.0.objectId",
