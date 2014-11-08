@@ -40,6 +40,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Data Interpolation](#data-interpolation)
 * [Merging Objects](#merging-objects)
 * [Logging](#logging)
+* [Callbacks](#callbacks)
 
 ## Motivation
 
@@ -266,6 +267,10 @@ Here is an example request that creates a new user with a unique email address:
   }
 }
 ```
+
+### Environment Variables
+
+You can interpolate environment variables into your `config` and `data` by using `$env.SOME_ENVIRONMENT_VARIABLE`.
 
 ## Suite
 
@@ -689,12 +694,12 @@ You can use the `$merge` special object property to merge (extend) data objects.
 The default logger prints basic request info and test results to standard output. Details about all API calls are
 logged in JSON format to a file configured by the `config.log_path` property.
 
-If you don't like the default logger you can plug in your own. Take a look at the [loggers/console.js](https://github.com/peter/jsonapitest/blob/master/lib/loggers/console.js) to see what the interface looks like:
+If you don't like the default logger you can plug in your own. Take a look at the [callbacks/console.js](https://github.com/peter/jsonapitest/blob/master/lib/callbacks/console.js) to see what the interface looks like:
 
 ```json
 "config": {
   "modules": {
-    "logger": "/absolute/path/to/your/logger/file"
+    "callbacks": "my_logger_module"
   }
 }
 ```
@@ -705,9 +710,54 @@ the default logger like so:
 ```json
 "config": {
   "modules": {
-    "logger": ['./loggers/console', './loggers/curl']
+    "callbacks": ['./loggers/console', './loggers/curl']
   }
 }
 ```
 
-Note that the logger interface is currently synchronous but I would be happy to make it asynchronous if there is a need for that.
+## Callbacks
+
+Logging is implemented via a generic callback mechanism that allows you to instrument `jsonapitest`
+with the following events:
+
+```javascript
+module.exports = {
+  suite: {
+    start: function(suite) {},
+    end: function(suite) {}
+  },
+  test: {
+    start: function(suite, test) {},
+    end: function(suite, test) {}
+  },
+  api_call: {
+    start: function(suite, test, apiCall) {},
+    end: function(suite, test, apiCall, err, result) {}
+  },
+  all: {
+    start: function() {},
+    end: function(success, results) {}
+  }  
+};
+```
+
+The signatures of callback functions should match those above. All callback functions are invoked with `this`
+set to the context of the test run. This means you can access/modify
+test data via `this.data` in a callback function (i.e. for setup/teardown).
+
+Callback functions are synchronous by default. To get asynchronous invocation - add a callback argument
+to the function signature.
+
+Configure your custom callbacks module by putting its path in `config.modules.callbacks`. Either make sure your
+modules are installed globally with npm and provide a relative path or use an absolute path via an environment variable
+like this:
+
+```json
+"config": {
+  "modules": {
+    "callbacks": ['$env.MODULES_PATH/my_first_callback', '$env.MODULES_PATH/my_second_callback']
+  }
+}
+```
+
+Make sure your module exports an object with some or all of the functions listed above (check out [callbacks/console.js](https://github.com/peter/jsonapitest/blob/master/lib/callbacks/console.js) for an example).
