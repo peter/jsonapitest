@@ -9,7 +9,7 @@
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "./bin/test-coverage",
+    "test": "./bin/test",
     "test-unit": "./bin/test-unit",
     "test-integration": "./bin/test-integration"
   },
