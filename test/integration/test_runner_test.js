@@ -13,6 +13,7 @@ describe('test_runner', function() {
     it('runs parse CRUD example with default http_client (superagent) and default callbacks (console)', function(done) {
       this.timeout(50000); // 50 seconds (default is 2 seconds)
       var _context = fileParser.read(parseExamplePaths);
+      delete _context.log_path;
       testRunner.run(_context, function(success, results) {
         assert.equal(success, true);
         done();
@@ -26,6 +27,7 @@ describe('test_runner', function() {
         http_client: './http_clients/request',
         callbacks: ['./callbacks/console', './callbacks/curl']
       };
+      delete _context.log_path;
       testRunner.run(_context, function(success, results) {
         assert.equal(success, true);
         done();
