@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/peter/jsonapitest.svg?branch=master)](https://travis-ci.org/peter/jsonapitest)
 [![Code Climate](https://codeclimate.com/github/peter/jsonapitest.png)](https://codeclimate.com/github/peter/jsonapitest)
-[![Badge]](https://coveralls.io/repos/peter/jsonapitest/badge.png?branch=master)
+[![Badge](https://coveralls.io/repos/peter/jsonapitest/badge.png?branch=master)](https://coveralls.io/r/peter/jsonapitest)
 
 # JSON API Test
 
