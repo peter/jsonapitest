@@ -1,6 +1,6 @@
 var assert = require('assert'),
-    contextParser = require('../lib/context_parser'),
-    fileParser = require('../lib/file_parser');
+    contextParser = require('../../lib/context_parser'),
+    fileParser = require('../../lib/file_parser');
 
 var errorValidator = function(code) {
   return function(err) {

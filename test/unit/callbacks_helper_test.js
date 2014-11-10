@@ -1,7 +1,7 @@
 var assert = require('assert'),
-    util = require('../lib/util'),
-    callbacksHelper = require('../lib/callbacks_helper'),
-    emptyContext = require('../lib/context_parser').emptyContext;
+    util = require('../../lib/util'),
+    callbacksHelper = require('../../lib/callbacks_helper'),
+    emptyContext = require('../../lib/context_parser').emptyContext;
 
 describe('callbacks_helper', function() {
   describe('run', function() {

@@ -1,6 +1,6 @@
 var assert = require('assert'),
-    a = require('../lib/assert_functions'),
-    util = require('../lib/util');
+    a = require('../../lib/assert_functions'),
+    util = require('../../lib/util');
 
 describe('assert_functions', function() {
   describe('schema', function() {

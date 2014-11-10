@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    apiCall = require('../lib/api_call');
+    apiCall = require('../../lib/api_call');
 
 describe('api_call', function() {
   describe('arrayMerge', function() {

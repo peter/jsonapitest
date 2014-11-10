@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    util = require('../lib/util');
+    util = require('../../lib/util');
 
 describe('util', function() {
   describe('deepMerge', function() {

@@ -1,8 +1,8 @@
 var assert = require('assert'),
-    testRunner = require('../lib/test_runner'),
-    syncCallback = require('./modules/sync_callback'),
-    asyncCallback = require('./modules/async_callback'),
-    util = require('../lib/util');
+    testRunner = require('../../lib/test_runner'),
+    syncCallback = require('../modules/sync_callback'),
+    asyncCallback = require('../modules/async_callback'),
+    util = require('../../lib/util');
 
 var context = function(httpClient, options) {
   options = options || {};

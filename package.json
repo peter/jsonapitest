@@ -9,7 +9,7 @@
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "mocha --reporter spec test"
+    "test": "mocha --reporter spec --recursive test"
   },
   "author": "Peter Marklund",
   "license": "ISC",

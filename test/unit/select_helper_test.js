@@ -1,6 +1,6 @@
 var assert = require('assert'),
-    s = require('../lib/select_helper'),
-    util = require('../lib/util');
+    s = require('../../lib/select_helper'),
+    util = require('../../lib/util');
 
 var res = {
   status: 200,

@@ -1,6 +1,6 @@
 var assert = require('assert'),
-    a = require('../lib/assert_helper'),
-    util = require('../lib/util');
+    a = require('../../lib/assert_helper'),
+    util = require('../../lib/util');
 
 describe('assert_helper', function() {
   describe('parseFunctions', function() {

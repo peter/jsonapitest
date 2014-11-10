@@ -1,6 +1,6 @@
 var assert = require('assert'),
-    util = require('../lib/util'),
-    response = require('../lib/response');
+    util = require('../../lib/util'),
+    response = require('../../lib/response');
 
 var res = {
   status: 201,

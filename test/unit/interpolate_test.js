@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    interpolate = require('../lib/interpolate');
+    interpolate = require('../../lib/interpolate');
 
 var errorValidator = function(code) {
   return function(err) {
