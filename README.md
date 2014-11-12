@@ -7,7 +7,7 @@
 JSON driven testing of REST APIs.
 
 This is a test framework targeted at JSON REST APIs. It comes in the form of a Node.js package called `jsonapitest`
-that is available on the command line to run your tests. Tests are specified in JSON files and grouped into
+that is available on the command line to run your tests. Tests are specified in JSON or JavaScript files and grouped into
 test suites. Each test contains a list of API calls with assertions. The framework supports using JSON Schema
 to validate the structure of responses. All HTTP traffic is logged extensively
 by the test runner to help debug test failures. Any data (database records, user credentials etc.) that the tests
@@ -20,6 +20,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Installation](#installation)
 * [Usage](#usage)
 * [Test File Structure](#test-file-structure)
+* [JavaScript instead of JSON](#javascript-instead-of-json)
 * [The Anatomy of Test Files](#the-anatomy-of-test-files)
 * [Config](#config)
 * [Data](#data)
@@ -147,7 +148,7 @@ Check out the [Parse CRUD example](doc/examples/parse/README.md) for more sample
 
 ## Test File Structure
 
-Tests are written in one or more JSON files and you may choose any file structure you like.
+Tests are written in one or more JSON or JavaScript files and you may choose any file structure you like.
 With a small test case you may want to put all test code in a single file. A more typical
 structure is to divide your test code into three sets of files: configuration, data, and test suites.
 Here is an example:
@@ -197,6 +198,28 @@ And run your tests against staging like so:
 
 ```
 jsonapitest test/integration/*.json test/integration/env/staging.json
+```
+
+## JavaScript instead of JSON
+
+As a more flexible and slightly more readable alternative to JSON you have the option of specifying your
+test files in JavaScript intead of JSON. JavaScript files should be Node.js modules
+and `jsonapitest` will simply invoke `require` on them. Here is an example `config.js` file:
+
+```javascript
+'use strict';
+
+module.exports = {
+  config: {
+    defaults: {
+      api_call: {
+        request: {
+          base_url: "https://my.staging.api.example"
+        }
+      }
+    }
+  }
+};
 ```
 
 ## The Anatomy of Test Files
