@@ -9,11 +9,11 @@ var parseExamplePaths = util.map(['config.json', 'data.json', 'crud_test.json'],
 });
 
 describe('test_runner', function() {
-  describe('run', function() {    
+  describe('run', function() {
     it('runs parse CRUD example with default http_client (superagent) and default callbacks (console)', function(done) {
       this.timeout(50000); // 50 seconds (default is 2 seconds)
       var _context = fileParser.read(parseExamplePaths);
-      delete _context.log_path;
+      delete _context.config.log_path;
       testRunner.run(_context, function(success, results) {
         assert.equal(success, true);
         done();
@@ -27,7 +27,7 @@ describe('test_runner', function() {
         http_client: './http_clients/request',
         callbacks: ['./callbacks/console', './callbacks/curl']
       };
-      delete _context.log_path;
+      delete _context.config.log_path;
       testRunner.run(_context, function(success, results) {
         assert.equal(success, true);
         done();
