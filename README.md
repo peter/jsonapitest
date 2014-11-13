@@ -339,6 +339,16 @@ point to an array of suite objects.
 
 The API call lies at the heart of API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
 
+To make the intention of API calls more obvious and help readability of tests you can use the optional properties `it` (or the property `description`) like this:
+
+```json
+{
+  "it": "can GET a user of type member"
+  "request": "/v1/users/{{users.member.id}}",
+  "status": 200
+}
+```
+
 ## HTTP Clients
 
 The framework ships with adapters for two popular HTTP clients - [superagent](https://github.com/visionmedia/superagent) (default) and [request](https://github.com/mikeal/request). Here is how to configure the `request` HTTP client:
