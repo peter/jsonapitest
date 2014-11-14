@@ -343,7 +343,7 @@ To make the intention of API calls more obvious and help readability of tests yo
 
 ```json
 {
-  "it": "can GET a user of type member"
+  "it": "can GET a user of type member",
   "request": "/v1/users/{{users.member.id}}",
   "status": 200
 }
@@ -448,7 +448,7 @@ Here is the example with a regexp `pattern` added to it:
   {
     "request": "/v1/users/1",
     "assert": {
-      "select": {"key": "body.user.name", "pattern": "\w+$"},
+      "select": {"key": "body.user.name", "pattern": "\\w+$"},
       "equal": "User"
     }
   }
@@ -462,7 +462,7 @@ If the regexp contains a capturing group then that group will be the selected va
   {
     "request": "/v1/users/1",
     "assert": {
-      "select": {"key": "body.user.name", "pattern": "^\w+ (\w+)$"},
+      "select": {"key": "body.user.name", "pattern": "^\\w+ (\\w+)$"},
       "equal": "User"
     }
   }
@@ -504,7 +504,7 @@ You can apply sorting to an array:
   {
     "request": "/v1/users",
     "assert": {
-      "select": {key: "body.users.name", sort: "desc"},
+      "select": {"key": "body.users.name", "sort": "desc"},
       "equal": ["Second User", "First User"]
     }
   }
@@ -518,8 +518,8 @@ You can sort an array of objects by a property:
   {
     "request": "/v1/users",
     "assert": {
-      "select": {key: "body.users", sort: {order: "desc", by: "name"}},
-      "equal": [{name: "Second User"}, {name: "First User"}]
+      "select": {"key": "body.users", "sort": {"order": "desc", "by": "name"}},
+      "equal": [{"name": "Second User"}, {"name": "First User"}]
     }
   }
 ]
@@ -578,8 +578,8 @@ The above expands to:
   {
     "request": "/v1/users",
     "assert": {
-      select: "status",
-      equal: 200
+      "select": "status",
+      "equal": 200
     }
   }
 ]
@@ -594,7 +594,7 @@ Use the `schema` property of an assert object to validate the response against a
   {
     "request": "/v1/users/1",
     "assert": {
-      schema: {
+      "schema": {
         "type": "object",
         "properties": {
           "id": {"type": "integer"},
@@ -745,7 +745,7 @@ the default logger like so:
 ```json
 "config": {
   "modules": {
-    "callbacks": ['./loggers/console', './loggers/curl']
+    "callbacks": ["./loggers/console", "./loggers/curl"]
   }
 }
 ```
@@ -790,7 +790,7 @@ like this:
 ```json
 "config": {
   "modules": {
-    "callbacks": ['$env.MODULES_PATH/my_first_callback', '$env.MODULES_PATH/my_second_callback']
+    "callbacks": ["$env.MODULES_PATH/my_first_callback", "$env.MODULES_PATH/my_second_callback"]
   }
 }
 ```
