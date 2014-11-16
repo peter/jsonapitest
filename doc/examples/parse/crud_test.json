@@ -7,11 +7,9 @@
         "description": "You can create a Parse object, get and list it, update its name, and then delete it",
         "api_calls": [
           {
-            "request": {
-              "path": "/classes/GameScore",
-              "method": "POST",
-              "params": "{{users.joe}}"
-            },
+            "it": "can create a GameScore object",
+            "request": "POST /classes/GameScore",
+            "params": "{{users.joe}}",
             "status": 201,
             "assert": {
               "select": "body",
@@ -30,7 +28,8 @@
             }
           },
           {
-            "request": "/classes/GameScore/{{users.joe.objectId}}",
+            "it": "can get the created GameScore object",
+            "request": "GET /classes/GameScore/{{users.joe.objectId}}",
             "assert": [
               {
                 "select": "body",
@@ -43,12 +42,11 @@
             ]
           },
           {
-            "request": {
-              "path": "/classes/GameScore",
-              "params": {
-                "order": "-created_at",
-                "limit": 3
-              }
+            "it": "can list GameScore objects",
+            "request": "GET /classes/GameScore",
+            "params": {
+              "order": "-created_at",
+              "limit": 3
             },
             "assert": [
               {
@@ -66,29 +64,27 @@
             ]
           },
           {
-            "request": {
-              "path": "/classes/GameScore/{{users.joe.objectId}}",
-              "method": "PUT",
-              "params": {
-                "playerName": "New name"
-              }
+            "it": "can update name of GameScore object",
+            "request": "PUT /classes/GameScore/{{users.joe.objectId}}",
+            "params": {
+              "playerName": "New name"
             }
           },
           {
-            "request": "/classes/GameScore/{{users.joe.objectId}}",
+            "it": "can get new name of GameScore object",
+            "request": "GET /classes/GameScore/{{users.joe.objectId}}",
             "assert": {
               "select": "body.playerName",
               "equal": "New name"
             }
           },
           {
-            "request": {
-              "path": "/classes/GameScore/{{users.joe.objectId}}",
-              "method": "DELETE"
-            }
+            "it": "can delete GameScore object",
+            "request": "DELETE /classes/GameScore/{{users.joe.objectId}}"
           },
           {
-            "request": "/classes/GameScore/{{users.joe.objectId}}",
+            "it": "can verify that GameScore object was deleted",
+            "request": "GET /classes/GameScore/{{users.joe.objectId}}",
             "status": 404
           }          
         ]

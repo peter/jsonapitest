@@ -312,9 +312,7 @@ Use the suite property to define a single test suite:
         "description": "Fetch info about a user",
         "api_calls": [
           {
-            "request": {
-              "path": "/v1/users/{{users.member.id}}"
-            },
+            "request": "GET /v1/users/{{users.member.id}}",
             "assert": [{
               "select": "body",
               "schema": "{{schema.user}}",
@@ -378,11 +376,14 @@ The `request` property of each API call is an object with the following properti
 * `params` - query or post parameters
 * `files` - an array with paths to files that will be uploaded with content type "multipart/form-data".
 
-You can also let the `request` property be a string for simple requests:
+The `request` property may also be given as a string with a method and a path (or url). The `headers` and
+`params` properties may be put at the top level of the API call for convenience:
 
 ```json
 {
-  "request": "DELETE /v1/users/{{users.member.id}"
+  "request": "POST /v1/users",
+  "headers": {"X-Token": "secret-api-token-goes-here"},
+  "params": {"name": "Joe"}
 }
 ```
 
@@ -390,7 +391,7 @@ Notice that you can also append query parameters to the path instead of using th
 
 ```json
 {
-  "request": "/v1/users?limit=10&offset=10"
+  "request": "GET /v1/users?limit=10&offset=10"
 }
 ```
 
