@@ -12,7 +12,6 @@
             "params": "{{users.joe}}",
             "status": 201,
             "assert": {
-              "select": "body",
               "schema": {
                 "type": "object",
                 "properties": {
@@ -32,12 +31,10 @@
             "request": "GET /classes/GameScore/{{users.joe.objectId}}",
             "assert": [
               {
-                "select": "body",
                 "schema": "{{schema.user}}"
               },
               {
-              "select": "body",
-              "equal_keys": "{{users.joe}}"
+                "equal_keys": "{{users.joe}}"
               }
             ]
           },
@@ -86,7 +83,7 @@
             "it": "can verify that GameScore object was deleted",
             "request": "GET /classes/GameScore/{{users.joe.objectId}}",
             "status": 404
-          }          
+          }
         ]
       }
     ]

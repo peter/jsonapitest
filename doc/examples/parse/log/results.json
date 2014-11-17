@@ -18,29 +18,7 @@
         "url": "https://api.parse.com/1/classes/GameScore"
       },
       "status": 201,
-      "it": "can create a GameScore object",
-      "assert": {
-        "select": "body",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "createdAt": {
-              "type": "string"
-            },
-            "objectId": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "createdAt",
-            "objectId"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "save": {
-        "users.joe.objectId": "body.objectId"
-      }
+      "it": "can create a GameScore object"
     },
     "response": {
       "status": 201,
@@ -49,24 +27,26 @@
         "access-control-allow-origin": "*",
         "cache-control": "no-cache",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:47 GMT",
-        "location": "https://api.parse.com/1/classes/GameScore/dOYTXJWhRH",
+        "date": "Mon, 17 Nov 2014 09:27:27 GMT",
+        "location": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL",
         "server": "nginx/1.6.0",
         "set-cookie": [
-          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlOWI5YjBmNTY2ZTc2Njc3OTFmMTAxMjQ3YzBmM2FlZGM%3D--58728638c5eb6284cdf8e8b2d66c6f91748ebf3f; domain=.parse.com; path=/; expires=Tue, 16-Dec-2014 18:58:47 GMT; secure; HttpOnly"
+          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlMGZjNzFiNmJmYWUzNDk2MjE3YjkyNjcyYTVmMDFmZWQ%3D--40f82deb1680179a2a92946011b51e250844becc; domain=.parse.com; path=/; expires=Wed, 17-Dec-2014 09:27:27 GMT; secure; HttpOnly"
         ],
         "status": "201 Created",
         "x-content-type-options": "nosniff",
-        "x-runtime": "0.041470",
+        "x-parse-build-number": "8983",
+        "x-parse-server-hostname": "app905",
+        "x-runtime": "0.027371",
         "x-ua-compatible": "IE=Edge,chrome=1",
         "content-length": "64",
         "connection": "Close"
       },
       "body": {
-        "createdAt": "2014-11-16T18:58:47.630Z",
-        "objectId": "dOYTXJWhRH"
+        "createdAt": "2014-11-17T09:27:27.213Z",
+        "objectId": "rc2DiYglFL"
       },
-      "response_time": 2775
+      "response_time": 499
     },
     "errors": []
   },
@@ -80,55 +60,10 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "GET",
-        "url": "https://api.parse.com/1/classes/GameScore/dOYTXJWhRH"
+        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
       },
       "status": 200,
-      "it": "can get a GameScore object",
-      "assert": [
-        {
-          "select": "body",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "cheatMode": {
-                "type": "boolean"
-              },
-              "objectId": {
-                "type": "string",
-                "pattern": "^[a-zA-Z0-9]{10}$"
-              },
-              "playerName": {
-                "type": "string"
-              },
-              "score": {
-                "type": "integer"
-              },
-              "createdAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updatedAt": {
-                "type": "string",
-                "format": "date-time"
-              }
-            },
-            "required": [
-              "objectId",
-              "playerName",
-              "score"
-            ]
-          }
-        },
-        {
-          "select": "body",
-          "equal_keys": {
-            "score": 1337,
-            "playerName": "Joe Johnson",
-            "cheatMode": false,
-            "objectId": "dOYTXJWhRH"
-          }
-        }
-      ]
+      "it": "can get the created GameScore object"
     },
     "response": {
       "status": 200,
@@ -136,22 +71,22 @@
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:52 GMT",
+        "date": "Mon, 17 Nov 2014 09:27:27 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.024073",
+        "x-runtime": "0.014226",
         "content-length": "162",
         "connection": "Close"
       },
       "body": {
         "cheatMode": false,
-        "createdAt": "2014-11-16T18:58:47.630Z",
-        "objectId": "dOYTXJWhRH",
+        "createdAt": "2014-11-17T09:27:27.213Z",
+        "objectId": "rc2DiYglFL",
         "playerName": "Joe Johnson",
         "score": 1337,
-        "updatedAt": "2014-11-16T18:58:47.630Z"
+        "updatedAt": "2014-11-17T09:27:27.213Z"
       },
-      "response_time": 4700
+      "response_time": 453
     },
     "errors": []
   },
@@ -173,51 +108,7 @@
         "url": "https://api.parse.com/1/classes/GameScore"
       },
       "status": 200,
-      "it": "can list GameScore objects",
-      "assert": [
-        {
-          "select": "body.results.0",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "cheatMode": {
-                "type": "boolean"
-              },
-              "objectId": {
-                "type": "string",
-                "pattern": "^[a-zA-Z0-9]{10}$"
-              },
-              "playerName": {
-                "type": "string"
-              },
-              "score": {
-                "type": "integer"
-              },
-              "createdAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updatedAt": {
-                "type": "string",
-                "format": "date-time"
-              }
-            },
-            "required": [
-              "objectId",
-              "playerName",
-              "score"
-            ]
-          }
-        },
-        {
-          "select": "body.results",
-          "size": 3
-        },
-        {
-          "select": "body.results.0.objectId",
-          "equal": "dOYTXJWhRH"
-        }
-      ]
+      "it": "can list GameScore objects"
     },
     "response": {
       "status": 200,
@@ -227,16 +118,16 @@
         "cache-control": "max-age=0, private, must-revalidate",
         "content-encoding": "gzip",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:53 GMT",
+        "date": "Mon, 17 Nov 2014 09:27:28 GMT",
         "server": "nginx/1.6.0",
         "set-cookie": [
-          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlZjkwYjcxODhiMzY1NTA2NGFjY2QwOGM0Yjg4MjAyYzQ%3D--85d25e4076bd62709bb0b6d2dadc638f6bb0e361; domain=.parse.com; path=/; expires=Tue, 16-Dec-2014 18:58:53 GMT; secure; HttpOnly"
+          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlOWUzZDUyMTJhZDJhMjBkOTdkMzBlYzU0ZWI0NmQ3NTg%3D--bf1fc40b47a2d20d63b01e3b1a561422c92d7622; domain=.parse.com; path=/; expires=Wed, 17-Dec-2014 09:27:28 GMT; secure; HttpOnly"
         ],
         "status": "200 OK",
         "x-content-type-options": "nosniff",
-        "x-runtime": "0.034169",
+        "x-runtime": "0.029989",
         "x-ua-compatible": "IE=Edge,chrome=1",
-        "content-length": "210",
+        "content-length": "198",
         "connection": "Close"
       },
       "body": {
@@ -245,29 +136,23 @@
             "score": 1337,
             "playerName": "Joe Johnson",
             "cheatMode": false,
-            "createdAt": "2014-11-16T18:58:47.630Z",
-            "updatedAt": "2014-11-16T18:58:47.630Z",
-            "objectId": "dOYTXJWhRH"
+            "createdAt": "2014-11-17T09:27:27.213Z",
+            "updatedAt": "2014-11-17T09:27:27.213Z",
+            "objectId": "rc2DiYglFL"
           },
           {
-            "score": 1337,
-            "playerName": "Joe Johnson",
-            "cheatMode": false,
-            "createdAt": "2014-11-09T20:58:28.521Z",
-            "updatedAt": "2014-11-09T20:58:28.521Z",
-            "objectId": "ONsAuaThLe"
+            "createdAt": "2014-11-17T09:24:15.824Z",
+            "updatedAt": "2014-11-17T09:24:15.824Z",
+            "objectId": "sYU9y9UhBo"
           },
           {
-            "score": 1337,
-            "playerName": "Joe Johnson",
-            "cheatMode": false,
-            "createdAt": "2014-11-09T20:25:58.063Z",
-            "updatedAt": "2014-11-09T20:25:58.063Z",
-            "objectId": "xAvH422nFP"
+            "createdAt": "2014-11-17T09:23:29.278Z",
+            "updatedAt": "2014-11-17T09:23:29.278Z",
+            "objectId": "YehuMjpdcx"
           }
         ]
       },
-      "response_time": 644
+      "response_time": 485
     },
     "errors": []
   },
@@ -285,7 +170,7 @@
         "params": {
           "playerName": "New name"
         },
-        "url": "https://api.parse.com/1/classes/GameScore/dOYTXJWhRH"
+        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
       },
       "status": 200,
       "it": "can update name of GameScore object"
@@ -296,17 +181,17 @@
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:53 GMT",
+        "date": "Mon, 17 Nov 2014 09:27:28 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.018452",
-        "content-length": "39",
+        "x-runtime": "0.017061",
+        "content-length": "41",
         "connection": "Close"
       },
       "body": {
-        "updatedAt": "2014-11-16T18:58:53.6Z"
+        "updatedAt": "2014-11-17T09:27:28.648Z"
       },
-      "response_time": 581
+      "response_time": 485
     },
     "errors": []
   },
@@ -320,14 +205,10 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "GET",
-        "url": "https://api.parse.com/1/classes/GameScore/dOYTXJWhRH"
+        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
       },
       "status": 200,
-      "it": "can get new name of GameScore object",
-      "assert": {
-        "select": "body.playerName",
-        "equal": "New name"
-      }
+      "it": "can get new name of GameScore object"
     },
     "response": {
       "status": 200,
@@ -335,22 +216,22 @@
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:54 GMT",
+        "date": "Mon, 17 Nov 2014 09:27:29 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.018430",
+        "x-runtime": "0.010818",
         "content-length": "159",
         "connection": "Close"
       },
       "body": {
         "cheatMode": false,
-        "createdAt": "2014-11-16T18:58:47.630Z",
-        "objectId": "dOYTXJWhRH",
+        "createdAt": "2014-11-17T09:27:27.213Z",
+        "objectId": "rc2DiYglFL",
         "playerName": "New name",
         "score": 1337,
-        "updatedAt": "2014-11-16T18:58:53.600Z"
+        "updatedAt": "2014-11-17T09:27:28.648Z"
       },
-      "response_time": 614
+      "response_time": 477
     },
     "errors": []
   },
@@ -364,7 +245,7 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "DELETE",
-        "url": "https://api.parse.com/1/classes/GameScore/dOYTXJWhRH"
+        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
       },
       "status": 200,
       "it": "can delete GameScore object"
@@ -374,16 +255,25 @@
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:54 GMT",
+        "date": "Mon, 17 Nov 2014 09:27:29 GMT",
         "server": "nginx/1.6.0",
-        "x-parse-platform": "G1",
-        "x-runtime": "0.013262",
-        "content-length": "3",
+        "set-cookie": [
+          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlNGQxMzRmNDdjMDhiNThjZTczYWVjNjIzOTNmOTZkZmI%3D--3c8dc192f50cc491136c3265d108c213183fc01a; domain=.parse.com; path=/; expires=Wed, 17-Dec-2014 09:27:29 GMT; secure; HttpOnly"
+        ],
+        "status": "200 OK",
+        "x-content-type-options": "nosniff",
+        "x-parse-build-number": "8983",
+        "x-parse-server-hostname": "app1034",
+        "x-runtime": "0.033332",
+        "x-ua-compatible": "IE=Edge,chrome=1",
+        "content-length": "22",
         "connection": "Close"
       },
       "body": {},
-      "response_time": 580
+      "response_time": 466
     },
     "errors": []
   },
@@ -397,10 +287,10 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "GET",
-        "url": "https://api.parse.com/1/classes/GameScore/dOYTXJWhRH"
+        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
       },
       "status": 404,
-      "it": "gets a 404 for deleted GameScore object"
+      "it": "can verify that GameScore object was deleted"
     },
     "response": {
       "status": 404,
@@ -408,10 +298,10 @@
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 16 Nov 2014 18:58:55 GMT",
+        "date": "Mon, 17 Nov 2014 09:27:30 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.016115",
+        "x-runtime": "0.016871",
         "content-length": "48",
         "connection": "Close"
       },
@@ -419,7 +309,7 @@
         "code": 101,
         "error": "object not found for get"
       },
-      "response_time": 604
+      "response_time": 907
     },
     "errors": []
   }

@@ -39,6 +39,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Assert: contains](#assert-contains)
 * [Assert: contains_keys](#assert-contains_keys)
 * [Assert: size](#assert-size)
+* [Assert: Inline JavaScript](#assert-inline-javascript)
 * [Saving Data](#saving-data)
 * [Data Interpolation](#data-interpolation)
 * [Merging Objects](#merging-objects)
@@ -221,6 +222,8 @@ module.exports = {
   }
 };
 ```
+
+In addition to custom assert functions you can also write (inline javascript assertions)[#assert-inline-javascript].
 
 ## The Anatomy of Test Files
 
@@ -664,6 +667,30 @@ The `size` assertion checks the length of an array or a string:
   }
 }
 ```
+
+## Assert: Inline JavaScript
+
+If you write your test suites in JavaScript you can use inline JavaScript assertions:
+
+```javascript
+{
+  it: "should be possible to log in with correct credentials",
+  request: "POST /v1/login",
+  params: {
+    user: {
+      email: "{{user.editor.email}}",
+      password: "{{user.editor.password}}"
+    }
+  },
+  assert: function(body, headers) {
+    assert.equal(body.user.email, this.user.edtor.email);
+  }
+}
+```
+
+The inline assertion is invoked with two arguments: `body` and `headers`. The `this` object of the function will be set
+to the `data` of the test. If the inline assertion does not throw an error (i.e. an assertion error) then it is considered a success.
+See the [parse CRUD example](doc/examples/parse/crut_test.js) for more example code.
 
 ## Saving Data
 

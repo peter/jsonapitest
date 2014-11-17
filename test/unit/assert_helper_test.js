@@ -17,5 +17,9 @@ describe('assert_helper', function() {
       assert.deepEqual(a.errors({select: 'body.user.name', equal: 'Joe User', not_contains: 'Joe'}, 'Joe User'),
         [{type: 'not_contains', select: 'body.user.name', expected: 'Joe', actual: 'Joe User'}]);
     });
+
+    it('returns empty array if there are no errors', function() {
+      assert.deepEqual(a.errors({select: 'body.user.name', equal: 'Joe User', contains: 'Joe'}, 'Joe User'), []);
+    });
   });
 });

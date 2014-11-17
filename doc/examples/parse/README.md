@@ -15,6 +15,8 @@ The data for the GameScore object being created as well as the JSON schema for G
 
 The test suite has a single test that runs through the CRUD cycle in [crud_test.json](crud_test.json).
 
+There is an alternative [JavaScript version](crud_test.js) that demonstrates using inline JavaScript for assertions.
+
 ## Running the Test Suite
 
 ```
@@ -49,7 +51,7 @@ it gets a 404 for deleted GameScore object
 
 logging all results to doc/examples/parse/log/results.json
 
-0/1 tests failed in 0/1 suites - 7 API calls with 1500ms average response time 
+0/1 tests failed in 0/1 suites - 7 API calls with 1500ms average response time
 
 SUCCESS!
 ```
