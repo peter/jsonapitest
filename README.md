@@ -690,7 +690,7 @@ If you write your test suites in JavaScript you can use inline JavaScript assert
 
 The inline assertion is invoked with two arguments: `body` and `headers`. The `this` object of the function will be set
 to the `data` of the test. If the inline assertion does not throw an error (i.e. an assertion error) then it is considered a success.
-See the [parse CRUD example](doc/examples/parse/crut_test.js) for more example code.
+See the [parse CRUD example](doc/examples/parse/crud_test.js) for more example code.
 
 ## Saving Data
 
