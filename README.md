@@ -683,7 +683,7 @@ If you write your test suites in JavaScript you can use inline JavaScript assert
     }
   },
   assert: function(body, headers) {
-    assert.equal(body.user.email, this.user.edtor.email);
+    assert.equal(body.user.email, this.user.editor.email);
   }
 }
 ```
