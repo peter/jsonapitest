@@ -336,6 +336,9 @@ A test suite is made up of a name, an optional description, and an array of test
 description and an array of api calls. To define many test suites in a single file, use the suites (plural) property and have it
 point to an array of suite objects.
 
+A test suite is identified by its name so it needs to be unique. If your test suite grows large then a good
+technique is to split your suite up into multiple files. When `jsonapitest` sees a test suite in a file with a name it has already seen it will merge the two suites (i.e. treat them as one).
+
 ## API Call
 
 The API call lies at the heart of API testing and it is made up of an HTTP request and one or more assertions against the response. An API call can also save data from the HTTP response for use in later API calls.
