@@ -29,10 +29,10 @@ describe("file_parser", function() {
     it("raises an exception with non-existant file", function() {
       assert.throws(
         function() {
-          fileParser.read(['this-file-does-not-exist']);
+          fileParser.read(['this-file-does-not-exist.json']);
         },
         errorValidator('file_not_found')
-      );      
+      );
     });
 
     it("raises an exception with non-JSON file", function() {
@@ -40,7 +40,7 @@ describe("file_parser", function() {
         function() {
           fileParser.read(['./test/files/invalid.txt']);
         },
-        errorValidator('invalid_json')
+        errorValidator('invalid_file_extension')
       );
     });
 
@@ -59,7 +59,7 @@ describe("file_parser", function() {
           fileParser.read(['./test/files/invalid-schema.json']);
         },
         errorValidator('invalid_schema')
-      );      
+      );
     });
 
     it("returns context for valid config file and multiple files with test suites", function() {
@@ -109,7 +109,7 @@ describe("file_parser", function() {
               ]
             }
           },
-          file = {data: data, path: "some-file.json"};      
+          file = {data: data, path: "some-file.json"};
       fileParser.parseFile(context, file);
       assert.equal(context.suites.length, 1);
       assert.deepEqual(context.suites[0], data.suite);
@@ -151,13 +151,55 @@ describe("file_parser", function() {
               ]
             }
           },
-          file = {data: data, path: "some-file.json"};      
+          file = {data: data, path: "some-file.json"};
       assert.throws(
         function() {
           fileParser.parseFile(context, file);
         },
         errorValidator('invalid_schema')
       )
+    });
+  });
+
+  describe('expandPaths', function() {
+    it('returns file paths as-is, regardless of file type if topLevel=true', function() {
+      var paths = [
+        'test/files',
+        'README.md',
+        'index.js'
+      ];
+      var extensions = ['.js', '.json'];
+      var topLevel = true;
+      var expect = [
+        'test/files/articles_test.json',
+        'test/files/config.json',
+        'test/files/invalid-schema.json',
+        'test/files/invalid-top-level.json',
+        'test/files/users_test.json',
+        'README.md',
+        'index.js'
+      ];
+      assert.deepEqual(fileParser.expandPaths(paths, extensions, topLevel), expect);
+    });
+
+    it('returns only .js and .json file paths as-is if topLevel=false', function() {
+      var paths = [
+        'test/files',
+        'README.md',
+        'index.js',
+        'package.json'
+      ];
+      var extensions = ['.json'];
+      var topLevel = false;
+      var expect = [
+        'test/files/articles_test.json',
+        'test/files/config.json',
+        'test/files/invalid-schema.json',
+        'test/files/invalid-top-level.json',
+        'test/files/users_test.json',
+        'package.json'
+      ];
+      assert.deepEqual(fileParser.expandPaths(paths, extensions, topLevel), expect);
     });
   });
 });
