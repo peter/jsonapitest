@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-var fileParser = require('./lib/file_parser'),
+var optionsParser = require('./lib/options/parser'),
+    fileParser = require('./lib/file_parser'),
     testRunner = require('./lib/test_runner'),
     fs = require('fs');
 
@@ -11,8 +12,10 @@ var programName = function() {
 };
 
 try {
-  var files = process.argv.slice(2);
+  var cmdLine = optionsParser.parse(process.argv.slice(2), ['suite', 'test'])
+  var files = cmdLine.args;
   var context = fileParser.read(files);
+  context.options = cmdLine.options;
   testRunner.run(context, function(success, results) {
     if (success) {
       process.exit(0);
@@ -21,9 +24,16 @@ try {
     }    
   });
 } catch(err) {
-  console.log("ERROR: " + err.message);
-  console.log(err.stack);
-  console.log("USAGE: " + programName() + " <path-to-input-file1.json> <path-to-input-file2.json> ...")
+  if (err.stack) {
+    console.log(err.stack);
+  } else {
+    console.log("ERROR: ", err.message, err);
+  }
+  console.log("\nUSAGE: " + programName() + " <path-to-input-file1.json> <path-to-input-file2.json> ...")
+  console.log("\nOPTIONS:\n");
+  console.log("--suite <name-of-suite>\t\tonly run suites with name containing <name-of-suite>");
+  console.log("--test <name-of-test>\t\tonly run tests with name containing <name-of-test>");
+  console.log("\n");
   process.exit(1);
 }
 

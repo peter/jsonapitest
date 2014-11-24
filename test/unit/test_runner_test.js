@@ -71,7 +71,8 @@ var context = function(httpClient, options) {
         callbacks: (options['callbacks'] || null),
         http_client: httpClient
       }
-    }
+    },
+    options: options.options
   };
 };
 
@@ -150,6 +151,69 @@ describe('test_runner', function() {
         }));
         assert.deepEqual(util.pluck(_context.log, '0'), keys);
         done();
+      });
+    });
+
+    it('runs all suites given by suite option', function() {
+      var httpClient = {
+        request: function(options, callback) {
+          callback(null, {status: 200});
+        }
+      };
+      var testLog = [];
+      var callback = {
+        test: {
+          start: function(suite, test) {
+            testLog.push(test.name);
+          }
+        }
+      };
+      var options = {suite: 'user'};
+      testRunner.run(context(httpClient, {callbacks: [callback], options: options}), function(success, results) {
+        assert.equal(success, true);
+        assert.deepEqual(testLog, ['Update user', 'Get users']);
+      });
+    });
+
+    it('runs all tests given by test option', function() {
+      var httpClient = {
+        request: function(options, callback) {
+          callback(null, {status: 200});
+        }
+      };
+      var testLog = [];
+      var callback = {
+        test: {
+          start: function(suite, test) {
+            testLog.push(test.name);
+          }
+        }
+      };
+      var options = {test: 'get'};
+      testRunner.run(context(httpClient, {callbacks: [callback], options: options}), function(success, results) {
+        assert.equal(success, true);
+        assert.deepEqual(testLog, ['Get articles', 'Get users']);
+      });
+    });
+
+    it('runs all tests given by a combination of test and suite options', function() {
+      var httpClient = {
+        request: function(options, callback) {
+          callback(null, {status: 200});
+        }
+      };
+      var testLog = [];
+      var callback = {
+        test: {
+          start: function(suite, test) {
+            testLog.push(test.name);
+          }
+        }
+      };
+      var options = {test: 'get', suite: 'us'};
+      testRunner.run(context(httpClient, {callbacks: [callback], options: options}), function(success, results) {
+        assert.equal(success, true);
+        assert.deepEqual(testLog, ['Get users']);
       });
     });
   });
