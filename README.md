@@ -40,6 +40,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Assert: contains_keys](#assert-contains_keys)
 * [Assert: size](#assert-size)
 * [Assert: Inline JavaScript](#assert-inline-javascript)
+* [Assert: type](#assert-type)
 * [Saving Data](#saving-data)
 * [Data Interpolation](#data-interpolation)
 * [Merging Objects](#merging-objects)
@@ -694,6 +695,29 @@ If you write your test suites in JavaScript you can use inline JavaScript assert
 The inline assertion is invoked with two arguments: `body` and `headers`. The `this` object of the function will be set
 to the `data` of the test. If the inline assertion does not throw an error (i.e. an assertion error) then it is considered a success.
 See the [parse CRUD example](doc/examples/parse/crud_test.js) for more example code.
+
+## Assert: type
+
+As complement/alternative to schema assertions you can use Haskell style type assertions from the [type-check](https://github.com/gkz/type-check) library like this:
+
+```javascript
+{
+  it: "can fetch recipe ingredients",
+  request: "GET /v1/recipes/123",
+  assert: [
+    {
+      select: "body.recipe.ingredients",
+      size: 4,
+      type: "[{_id: Number|Undefined, name: String, ingredient: Boolean, ...}]"
+    },
+    {
+      select: "body.recipe.ingredients.0._id",
+      not_equal: 999999,
+      type: "Number"
+    }
+  ]
+}
+```
 
 ## Saving Data
 

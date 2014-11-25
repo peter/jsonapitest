@@ -116,6 +116,7 @@ describe('assert_functions', function() {
       assert.equal(a.contains_keys(select, {foobar: 'a'}), false);
     });
   });
+
   describe('size', function() {
     it('returns true for strings/arrays with certain length', function() {
       // arrays
@@ -138,6 +139,41 @@ describe('assert_functions', function() {
       assert.equal(a.size(undefined, 0), false);
       assert.equal(a.size(5, 1), false);
       assert.equal(a.size({foo: 1}, 1), false);
+    });
+  });
+
+  describe('type', function() {
+    it('can check valid types with the type-check library', function() {
+      var validTypes = [
+        ['Number', 5],
+        ['String', 'foobar'],
+        ['Maybe String', undefined],
+        ['Maybe String', null],
+        ['Maybe String', 'foobar'],
+        ['Object', {foo: 1}],
+        ['[Number]', [3]]
+      ];
+      validTypes.forEach(function(t) {
+        var explain = 'type ' + t[0] + ' should match value ' + t[1];
+        assert.equal(a.type(t[1], t[0]).error_messages.length, 0, explain);
+      });
+    });
+
+    it('can check invalid types with the type-check library', function() {
+      var invalidTypes = [
+        ['Number', '5'],
+        ['String', true],
+        ['Maybe String', 4],
+        ['Maybe String', {}],
+        ['Maybe String', function() {}],
+        ['Object', []],
+        ['Object', function() {}],
+        ['[Number]', ['3']]
+      ];
+      invalidTypes.forEach(function(t) {
+        var explain = 'type ' + t[0] + ' should *not* match value ' + t[1];
+        assert.equal(a.type(t[1], t[0]).error_messages.length, 1, explain);
+      });
     });
   });
 });
