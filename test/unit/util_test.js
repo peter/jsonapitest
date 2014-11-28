@@ -9,7 +9,7 @@ describe('util', function() {
           result = util.deepMerge(object1, object2);
       assert.deepEqual(result, {a: 0, b: 3, c: 4, e: {f: 5, g: 5, h: 6}})
       result.e.f = 100;
-      assert.deepEqual({a: 0, b: 2, c: {d: 3}, e: {f: 4, g: 5}}, object1); // unchanged      
+      assert.deepEqual({a: 0, b: 2, c: {d: 3}, e: {f: 4, g: 5}}, object1); // unchanged
 
       assert.deepEqual(util.deepMerge({}, {a: 0}), {a: 0});
       assert.deepEqual(util.deepMerge({a: 1}, {}), {a: 1});
@@ -63,17 +63,17 @@ describe('util', function() {
       // Null
       hash = {foo: null};
       util.nestedValue.set(hash, 'foo', 1);
-      assert.deepEqual(hash, {foo: 1});      
+      assert.deepEqual(hash, {foo: 1});
 
       // Nested hash
       hash = {foo: {bar: {baz: 2}}};
       util.nestedValue.set(hash, 'foo.bar', 1);
-      assert.deepEqual(hash, {foo: {bar: 1}});      
+      assert.deepEqual(hash, {foo: {bar: 1}});
 
       // Nested missing
       hash = {foo: {bar: {baz: 2}}};
       util.nestedValue.set(hash, 'bla.bla', 1);
-      assert.deepEqual(hash, {foo: {bar: {baz: 2}}, bla: {bla: 1}});      
+      assert.deepEqual(hash, {foo: {bar: {baz: 2}}, bla: {bla: 1}});
     });
   });
 
@@ -107,6 +107,37 @@ describe('util', function() {
       assert.equal(util.equalValues([2, 1], [2, 1]), true);
       assert.equal(util.equalValues([2, 1], [1, 2]), false);
     });
+
+    it('can handle RegExp matches', function() {
+      // RegExp second argument
+      assert.equal(util.equalValues('foobar', /foo/), true);
+      assert.equal(util.equalValues('foobar', /Foo/), false);
+
+      // RegExp first argument
+      assert.equal(util.equalValues(/foo/, 'foobar'), true);
+      assert.equal(util.equalValues(/Foo/, 'foobar'), false);
+
+      // Both are RegExp
+      assert.equal(util.equalValues(/foo/, /foo/), true);
+
+      // Matching on objects
+      assert.equal(util.equalValues({foo: 1}, /foo/), true);
+      assert.equal(util.equalValues({foo: 1}, /bar/), false);
+      assert.equal(util.equalValues(/foo/, {foo: 1}), true);
+      assert.equal(util.equalValues(/bar/, {foo: 1}), false);
+
+      // Matching on arrays
+      assert.equal(util.equalValues(['foo'], /foo/), true);
+      assert.equal(util.equalValues(['foo'], /bar/), false);
+
+      // Number
+      assert.equal(util.equalValues(5, /\d/), true);
+      assert.equal(util.equalValues(5, /\D/), false);
+
+      // Boolean
+      assert.equal(util.equalValues(true, /tr/), true);
+      assert.equal(util.equalValues(true, /false/), false);
+    });
   });
 
   describe('digest', function() {
@@ -119,33 +150,33 @@ describe('util', function() {
       var seed = 'foobar';
       assert.equal(util.digest({seed: seed}), util.digest({seed: seed}));
       assert.equal(util.digest({seed: seed}), util.digest({seed: seed}));
-    });    
+    });
   });
 
   describe('isArrayIndex', function() {
     it('returns true for positive integers and integer strings', function() {
       assert(!util.isArrayIndex(undefined));
       assert(!util.isArrayIndex(null));
-      assert(!util.isArrayIndex(3.6));  
-      assert(!util.isArrayIndex(['1']));  
-      assert(!util.isArrayIndex({5: 3}));  
-      assert(!util.isArrayIndex(-1));  
-      assert(!util.isArrayIndex("-1"));  
-      assert(!util.isArrayIndex("1.5"));  
-      assert(!util.isArrayIndex("0.1"));  
-      assert(!util.isArrayIndex(" 0"));  
-      assert(!util.isArrayIndex("0 "));  
-      assert(!util.isArrayIndex("1 "));  
-      assert(!util.isArrayIndex(" 1"));  
-      assert(!util.isArrayIndex("foobar"));  
-      assert(!util.isArrayIndex(true));  
+      assert(!util.isArrayIndex(3.6));
+      assert(!util.isArrayIndex(['1']));
+      assert(!util.isArrayIndex({5: 3}));
+      assert(!util.isArrayIndex(-1));
+      assert(!util.isArrayIndex("-1"));
+      assert(!util.isArrayIndex("1.5"));
+      assert(!util.isArrayIndex("0.1"));
+      assert(!util.isArrayIndex(" 0"));
+      assert(!util.isArrayIndex("0 "));
+      assert(!util.isArrayIndex("1 "));
+      assert(!util.isArrayIndex(" 1"));
+      assert(!util.isArrayIndex("foobar"));
+      assert(!util.isArrayIndex(true));
 
-      assert(util.isArrayIndex(5));  
-      assert(util.isArrayIndex(0));  
-      assert(util.isArrayIndex(123));  
-      assert(util.isArrayIndex("0"));  
-      assert(util.isArrayIndex("1"));  
-      assert(util.isArrayIndex("1000"));  
+      assert(util.isArrayIndex(5));
+      assert(util.isArrayIndex(0));
+      assert(util.isArrayIndex(123));
+      assert(util.isArrayIndex("0"));
+      assert(util.isArrayIndex("1"));
+      assert(util.isArrayIndex("1000"));
     });
   });
 
@@ -164,6 +195,24 @@ describe('util', function() {
       assert(util.isUrl('http://foobar'));
       assert(util.isUrl('http://foo/bar'));
       assert(util.isUrl('https://foo/bar?bla=1'));
+    });
+  });
+
+  describe('stringify', function() {
+    it('generates correct JSON and can handle RegExp', function() {
+      var object = {
+        foo: {
+          a: 5,
+          b: false,
+          c: /foobar/i,
+          d: [{e: 'foobar'}]
+        }
+      };
+      var result = JSON.parse(util.stringify(object));
+      assert.equal(result.foo.a, 5);
+      assert.equal(result.foo.b, false);
+      assert.equal(result.foo.c, '/foobar/i');
+      assert.deepEqual(result.foo.d, [{e: 'foobar'}]);
     });
   });
 });

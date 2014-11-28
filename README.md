@@ -26,6 +26,7 @@ the framework with your own assertion functions, HTTP client, or logger.
 * [Data](#data)
 * [Suite](#suite)
 * [API Call](#api-call)
+* [Pending Tests](#pending-tests)
 * [HTTP Clients](#http-clients)
 * [Request](#request)
 * [Response](#response)
@@ -156,23 +157,23 @@ structure is to divide your test code into three sets of files: configuration, d
 Here is an example:
 
 ```
-test/integration/config.json
-test/integration/data.json
-test/integration/users_test.json
-test/integration/articles_test.json
+test/api/config.json
+test/api/data.json
+test/api/users_test.json
+test/api/articles_test.json
 ```
 
 Here config.json will contain the configuration, data.json the data, users_test.json the
 test suite for users, and articles_test.json the test suite for articles. To run the tests:
 
 ```
-jsonapitest test/integration/config.json test/integration/data.json test/integration/users_test.json test/integration/articles_test.json
+jsonapitest test/api/config.json test/api/data.json test/api/users_test.json test/api/articles_test.json
 ```
 
 Or more conveniently:
 
 ```
-jsonapitest test/integration/*.json
+jsonapitest test/api/*.json
 ```
 
 The order in which test files are given to the test runner determines the execution order of tests. Since test suites
@@ -180,7 +181,7 @@ are supposed to be independent of eachother this typically won't affect the outc
 if you have files with overlapping config or data properties. In this case later files will take precedence over earlier ones through a deep merge of the config and data properties. An example of how this may be used is when you would like to override the
 default configuration or data. Suppose you usually run your tests against a local
 test or development server but at times would like to run them against a remote staging server. You could then have
-a configuration file at test/integration/env/staging.json:
+a configuration file at test/api/env/staging.json:
 
 ```json
 {
@@ -199,12 +200,12 @@ a configuration file at test/integration/env/staging.json:
 And run your tests against staging like so:
 
 ```
-jsonapitest test/integration/*.json test/integration/env/staging.json
+jsonapitest test/api/*.json test/api/env/staging.json
 ```
 
 ## JavaScript instead of JSON
 
-As a more flexible and slightly more readable alternative to JSON you have the option of specifying your
+As a more flexible and powerful alternative to JSON you have the option of specifying your
 test files in JavaScript intead of JSON. JavaScript files should be Node.js modules
 and `jsonapitest` will simply invoke `require` on them. Here is an example `config.js` file:
 
@@ -225,6 +226,7 @@ module.exports = {
 ```
 
 In addition to custom assert functions you can also write (inline javascript assertions)[#assert-inline-javascript].
+With JavaScript you also have the ability to use regular expression equality matchers (see [Assert: equal](#assert-equal)).
 
 ## The Anatomy of Test Files
 
@@ -241,7 +243,7 @@ the base_url of your server, and any default headers and response status of your
 
 ```json
 "config": {
-  "log_path": "log/integration-test-results.json",
+  "log_path": "log/jsonapitest-results.json",
   "defaults": {
     "api_call": {
       "request": {
@@ -351,6 +353,44 @@ To make the intention of API calls more obvious and help readability of tests yo
   "it": "can GET a user of type member",
   "request": "/v1/users/{{users.member.id}}",
   "status": 200
+}
+```
+
+## Pending Tests
+
+Sometimes you want to write down the skeletons of your tests but you are not ready to execute them yet.
+For this reason both the test and API call objects accept a `pending` boolean property.
+If this property is set to true then the test or API call won't execute.
+Any API calls that don't have a request property will be treated as pending and not execute. Here is an example:
+
+```javascript
+{
+  suite: "articles",
+  tests: [
+    {
+      name: "CRUD",
+      api_calls: [
+        {
+          it: "can create an article"
+        },
+        {
+          it: "can verify that the article exists"
+        },
+        {
+          it: "can update the article"
+        },
+        {
+          it: "can verify that the article is updated"
+        },
+        {
+          it: "can delete the article"
+        },
+        {
+          it: "can verify that the article is deleted"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -619,7 +659,18 @@ Use the `schema` property of an assert object to validate the response against a
 
 ## Assert: equal
 
-The `equal` assertion does deep value equality check on arrays and objects. The values `null` and `undefined` are treated as equal. For other primitive values, i.e. numbers, strings and booleans, the types are not required to match and two values are regarded as equal if their string representation is equal.
+The `equal` assertion does deep value equality check on arrays and objects. The values `null` and `undefined` are treated as equal. For other primitive values, i.e. numbers, strings and booleans, the types are not required to match and two values are regarded as equal if their string representation is equal. If you write your test files in JavaScript and provide a RegExp object then the JSON
+representation of the select will be matched against the regular expression:
+
+```javascript
+{
+  it: "Can get jsonapitest README",
+  request: "GET /peter/jsonapitest",
+  assert: {
+    equal: /this regexp should match itself/
+  }
+}
+```
 
 ## Assert: equal_keys
 
@@ -774,7 +825,7 @@ You can use the `$merge` special object property to merge (extend) data objects.
     "name": "Some new cool name"
   },
   "files": {
-    "portrait_image": "./test/integration/files/portrait_image.jpg"
+    "portrait_image": "./test/api/files/portrait_image.jpg"
   }
 }
 ```

@@ -22,7 +22,7 @@ var context = function(httpClient, options) {
               {
                 request: 'GET /articles/1',
                 status: 200
-              }                  
+              }
             ]
           }
         ]
@@ -64,7 +64,7 @@ var context = function(httpClient, options) {
         api_call: {
           request: {
             base_url: "http://api.example.com"
-          }        
+          }
         }
       },
       modules: {
@@ -77,7 +77,7 @@ var context = function(httpClient, options) {
 };
 
 describe('test_runner', function() {
-  describe('run', function() {    
+  describe('run', function() {
     it('runs all tests and returns the results - success', function() {
       var httpClient = {
         request: function(options, callback) {
@@ -214,6 +214,29 @@ describe('test_runner', function() {
       testRunner.run(context(httpClient, {callbacks: [callback], options: options}), function(success, results) {
         assert.equal(success, true);
         assert.deepEqual(testLog, ['Get users']);
+      });
+    });
+
+    it('doesnt run pending tests or api calls', function() {
+      var httpClient = {
+        request: function(options, callback) {
+          callback(null, {status: 200});
+        }
+      };
+      var testLog = [];
+      var callback = {
+        api_call: {
+          end: function(suite, test, apiCall, err, result) {
+            testLog.push(apiCall.request.url);
+          }
+        }
+      };
+      var pendingContext = context(httpClient, {callbacks: [callback]});
+      pendingContext.suites[0].tests[0].pending = true;
+      pendingContext.suites[1].tests[0].api_calls[0].pending = true;
+      testRunner.run(pendingContext, function(success, results) {
+        assert.equal(success, true);
+        assert.deepEqual(testLog, ['http://api.example.com/users/1', 'http://api.example.com/users']);
       });
     });
   });
