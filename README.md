@@ -226,7 +226,7 @@ module.exports = {
 ```
 
 In addition to custom assert functions you can also write [inline javascript assertions](#assert-inline-javascript).
-With JavaScript you also have the ability to use regular expression equality matchers (see [Assert: equal](#assert-equal)).
+With JavaScript you also have the ability to use [regular expression equality matchers](#assert-equal).
 
 ## The Anatomy of Test Files
 
