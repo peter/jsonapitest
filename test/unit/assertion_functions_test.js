@@ -1,6 +1,7 @@
+'use strict';
+
 var assert = require('assert'),
-    a = require('../../lib/assert_functions'),
-    util = require('../../lib/util');
+    a = require('../../lib/assert_functions');
 
 describe('assert_functions', function() {
   describe('schema', function() {
@@ -14,10 +15,9 @@ describe('assert_functions', function() {
         },
         required: ['id', 'email'],
         additionalProperties: false
-      },
-      messages = null;
-      assert.deepEqual(a.schema({id: 1, name: 'Joe', email: 'joe@example.com'}, {type: 'object'}), {error_messages: []})
-      assert.deepEqual(a.schema({id: 1, name: 'Joe', email: 'joe@example.com'}, schema), {error_messages: []})
+      };
+      assert.deepEqual(a.schema({id: 1, name: 'Joe', email: 'joe@example.com'}, {type: 'object'}), {error_messages: []});
+      assert.deepEqual(a.schema({id: 1, name: 'Joe', email: 'joe@example.com'}, schema), {error_messages: []});
       assert.equal(a.schema({name: 'Joe', email: 'joe@example.com'}, schema).error_messages.length, 1);
     });
   });
@@ -143,15 +143,20 @@ describe('assert_functions', function() {
   });
 
   describe('type', function() {
-    it('can check valid types with the type-check library', function() {
+    it('can check valid types', function() {
       var validTypes = [
-        ['Number', 5],
-        ['String', 'foobar'],
-        ['Maybe String', undefined],
-        ['Maybe String', null],
-        ['Maybe String', 'foobar'],
-        ['Object', {foo: 1}],
-        ['[Number]', [3]]
+        ['number', 5],
+        ['null', null],
+        ['boolean', true],
+        ['boolean', false],
+        ['string', 'foobar'],
+        ['string?', undefined],
+        ['string?', null],
+        ['string', 'foobar'],
+        ['object', {foo: 1}],
+        [{}, {foo: 1}],
+        [{foo: 'number'}, {foo: 1}],
+        [['number'], [3]]
       ];
       validTypes.forEach(function(t) {
         var explain = 'type ' + t[0] + ' should match value ' + t[1];
@@ -159,16 +164,16 @@ describe('assert_functions', function() {
       });
     });
 
-    it('can check invalid types with the type-check library', function() {
+    it('can check invalid types', function() {
       var invalidTypes = [
-        ['Number', '5'],
-        ['String', true],
-        ['Maybe String', 4],
-        ['Maybe String', {}],
-        ['Maybe String', function() {}],
-        ['Object', []],
-        ['Object', function() {}],
-        ['[Number]', ['3']]
+        ['number', '5'],
+        ['string', true],
+        ['string?', 4],
+        ['string?', {}],
+        ['string?', function() {}],
+        ['object', []],
+        ['object', function() {}],
+        [['number'], ['3']]
       ];
       invalidTypes.forEach(function(t) {
         var explain = 'type ' + t[0] + ' should *not* match value ' + t[1];

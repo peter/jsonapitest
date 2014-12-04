@@ -749,7 +749,7 @@ See the [parse CRUD example](doc/examples/parse/crud_test.js) for more example c
 
 ## Assert: type
 
-As complement/alternative to schema assertions you can use Haskell style type assertions from the [type-check](https://github.com/gkz/type-check) library like this:
+As complement/alternative to schema assertions you can use type assertions from the [assert-duck-type](https://github.com/peter/assert-duck-type) library like this:
 
 ```javascript
 {
@@ -759,7 +759,7 @@ As complement/alternative to schema assertions you can use Haskell style type as
     {
       select: "body.recipe.ingredients",
       size: 4,
-      type: "[{_id: Number|Undefined, name: String, ingredient: Boolean, ...}]"
+      type: [{_id: 'number?', name: 'string', ingredient: 'boolean'}]
     },
     {
       select: "body.recipe.ingredients.0._id",
@@ -769,6 +769,16 @@ As complement/alternative to schema assertions you can use Haskell style type as
   ]
 }
 ```
+
+Adding a question mark to a type means missing value (null/undefined) will also match.
+
+Here are a few other type examples:
+
+* `string`
+* `boolean`
+* `number`
+* `null`
+* `{"foo": "string"}`
 
 ## Saving Data
 
