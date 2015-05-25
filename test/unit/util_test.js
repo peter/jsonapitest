@@ -1,4 +1,5 @@
 var assert = require('assert'),
+    _ = require('lodash'),
     util = require('../../lib/util');
 
 describe('util', function() {
@@ -106,6 +107,25 @@ describe('util', function() {
       assert.equal(util.equalValues({a: 2, b: 1}, {b: 2, a: 1}), false);
       assert.equal(util.equalValues([2, 1], [2, 1]), true);
       assert.equal(util.equalValues([2, 1], [1, 2]), false);
+    });
+
+    it('can handle arrays', function() {
+      var array1 = [
+          {
+            "id": 1000001,
+            "type": "category",
+            "name": "Category B"
+          },
+          {
+            "id": 1000002,
+            "type": "category",
+            "name": "Category C"
+          }
+        ],
+        array2 = _.cloneDeep(array1);
+      assert.equal(util.equalValues(array1, array2), true);
+      array2[1].id = (array2[1].id + 1);
+      assert.equal(util.equalValues(array1, array2), false);
     });
 
     it('can handle RegExp matches', function() {

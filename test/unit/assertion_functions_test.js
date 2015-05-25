@@ -29,6 +29,7 @@ describe('assert_functions', function() {
       assert.equal(a.equal({foo: 1}, {foo: 1}), true);
       assert.equal(a.equal({foo: 1}, {foo: 2}), false);
       assert.equal(a.equal(['foo', [{bar: 'bar'}]], ['foo', [{bar: 'bar'}]]), true);
+      assert.equal(a.equal(['foo', [{bar: 'bar'}]], ['foo', [{bar: 'bar-1'}]]), false);
       assert.equal(a.equal(['foo', ['bar']], ['foo', ['bars']]), false);
       assert.equal(a.equal(['foo'], ['foo']), true);
       assert.equal(a.equal(['foo'], ['foo', 'bar']), false);
@@ -58,6 +59,10 @@ describe('assert_functions', function() {
   describe('equal_keys', function() {
     it('returns true for objects where values match for all keys', function() {
       assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1}), {error_messages: []});
+
+      assert.deepEqual(a.equal_keys({foo: [{bar: 1}]}, {foo: [{bar: 1}]}), {error_messages: []});
+      assert.deepEqual(a.equal_keys({foo: [{bar: 1}]}, {foo: [{bar: 2}]}), {error_messages: ["Invalid keys: foo"]});
+
       assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 2}), {error_messages: ["Invalid keys: foo"]});
       assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 2}), {error_messages: []});
       assert.deepEqual(a.equal_keys({foo: 1, bar: 2}, {foo: 1, bar: 3}), {error_messages: ["Invalid keys: bar"]});
