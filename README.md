@@ -912,3 +912,13 @@ like this:
 ```
 
 Make sure your module exports an object with some or all of the functions listed above (check out [callbacks/console.js](https://github.com/peter/jsonapitest/blob/master/lib/callbacks/console.js) for an example).
+
+Note that if you add custom callbacks then you need to explicitly add the default console logger or it will disappear:
+
+```javascript
+config: {
+  modules: {
+    callbacks: ["./callbacks/console", (__dirname + '/my_callback')]
+  }
+}
+```
