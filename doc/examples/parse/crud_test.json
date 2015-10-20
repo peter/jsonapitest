@@ -4,7 +4,7 @@
     "tests": [
       {
         "name": "create_get_list_update_delete",
-        "description": "You can create a Parse object, get and list it, update its name, and then delete it",
+        "description": "You can create a Parse object, get it, update its name, and then delete it",
         "api_calls": [
           {
             "it": "can create a GameScore object",
@@ -35,28 +35,6 @@
               },
               {
                 "equal_keys": "{{users.joe}}"
-              }
-            ]
-          },
-          {
-            "it": "can list GameScore objects",
-            "request": "GET /classes/GameScore",
-            "params": {
-              "order": "-created_at",
-              "limit": 3
-            },
-            "assert": [
-              {
-                "select": "body.results.0",
-                "schema": "{{schema.user}}"
-              },
-              {
-                "select": "body.results",
-                "size": 3
-              },
-              {
-                "select": "body.results.0.objectId",
-                "equal": "{{users.joe.objectId}}"
               }
             ]
           },

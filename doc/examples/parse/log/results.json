@@ -18,37 +18,51 @@
         "url": "https://api.parse.com/1/classes/GameScore"
       },
       "status": 201,
-      "it": "can create a GameScore object"
+      "it": "can create a GameScore object",
+      "assert": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string"
+            },
+            "objectId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "createdAt",
+            "objectId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "save": {
+        "users.joe.objectId": "body.objectId"
+      }
     },
+    "errors": [],
     "response": {
       "status": 201,
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
-        "cache-control": "no-cache",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:27 GMT",
-        "location": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL",
+        "date": "Tue, 20 Oct 2015 08:42:45 GMT",
+        "location": "https://api.parse.com/1/classes/GameScore/sgzCBcUKdN",
         "server": "nginx/1.6.0",
-        "set-cookie": [
-          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlMGZjNzFiNmJmYWUzNDk2MjE3YjkyNjcyYTVmMDFmZWQ%3D--40f82deb1680179a2a92946011b51e250844becc; domain=.parse.com; path=/; expires=Wed, 17-Dec-2014 09:27:27 GMT; secure; HttpOnly"
-        ],
-        "status": "201 Created",
-        "x-content-type-options": "nosniff",
-        "x-parse-build-number": "8983",
-        "x-parse-server-hostname": "app905",
-        "x-runtime": "0.027371",
-        "x-ua-compatible": "IE=Edge,chrome=1",
-        "content-length": "64",
+        "x-parse-platform": "G1",
+        "x-runtime": "0.024477",
+        "content-length": "65",
         "connection": "Close"
       },
       "body": {
-        "createdAt": "2014-11-17T09:27:27.213Z",
-        "objectId": "rc2DiYglFL"
+        "createdAt": "2015-10-20T08:42:45.340Z",
+        "objectId": "sgzCBcUKdN"
       },
-      "response_time": 499
+      "response_time": 555
     },
-    "errors": []
+    "test_description": "You can create a Parse object, get and list it, update its name, and then delete it"
   },
   {
     "suite": "Parse CRUD",
@@ -60,101 +74,79 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "GET",
-        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
+        "url": "https://api.parse.com/1/classes/GameScore/sgzCBcUKdN"
       },
       "status": 200,
-      "it": "can get the created GameScore object"
+      "it": "can get the created GameScore object",
+      "assert": [
+        {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "cheatMode": {
+                "type": "boolean"
+              },
+              "objectId": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]{10}$"
+              },
+              "playerName": {
+                "type": "string"
+              },
+              "score": {
+                "type": "integer"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "objectId",
+              "playerName",
+              "score"
+            ]
+          }
+        },
+        {
+          "equal_keys": {
+            "score": 1337,
+            "playerName": "Joe Johnson",
+            "cheatMode": false,
+            "objectId": "sgzCBcUKdN"
+          }
+        }
+      ]
     },
+    "errors": [],
     "response": {
       "status": 200,
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:27 GMT",
+        "date": "Tue, 20 Oct 2015 08:42:45 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.014226",
+        "x-runtime": "0.007845",
         "content-length": "162",
         "connection": "Close"
       },
       "body": {
         "cheatMode": false,
-        "createdAt": "2014-11-17T09:27:27.213Z",
-        "objectId": "rc2DiYglFL",
+        "createdAt": "2015-10-20T08:42:45.340Z",
+        "objectId": "sgzCBcUKdN",
         "playerName": "Joe Johnson",
         "score": 1337,
-        "updatedAt": "2014-11-17T09:27:27.213Z"
+        "updatedAt": "2015-10-20T08:42:45.340Z"
       },
-      "response_time": 453
+      "response_time": 465
     },
-    "errors": []
-  },
-  {
-    "suite": "Parse CRUD",
-    "test": "create_get_list_update_delete",
-    "api_call": {
-      "request": {
-        "headers": {
-          "X-Parse-Application-Id": "J7PyWtrIOUDTIvDXzpZD3WmJEn7zR6pXZmIIMlHW",
-          "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv",
-          "Content-Type": "application/json"
-        },
-        "method": "GET",
-        "params": {
-          "order": "-created_at",
-          "limit": 3
-        },
-        "url": "https://api.parse.com/1/classes/GameScore"
-      },
-      "status": 200,
-      "it": "can list GameScore objects"
-    },
-    "response": {
-      "status": 200,
-      "headers": {
-        "access-control-allow-methods": "*",
-        "access-control-allow-origin": "*",
-        "cache-control": "max-age=0, private, must-revalidate",
-        "content-encoding": "gzip",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:28 GMT",
-        "server": "nginx/1.6.0",
-        "set-cookie": [
-          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlOWUzZDUyMTJhZDJhMjBkOTdkMzBlYzU0ZWI0NmQ3NTg%3D--bf1fc40b47a2d20d63b01e3b1a561422c92d7622; domain=.parse.com; path=/; expires=Wed, 17-Dec-2014 09:27:28 GMT; secure; HttpOnly"
-        ],
-        "status": "200 OK",
-        "x-content-type-options": "nosniff",
-        "x-runtime": "0.029989",
-        "x-ua-compatible": "IE=Edge,chrome=1",
-        "content-length": "198",
-        "connection": "Close"
-      },
-      "body": {
-        "results": [
-          {
-            "score": 1337,
-            "playerName": "Joe Johnson",
-            "cheatMode": false,
-            "createdAt": "2014-11-17T09:27:27.213Z",
-            "updatedAt": "2014-11-17T09:27:27.213Z",
-            "objectId": "rc2DiYglFL"
-          },
-          {
-            "createdAt": "2014-11-17T09:24:15.824Z",
-            "updatedAt": "2014-11-17T09:24:15.824Z",
-            "objectId": "sYU9y9UhBo"
-          },
-          {
-            "createdAt": "2014-11-17T09:23:29.278Z",
-            "updatedAt": "2014-11-17T09:23:29.278Z",
-            "objectId": "YehuMjpdcx"
-          }
-        ]
-      },
-      "response_time": 485
-    },
-    "errors": []
+    "test_description": "You can create a Parse object, get and list it, update its name, and then delete it"
   },
   {
     "suite": "Parse CRUD",
@@ -170,30 +162,31 @@
         "params": {
           "playerName": "New name"
         },
-        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
+        "url": "https://api.parse.com/1/classes/GameScore/sgzCBcUKdN"
       },
       "status": 200,
       "it": "can update name of GameScore object"
     },
+    "errors": [],
     "response": {
       "status": 200,
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:28 GMT",
+        "date": "Tue, 20 Oct 2015 08:42:46 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.017061",
+        "x-runtime": "0.026814",
         "content-length": "41",
         "connection": "Close"
       },
       "body": {
-        "updatedAt": "2014-11-17T09:27:28.648Z"
+        "updatedAt": "2015-10-20T08:42:46.350Z"
       },
-      "response_time": 485
+      "response_time": 523
     },
-    "errors": []
+    "test_description": "You can create a Parse object, get and list it, update its name, and then delete it"
   },
   {
     "suite": "Parse CRUD",
@@ -205,35 +198,40 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "GET",
-        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
+        "url": "https://api.parse.com/1/classes/GameScore/sgzCBcUKdN"
       },
       "status": 200,
-      "it": "can get new name of GameScore object"
+      "it": "can get new name of GameScore object",
+      "assert": {
+        "select": "body.playerName",
+        "equal": "New name"
+      }
     },
+    "errors": [],
     "response": {
       "status": 200,
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:29 GMT",
+        "date": "Tue, 20 Oct 2015 08:42:46 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.010818",
+        "x-runtime": "0.008130",
         "content-length": "159",
         "connection": "Close"
       },
       "body": {
         "cheatMode": false,
-        "createdAt": "2014-11-17T09:27:27.213Z",
-        "objectId": "rc2DiYglFL",
+        "createdAt": "2015-10-20T08:42:45.340Z",
+        "objectId": "sgzCBcUKdN",
         "playerName": "New name",
         "score": 1337,
-        "updatedAt": "2014-11-17T09:27:28.648Z"
+        "updatedAt": "2015-10-20T08:42:46.350Z"
       },
-      "response_time": 477
+      "response_time": 457
     },
-    "errors": []
+    "test_description": "You can create a Parse object, get and list it, update its name, and then delete it"
   },
   {
     "suite": "Parse CRUD",
@@ -245,37 +243,29 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "DELETE",
-        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
+        "url": "https://api.parse.com/1/classes/GameScore/sgzCBcUKdN"
       },
       "status": 200,
       "it": "can delete GameScore object"
     },
+    "errors": [],
     "response": {
       "status": 200,
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
-        "cache-control": "max-age=0, private, must-revalidate",
-        "content-encoding": "gzip",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:29 GMT",
+        "date": "Tue, 20 Oct 2015 08:42:47 GMT",
         "server": "nginx/1.6.0",
-        "set-cookie": [
-          "_parse_session=BAh7BkkiD3Nlc3Npb25faWQGOgZFRiIlNGQxMzRmNDdjMDhiNThjZTczYWVjNjIzOTNmOTZkZmI%3D--3c8dc192f50cc491136c3265d108c213183fc01a; domain=.parse.com; path=/; expires=Wed, 17-Dec-2014 09:27:29 GMT; secure; HttpOnly"
-        ],
-        "status": "200 OK",
-        "x-content-type-options": "nosniff",
-        "x-parse-build-number": "8983",
-        "x-parse-server-hostname": "app1034",
-        "x-runtime": "0.033332",
-        "x-ua-compatible": "IE=Edge,chrome=1",
-        "content-length": "22",
+        "x-parse-platform": "G1",
+        "x-runtime": "0.014858",
+        "content-length": "3",
         "connection": "Close"
       },
       "body": {},
-      "response_time": 466
+      "response_time": 462
     },
-    "errors": []
+    "test_description": "You can create a Parse object, get and list it, update its name, and then delete it"
   },
   {
     "suite": "Parse CRUD",
@@ -287,21 +277,22 @@
           "X-Parse-REST-API-Key": "jwnEHrsSIB5ZBqK9ILvxPav9FBxKtCHLgOsDGDFv"
         },
         "method": "GET",
-        "url": "https://api.parse.com/1/classes/GameScore/rc2DiYglFL"
+        "url": "https://api.parse.com/1/classes/GameScore/sgzCBcUKdN"
       },
       "status": 404,
       "it": "can verify that GameScore object was deleted"
     },
+    "errors": [],
     "response": {
       "status": 404,
       "headers": {
         "access-control-allow-methods": "*",
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 17 Nov 2014 09:27:30 GMT",
+        "date": "Tue, 20 Oct 2015 08:42:47 GMT",
         "server": "nginx/1.6.0",
         "x-parse-platform": "G1",
-        "x-runtime": "0.016871",
+        "x-runtime": "0.007935",
         "content-length": "48",
         "connection": "Close"
       },
@@ -309,8 +300,8 @@
         "code": 101,
         "error": "object not found for get"
       },
-      "response_time": 907
+      "response_time": 514
     },
-    "errors": []
+    "test_description": "You can create a Parse object, get and list it, update its name, and then delete it"
   }
 ]
