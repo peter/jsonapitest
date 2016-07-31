@@ -1,6 +1,6 @@
 {
   "name": "jsonapitest",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "repository": {
     "type": "git",
     "url": "https://github.com/peter/jsonapitest"
@@ -18,7 +18,7 @@
   "dependencies": {
     "assert-duck-type": "^0.0.2",
     "async": "^0.8.0",
-    "jayschema": "^0.2.7",
+    "z-schema": "3.17.0",
     "lodash": "^2.4.1",
     "request": "^2.36.0",
     "superagent": "^0.18.0"

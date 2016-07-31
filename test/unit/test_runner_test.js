@@ -72,7 +72,7 @@ var context = function(httpClient, options) {
         http_client: httpClient
       }
     },
-    options: options.options
+    options: (options.options || null)
   };
 };
 
