@@ -737,9 +737,11 @@ If you write your test suites in JavaScript you can use inline JavaScript assert
       password: "{{user.editor.password}}"
     }
   },
-  assert: function(body, headers) {
-    assert.equal(body.user.email, this.user.editor.email);
-  }
+  assert: [
+    function(body, headers) {
+      assert.equal(body.user.email, this.user.editor.email);
+    }
+  ]
 }
 ```
 
